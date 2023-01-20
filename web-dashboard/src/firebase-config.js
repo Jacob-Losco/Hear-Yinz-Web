@@ -1,3 +1,15 @@
+/*+===================================================================
+File: firebase-config.js
+
+Summary: uses env variables to config and intitialize database connection
+
+Exported Data Structures: db - firestore database
+
+Contributors:
+	Jacob Losco - 01/29/23 - SP-315
+
+===================================================================+*/
+
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 require("dotenv").config();
