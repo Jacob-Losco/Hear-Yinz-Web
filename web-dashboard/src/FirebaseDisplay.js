@@ -8,38 +8,27 @@ Exported Data Structures: None
 Exported Functions: FirebaseDisplay
 
 Contributors:
-	Jacob Losco - 01/29/23 - SP-315
+	Jacob Losco - 01/24/23 - SP-341
 
 ===================================================================+*/
 
-import React, { Component, useState, useEffect } from "react";
-import { db } from "./firebase-config";
-import { collection, getDocs } from 'firebase/firestore'
+import React from "react";
+import fnFirebaseLogin from "./FirebaseLogin"
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: FirebaseDisplay
 
-  Summary: returns the html and buttons associated with interacting with firestore
+  Summary: returns the html and buttons associated with testing interacting with firestore
 
   Args: None
 
   Returns: html
-            the html to make display
+    the html to make display
 -------------------------------------------------------------------F*/
 function FirebaseDisplay() {
-  const [aUsers, setUsers] = useState([]);
-  const aUsersCollectionRef = collection(db, "Test_Connect");
-
-  useEffect(() => {
-    const fnGetUsers = async () => {
-      const data = await getDocs(aUsersCollectionRef);
-      console.log(data.docs[0].data().test);
-    }
-
-    fnGetUsers();
-  }, [])
-
-  return <div className="FirebaseDisplay"></div>
+  return (
+    <fnFirebaseLogin />
+  )
 }
 
 export default FirebaseDisplay;
