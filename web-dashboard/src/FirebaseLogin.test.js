@@ -21,6 +21,6 @@ test("Authentication with login", async () => {
 test("Authentication with sign out", async () => {
     const user = await signInWithEmailAndPassword(oAuthentication, 'test@stvincent.edu', 'test123');
     !expect(user.user).toBeNull;
-    await signOut(auth);
+    await signOut(oAuthentication);
     expect(user.user).toBeNull;
 });
