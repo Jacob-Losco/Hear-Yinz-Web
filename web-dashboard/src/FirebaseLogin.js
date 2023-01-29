@@ -26,7 +26,7 @@ import { oAuthentication } from "./firebase-config";
   Returns: html
     the html to make login form
 -------------------------------------------------------------------F*/
-function fnFirebaseLogin() {
+function FirebaseLogin() {
     const [sLoginEmail, fnSetLoginEmail] = useState("");
     const [sLoginPassword, fnSetLoginPassword] = useState("");
     const [oUser, setUser] = useState({});
@@ -89,4 +89,4 @@ function fnFirebaseLogin() {
   </div>
 }
 
-export default fnFirebaseLogin;
+export default FirebaseLogin;
