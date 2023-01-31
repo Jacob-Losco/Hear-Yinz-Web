@@ -1,0 +1,23 @@
+.container{
+    text-align: center;
+}
+
+.btn{
+    background-color: #0C343D;
+    border: 3px, solid;
+    font-weight: bold; 
+    font-size: 18;
+    width:120px;
+    height: 35px;
+    color: #FFFFFF
+}
+
+h1 {
+    font-size:44px;
+}
+
+.inpt{
+    width:240px;
+     height: 30px;
+     font-size: 14;
+}
