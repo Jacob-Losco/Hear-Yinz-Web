@@ -15,7 +15,8 @@ Contributors:
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import React, { useState, useEffect } from "react";
 import { oAuthentication } from "./firebase-config";
-
+import "@fontsource/dm-sans";
+import './font.css';
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: fnFirebaseLogin
 
@@ -67,25 +68,33 @@ function FirebaseLogin() {
 
     Returns: None
   -------------------------------------------------------------------F*/
-    const fnLogout = async () => {
+    /*const fnLogout = async () => {
         await signOut(oAuthentication);
-    };
+    };*/
+    /*      <button onClick={fnLogout}> Sign Out </button>*/
 
-  return <div className="FirebaseLogin">
-    <div>
-      <h3> Login </h3>
-      <input placeholder="Email" onChange={(event) => {
-        fnSetLoginEmail(event.target.value);
-      }} />
-      <input placeholder="Password" onChange={(event) => {
-        fnSetLoginPassword(event.target.value);
-      }} />
-
-      <button onClick={fnLogin}>Login</button>
-    </div>
-    
-    <button onClick={fnLogout}> Sign Out </button>
-    
+  return <div className="FirebaseLogin" style ={{ textAlign: 'center' }}>
+      <h2> Hear Yinz! </h2>
+      <h1 style={{ fontSize: 44 }}> Admin Dashboard </h1>
+      <div>
+        <div><b>Email</b></div>
+        <input placeholder="Email" style={{ width:"200px", height: "30px"}} onChange={(event) => {
+          fnSetLoginEmail(event.target.value);
+        }} />
+      </div>
+      <br></br>
+      <div>
+        <div><b>Password</b></div>
+        <input placeholder="Password" style={{ width:"200px", height: "30px"}} onChange={(event) => {
+          fnSetLoginPassword(event.target.value);
+        }} />
+      </div>
+      <br></br>
+      <br></br>
+      <button style={{ backgroundColor: "#0F3570", 
+      border: "3px, solid", fontWeight: "bold", 
+      fontSize: 18, width:"120px", 
+      height: "35px", color: "#5E875E" }} onClick={fnLogin}>Log in</button>
   </div>
 }
 
