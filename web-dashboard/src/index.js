@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom/client';
 import FirebaseDisplay from './FirebaseDisplay';
 import reportWebVitals from './reportWebVitals';
 
+import { fnInitSessionData } from './DBFunctions'
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+fnInitSessionData();
 root.render(
   <React.StrictMode>
     <FirebaseDisplay />
