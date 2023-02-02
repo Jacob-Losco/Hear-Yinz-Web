@@ -5,18 +5,26 @@ Summary: A simple set of controls that test the multiple different data retrieva
 
 Exported Data Structures: None
 
-Exported Functions: FirebaseDisplay
+Exported Functions: App
 
 Contributors:
 	Jacob Losco - 01/24/23 - SP-341
 
 ===================================================================+*/
 
-import React from "react";
+import React, { useEffect } from "react";
 import Login from "./Login"
-
+import {useAuthState} from "react-firebase-hooks/auth";
+import NavBar from "./NavBar";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  NavLink,
+  useNavigate
+} from 'react-router-dom'
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function: FirebaseDisplay
+  Function: App
 
   Summary: returns the html and buttons associated with testing interacting with firestore
 
@@ -25,10 +33,14 @@ import Login from "./Login"
   Returns: html
     the html to make display
 -------------------------------------------------------------------F*/
-function FirebaseDisplay() {
+function App() {
+
   return (
-    <Login />
-  )
+    <BrowserRouter>
+      <NavBar></NavBar>
+    </BrowserRouter>
+    
+  );
 }
 
-export default FirebaseDisplay;
+export default App;
