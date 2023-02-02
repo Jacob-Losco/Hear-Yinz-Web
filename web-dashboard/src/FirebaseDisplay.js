@@ -13,7 +13,7 @@ Contributors:
 ===================================================================+*/
 
 import React from "react";
-import FirebaseLogin from "./FirebaseLogin"
+import Login from "./Login"
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: FirebaseDisplay
@@ -27,7 +27,7 @@ import FirebaseLogin from "./FirebaseLogin"
 -------------------------------------------------------------------F*/
 function FirebaseDisplay() {
   return (
-    <FirebaseLogin />
+    <Login />
   )
 }
 
