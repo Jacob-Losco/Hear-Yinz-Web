@@ -35,21 +35,16 @@
 }
 
 .leftNavbar a {
+    justify-content: left;
     color: white;
+    text-decoration: none;
 }
+
+
 
 .rightNavbar {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    font-weight:bold;
-    justify-content: flex-end;
-    width: 70%;
-    height: 50px;
-    margin: auto;
-    background: #125261;
-    text-decoration: inherit;
-    -webkit-text-fill-color: #ffffff;
+    position: Absolute; top: 20px; right: 20px;
+
 
 }

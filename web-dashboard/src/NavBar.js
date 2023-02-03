@@ -1,7 +1,9 @@
 /*+===================================================================
 File: NavBar.js
 
-Summary: 
+Summary: Creates the NavBar function by using router components. 
+Checks the status of the uses and navigates valid users to the Organizations page where they can navigate
+to the Reports page, the Requests page and Logout page.
 
 Exported Data Structures: None
 

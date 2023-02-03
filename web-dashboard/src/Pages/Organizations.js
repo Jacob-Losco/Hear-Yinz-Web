@@ -18,7 +18,7 @@ export default function Organizations () {
     return(
         // used to query the organization page
         <div className="OrganizationPage">  
-            <h>WelcomeOrganizations</h>
+            <h>Welcome Organizations</h>
             <p>Sample text from Organizations page.</p>
         </div>
     );
