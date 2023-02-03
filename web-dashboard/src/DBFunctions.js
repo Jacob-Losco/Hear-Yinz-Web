@@ -131,3 +131,85 @@ async function fnGetOrganizationDictionary() {
     });
     return aoOrganizationDictionary;
 }
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnGetOrganizationEvents
+
+  Summary: returns a list of objects that contain information on all of the events within an organization
+
+  Args: sOrganizationId - the id of the organization you want data for
+
+  Returns: [{}] - list of event data
+-------------------------------------------------------------------F*/
+export async function fnGetOrganizationEvents(sOrganizationId) {
+    const oEventRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events"));
+    const oEventDocs = await getDocs(oEventRefs);
+    return oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data() }));
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnGetOrganizationOfficers
+
+  Summary: returns a list of objects that contain information on all of the officers of an organization
+
+  Args: sOrganizationId
+
+  Returns: [{}] - list of officer data
+-------------------------------------------------------------------F*/
+export async function fnGetOrganizationOfficers(sOrganizationId) {
+    const aoOfficerData = [];
+    const oOrganizationRef = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId);
+    const oOrganizationDoc = await getDoc(oOrganizationRef);
+    const oAccountRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts"));
+    const oAccountDocs = await getDocs(oAccountRefs);
+    for(const oAccountDoc of oAccountDocs.docs) {
+        const oRelationshipRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", oAccountDoc.id, "Relationships"), where("relationship_org", "==", oOrganizationDoc.ref), where("relationship_type", "==", 0), where("relationship_status", "==", 2));
+        const oRelationshipDocs = await getDocs(oRelationshipRefs);
+        if(oRelationshipDocs.docs.length > 0) {
+            aoOfficerData.push(oAccountDoc.data());
+        }
+    }
+    return aoOfficerData;
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnGetRequests
+
+  Summary: returns a list of objects that contain information on all events that have a pending status
+
+  Args: None
+
+  Returns: [{}] - list of event data
+-------------------------------------------------------------------F*/
+export async function fnGetRequests() {
+    const aoRequestData = [];
+    const oOrganizationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations"));
+    const oOrganizationDocs = await getDocs(oOrganizationRefs);
+    for(const oOrganizationDoc of oOrganizationDocs.docs) {
+        const oEventRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", oOrganizationDoc.id, "Events"), where("event_status", "==", 1));
+        const oEventDocs = await getDocs(oEventRefs);
+        aoRequestData.push(oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data() })));
+    }
+    return aoRequestData;
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnGetReports
+
+  Summary: returns a list of objects that contain information on all events that have at least one report made
+
+  Args: None
+
+  Returns: [{}] - list of event data
+-------------------------------------------------------------------F*/
+export async function fnGetReports() {
+    const aoReportData = [];
+    const oOrganizationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations"));
+    const oOrganizationDocs = await getDocs(oOrganizationRefs);
+    for(const oOrganizationDoc of oOrganizationDocs.docs) {
+        const oEventRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", oOrganizationDoc.id, "Events"), where("event_reports", ">", 0));
+        const oEventDocs = await getDocs(oEventRefs);
+        aoReportData.push(oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data() })));
+    }
+    return aoReportData;
+}
