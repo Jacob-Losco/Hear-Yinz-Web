@@ -1,11 +1,11 @@
 /*+===================================================================
-File: FirebaseDisplay.js
+File: App.js
 
 Summary: A simple set of controls that test the multiple different data retrievals and postings for the Hear-Yinz web application
 
 Exported Data Structures: None
 
-Exported Functions: FirebaseDisplay
+Exported Functions: App
 
 Contributors:
 	Jacob Losco - 01/24/23 - SP-341
@@ -13,10 +13,10 @@ Contributors:
 ===================================================================+*/
 
 import React from "react";
-import Login from "./Login"
-
+import NavBar from "./NavBar";
+import {  BrowserRouter } from 'react-router-dom'
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function: FirebaseDisplay
+  Function: App
 
   Summary: returns the html and buttons associated with testing interacting with firestore
 
@@ -25,10 +25,14 @@ import Login from "./Login"
   Returns: html
     the html to make display
 -------------------------------------------------------------------F*/
-function FirebaseDisplay() {
+function App() {
+
   return (
-    <Login />
-  )
+    <BrowserRouter>
+      <NavBar></NavBar>
+    </BrowserRouter>
+    
+  );
 }
 
-export default FirebaseDisplay;
+export default App;

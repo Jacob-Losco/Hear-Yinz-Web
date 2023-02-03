@@ -1,0 +1,50 @@
+.PageContainer {
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 100%;
+    margin: auto;
+    background: #ffffff;
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 100%;
+    background: #a19900;
+    text-align: center;
+    font-weight:bold;
+
+}
+
+
+
+.leftNavbar {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    height: 50px;
+    font-weight:bold;
+    word-spacing: 7px;
+    background: #125261;
+    -webkit-text-fill-color: #ffffff;
+    text-decoration: inherit;
+    
+    
+}
+
+.leftNavbar a {
+    justify-content: left;
+    color: white;
+    text-decoration: none;
+}
+
+
+
+.rightNavbar {
+    display: flex;
+    position: Absolute; right: 20px;
+
+
+}
