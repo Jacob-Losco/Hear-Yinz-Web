@@ -1,5 +1,5 @@
 /*+===================================================================
-File: FirebaseDisplay.js
+File: App.js
 
 Summary: A simple set of controls that test the multiple different data retrievals and postings for the Hear-Yinz web application
 
@@ -12,17 +12,9 @@ Contributors:
 
 ===================================================================+*/
 
-import React, { useEffect } from "react";
-import Login from "./Login"
-import {useAuthState} from "react-firebase-hooks/auth";
+import React from "react";
 import NavBar from "./NavBar";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  NavLink,
-  useNavigate
-} from 'react-router-dom'
+import {  BrowserRouter } from 'react-router-dom'
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: App
 
