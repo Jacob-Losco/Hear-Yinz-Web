@@ -33,6 +33,11 @@ export async function fnInitSessionData() {
         sInstitutionId = result;
         fnGetUserAccount(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A").then(result => {
             sAccountId = result;
+            fnCreateAnnouncement({
+                announcement_message: "Testing 123",
+                announcement_status: 0,
+                announcement_timestamp: Date.now()
+            });
         })
     })
 }
@@ -181,7 +186,7 @@ export async function fnGetOrganizationOfficers(sOrganizationId) {
 
   Returns: [{}] - list of event data
 -------------------------------------------------------------------F*/
-export async function fnGetRequests() {
+export async function fnGetEventRequests() {
     const aoRequestData = [];
     const oOrganizationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations"));
     const oOrganizationDocs = await getDocs(oOrganizationRefs);
@@ -202,7 +207,7 @@ export async function fnGetRequests() {
 
   Returns: [{}] - list of event data
 -------------------------------------------------------------------F*/
-export async function fnGetReports() {
+export async function fnGetEventReports() {
     const aoReportData = [];
     const oOrganizationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations"));
     const oOrganizationDocs = await getDocs(oOrganizationRefs);
@@ -212,4 +217,78 @@ export async function fnGetReports() {
         aoReportData.push(oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data() })));
     }
     return aoReportData;
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnCreateEvent
+
+  Summary: Creates an event in database based off of passed in information
+
+  Args: sOrganizationId - a string the contains the id for the current organization
+    oNewEvent - an object that contains all of the information about
+    the new event, it should be organized as follows:
+        event_description - string
+        event_name - string
+        event_status - 0 if private, 1 if public (int)
+        event_timestamp - timestamp
+        event_location - id of location chosen (string)
+
+  Returns: None if successful, error message if failue
+-------------------------------------------------------------------F*/
+export async function fnCreateEvent(sOrganizationId, oNewEvent) {
+    if(oNewEvent.event_description !== null &&
+        oNewEvent.event_name !== null &&
+        oNewEvent.event_status !== null &&
+        oNewEvent.event_timestamp !== null &&
+        oNewEvent.event_location !== null) {
+            const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oNewEvent.location);
+            const oLocationDoc = getDoc(oLocationRef);
+            try {
+                const newDocRef = await addDoc(collection(db, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events"), {
+                  event_name: oNewEvent.event_name,
+                  event_description: oNewEvent.event_description,
+                  event_status: oNewEvent.event_status,
+                  event_timestamp: oNewEvent.event_timestamp,
+                  event_location: oLocationDoc.ref,
+                  event_likes: 0,
+                  event_reports: 0   
+                });
+            } catch (error) {
+                console.error("Error adding document: ", e);
+            }
+    } else {
+        return "Error: invalid object parameter";
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnCreateAnnouncement
+
+  Summary: Creates an announcement in database based off of passed in information
+
+  Args: sOrganizationId - a string the contains the id for the current organization
+    oNewEvent - an object that contains all of the information about
+    the new announcement, it should be organized as follows:
+        announcement_message - string
+        announcement_status - 0 if private, 1 if public (int)
+        announcement_timestamp - the current time
+
+  Returns: None if successful, error message if failue
+-------------------------------------------------------------------F*/
+export async function fnCreateAnnouncement(sOrganizationId, oNewAnnouncement) {
+    if(oNewEvent.announcement_message !== null &&
+        oNewEvent.announcement_status !== null &&
+        oNewEvent.announcement_timestamp !== null) {
+            try {
+                const newDocRef = await addDoc(collection(db, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Announcements"), {
+                  announcement_name: oNewAnnouncement.announcement_message,
+                  announcement_status: oNewAnnouncement.announcement_status,
+                  announcement_timestamp: oNewAnnouncement.announcement_timestamp
+                });
+            } catch (error) {
+                console.error("Error adding document: ", e);
+            }
+    } else {
+        return "Error: invalid object parameter";
+    }
 }
