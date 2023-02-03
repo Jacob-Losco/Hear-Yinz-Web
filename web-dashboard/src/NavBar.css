@@ -4,16 +4,18 @@
     min-height: 100%;
     margin: auto;
     background: #ffffff;
-
-
 }
 
 .icon {
-    justify-content: flex-start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 10%;
     height: 100%;
     background: #a19900;
     text-align: center;
+    font-weight:bold;
+
 }
 
 
@@ -21,21 +23,26 @@
 .leftNavbar {
     display: flex;
     gap: 15px;
-    justify-content: flex-start;
-    width: 100%;
+    align-items: center;
     height: 50px;
-    margin: auto;
+    font-weight:bold;
+    word-spacing: 7px;
     background: #125261;
     -webkit-text-fill-color: #ffffff;
+    
 }
 
 .rightNavbar {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 15px;
+    font-weight:bold;
     justify-content: flex-end;
     width: 70%;
     height: 50px;
     margin: auto;
     background: #125261;
     -webkit-text-fill-color: #ffffff;
+
 }
