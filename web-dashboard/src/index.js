@@ -21,7 +21,7 @@ import './index.css';
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: root
 
-  Summary: 
+  Summary: Creates the webpage, funneling the app component.
 
   Args: None
 

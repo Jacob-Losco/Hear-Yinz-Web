@@ -29,7 +29,13 @@
     word-spacing: 7px;
     background: #125261;
     -webkit-text-fill-color: #ffffff;
+    text-decoration: inherit;
     
+    
+}
+
+.leftNavbar a {
+    color: white;
 }
 
 .rightNavbar {
@@ -43,6 +49,7 @@
     height: 50px;
     margin: auto;
     background: #125261;
+    text-decoration: inherit;
     -webkit-text-fill-color: #ffffff;
 
 }
