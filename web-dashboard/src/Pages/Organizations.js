@@ -1,11 +1,11 @@
 /*+===================================================================
-File: NavBar.js
+File: Organizations.js
 
-Summary: 
+Summary: Hosts content for Organizations page.
 
 Exported Data Structures: None
 
-Exported Functions: None
+Exported Functions: Organizations 
 
 Contributors:
 	Philip Pavlick - 02/2/23 - SP-263

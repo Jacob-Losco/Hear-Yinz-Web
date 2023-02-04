@@ -23,10 +23,9 @@ import './index.css';
 
   Summary: Creates the webpage, funneling the app component.
 
-  Args: None
+  Args: ReactDom.createRoot
 
-  Returns: html
-    the html to make display
+  Returns: the html to make display
 -------------------------------------------------------------------F*/
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

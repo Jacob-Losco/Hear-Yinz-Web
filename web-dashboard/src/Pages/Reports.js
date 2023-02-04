@@ -1,11 +1,11 @@
 /*+===================================================================
-File: NavBar.js
+File: Reports.js
 
-Summary: 
+Summary: Host content for the Reports
 
 Exported Data Structures: None
 
-Exported Functions: None
+Exported Functions: Reports
 
 Contributors:
 	Philip Pavlick - 02/2/23 - SP-263
