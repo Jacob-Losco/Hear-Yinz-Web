@@ -34,6 +34,7 @@ import {
   import Logout from './Logout'
   import './font.css';
   import './NavBar.css';
+  import logo from './Recources/HearYinzLogo.png'
 
   
   function NavBar() {
@@ -51,14 +52,16 @@ import {
     return (
         <div className='PageContainer'>
         <div className='leftNavbar'>
-          <div className='icon'>Icon</div>
+          <div className='icon'>
+          <img src={logo} width={50} height={50} />
+          </div>
           <nav>
               <NavLink to="Organizations" > Organizations</NavLink>
-              <NavLink to="Requests" > Requests</NavLink>
-              <NavLink to="Reports" > Reports</NavLink>
+              <NavLink to="Requests" >Requests</NavLink>
+              <NavLink to="Reports" >Reports</NavLink>
           </nav>
           <div className='rightNavbar'>
-              <NavLink to="Logout" > Logout </NavLink>
+              <NavLink to="Logout" >Logout </NavLink>
           </div>
         </div>
               <Routes>
