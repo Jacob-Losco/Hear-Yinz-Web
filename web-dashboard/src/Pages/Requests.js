@@ -1,11 +1,11 @@
 /*+===================================================================
-File: NavBar.js
+File: Requests.js
 
-Summary: 
+Summary: Hosts Requests page information
 
 Exported Data Structures: None
 
-Exported Functions: None
+Exported Functions: Requests
 
 Contributors:
 	Philip Pavlick - 02/2/23 - SP-263

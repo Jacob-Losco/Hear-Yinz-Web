@@ -1,7 +1,7 @@
 /*+===================================================================
 File: App.js
 
-Summary: A simple set of controls that test the multiple different data retrievals and postings for the Hear-Yinz web application
+Summary: A set of controls that hosts ands wraps the NavBar with the BrowserRouter component for the Hear-Yinz application.
 
 Exported Data Structures: None
 
@@ -15,15 +15,15 @@ Contributors:
 import React from "react";
 import NavBar from "./NavBar";
 import {  BrowserRouter } from 'react-router-dom'
+
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: App
 
-  Summary: returns the html and buttons associated with testing interacting with firestore
+  Summary: Hosts webpage content and components. Returns the NavBar component.
 
   Args: None
 
-  Returns: html
-    the html to make display
+  Returns: BrowserRouter and NavBar component
 -------------------------------------------------------------------F*/
 function App() {
 
