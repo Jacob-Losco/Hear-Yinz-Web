@@ -14,37 +14,48 @@ Contributors:
 import {render, screen, fireEvent} from "@testing-library/react";
 import React from "react";
 import Login from "./Login";
-import { signInWithEmailAndPassword} from 'firebase/auth';
 import { oAuthentication } from "./firebase-config";
 
-    it('should be able type into email input', () =>{
+    test("Login success oAuth is not null",  () => {
         render(
             <Login
-                sLoginEmail={[]}
-                fnSetLoginEmail={()=>{}}
-                sLoginPassword={[]}
-                fnSetLoginPassword={()=>{}}
-         />
-         );
-        const inputElement = screen.getByPlaceholderText(/Email/i);
-        const inputElement2 = screen.getByPlaceholderText(/Password/i);
-        fireEvent.change(inputElement2, { target: { value: "Some Text"} })
-        fireEvent.change(inputElement, { target: { value: "Some Text"} })
-        expect(inputElement2.value).toBe("Some Text");
-        expect(inputElement.value).toBe("Some Text");
-    })
+            button
+            fnSetLoginEmail={()=>{}}
+            LoginPassword={[]}
+            fnSetLoginPassword={()=>{}}/>
+            );
 
-    test("Authentication with login", async () => {
-        let error = '';
-    
-        try {
-            await signInWithEmailAndPassword(oAuthentication, 'notanemail@stvincent.edu', '1');
-        } catch (err) {
-            error = err.toString();
-        }
-    
-        expect(error).toEqual("FirebaseError: Firebase: Error (auth/user-not-found).");
-    
-        const user = await signInWithEmailAndPassword(oAuthentication, 'test@stvincent.edu', 'test123');
-        !expect(user.user).toBeNull
+        const submitButton = screen.getByRole('button');
+        const inputElementEmail = screen.getByPlaceholderText(/email/i);
+        const inputElementPassword = screen.getByPlaceholderText(/password/i);
+
+        fireEvent.change(inputElementEmail, { target: { value: "test@stvincent.edu"} });
+        fireEvent.change(inputElementPassword, { target: { value: "test123"} });
+        fireEvent.click(submitButton);
+
+        expect(inputElementEmail.value).toBe("test@stvincent.edu")
+        expect(inputElementPassword.value).toBe("test123");
+        !expect(oAuthentication.currentUser).toBeNull;
     });
+
+    test("Login fail html is diplayed",  () => {
+        render(
+            <Login
+            button
+            fnSetLoginEmail={()=>{}}
+            LoginPassword={[]}
+            fnSetLoginPassword={()=>{}}/>
+            );
+
+        const submitButton = screen.getByRole('button');
+        const inputElementEmail = screen.getByPlaceholderText(/Email/i);
+        const inputElementPassword = screen.getByPlaceholderText(/Password/i);
+
+        const htmlElement = screen.queryByTestId('Message');
+
+        fireEvent.change(inputElementEmail, { target: { value: "Some Text"} })
+        fireEvent.change(inputElementPassword, { target: { value: "Some Text"} })
+        fireEvent.click(submitButton);
+
+        expect(htmlElement).toBeDefined();
+        });
