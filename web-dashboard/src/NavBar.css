@@ -1,18 +1,15 @@
 .PageContainer {
-    justify-content: flex-start;
     width: 100%;
     min-height: 100%;
-    margin: auto;
     background: #ffffff;
 }
 
 .icon {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    width: 10%;
+    width: 5%;
     height: 100%;
-    background: #a19900;
     text-align: center;
     font-weight:bold;
 
@@ -22,10 +19,8 @@
 
 .leftNavbar {
     display: flex;
-    gap: 15px;
     align-items: center;
-    height: 50px;
-    font-weight:bold;
+    height: 60px;
     word-spacing: 7px;
     background: #125261;
     -webkit-text-fill-color: #ffffff;
@@ -36,15 +31,21 @@
 
 .leftNavbar a {
     justify-content: left;
+    padding-left: 15px;
     color: white;
     text-decoration: none;
+    
+}
+
+.leftNavbar a.active {
+    font-weight: bold;
 }
 
 
 
 .rightNavbar {
     display: flex;
-    position: Absolute; right: 20px;
+    position: Absolute; right: 25px;
 
 
 }
