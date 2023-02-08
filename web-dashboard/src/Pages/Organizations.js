@@ -14,7 +14,7 @@ Contributors:
 
 import React from 'react';
 
-export default function Organizations () {
+export default function Organizations() {
     return(
         // used to query the organization page
         <div className="OrganizationPage">  

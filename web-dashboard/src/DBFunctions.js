@@ -6,7 +6,14 @@ Summary: A set of functions that return formatted data from the database.
 Exported Data Structures: fnInitSessionData - sets sInstituionId and sAccountId values. Necessary for calling other data functions
     fnGetOfficerOrganizations - returns the name and ids of all organizations that this account is an officer of
 
-Exported Functions: fnInitSessionData - 
+Exported Functions: fnInitSessionData - sets the variables necessary to run other database functions
+                fnGetOfficerOrganizations - returns a list of all organizations that the account is an officer of
+                fnGetOrganizationEvents - returns a list of all events for an organization
+                fnGetOrganizationOfficers  - returns a list of all accounts that are officers of an organization
+                fnGetEventRequests - returns all events that are pending approval
+                fnGetEventReports - returns all events that have at least one report
+                fnCreateEvent - creates event based on parameterized data
+                fnCreateAnnouncement - creates announcement based on parameterized data
 
 Contributors:
 	Jacob Losco - 01/24/23 - SP-341
@@ -33,11 +40,6 @@ export async function fnInitSessionData() {
         sInstitutionId = result;
         fnGetUserAccount(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A").then(result => {
             sAccountId = result;
-            fnCreateAnnouncement({
-                announcement_message: "Testing 123",
-                announcement_status: 0,
-                announcement_timestamp: Date.now()
-            });
         })
     })
 }

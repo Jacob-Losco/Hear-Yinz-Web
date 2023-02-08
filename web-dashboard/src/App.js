@@ -16,17 +16,7 @@ import React from "react";
 import NavBar from "./NavBar";
 import {  BrowserRouter } from 'react-router-dom'
 
-/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function: App
-
-  Summary: Hosts webpage content and components. Returns the NavBar component.
-
-  Args: None
-
-  Returns: BrowserRouter and NavBar component
--------------------------------------------------------------------F*/
 function App() {
-
   return (
     <BrowserRouter>
       <NavBar></NavBar>
