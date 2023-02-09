@@ -16,6 +16,16 @@ import React from "react";
 import Login from "./Login";
 import { oAuthentication } from "./firebase-config";
 
+    /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Test: Login sucess oAuth is not null
+
+      Target: Login Form
+
+      Assertions: input can be entered into both form boxes
+        there is a user logged in are clicking the login button
+
+      Writer: Sam Merlin
+    -------------------------------------------------------------------T*/
     test("Login success oAuth is not null",  () => {
         render(
             <Login
@@ -38,6 +48,16 @@ import { oAuthentication } from "./firebase-config";
         !expect(oAuthentication.currentUser).toBeNull;
     });
 
+    /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Test: Login fail html is displayed
+
+      Target: Login Form
+
+      Assertions: input can be entered into both form boxes
+        error message is displayed when login fails
+
+      Writer: Sam Merlin
+    -------------------------------------------------------------------T*/
     test("Login fail html is diplayed",  () => {
         render(
             <Login
