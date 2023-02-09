@@ -23,14 +23,13 @@ import {
     useNavigate
   } from 'react-router-dom'
   import { useEffect } from 'react';  
-  import { onAuthStateChanged } from 'firebase/auth';
+  import { onAuthStateChanged, signOut } from 'firebase/auth';
   import {oAuthentication} from './firebase-config';
 
   import Requests from './Pages/Requests'
   import Organizations from './Pages/Organizations';
   import Reports from './Pages/Reports';
   import Login from './Login';
-  import Logout from './Logout'
   import './font.css';
   import './NavBar.css';
   import logo from './Recources/HearYinzLogo.png'
@@ -60,9 +59,15 @@ import {
             if(oCurrentUser != null) {
                 navigate("/Organizations");
             }
+            else {
+              navigate("/");
+            }
         });
     }, []);
 
+    const fnLogout = async () => {
+      await signOut(oAuthentication);
+    };
 
     return (
         <div className='PageContainer'>
@@ -76,15 +81,14 @@ import {
               <NavLink to="Reports" >Reports</NavLink>
           </nav>
           <div className='rightNavbar'>
-              <NavLink to="Logout" >Logout </NavLink>
+              <button className="logoutButton" onClick={fnLogout} >Logout </button>
           </div>
         </div>
               <Routes>
                 <Route path='/' element={<Login />}/>
                 <Route path="/Organizations" element={<Organizations /> }/>
                 <Route path="/Requests" element={<Requests /> }/>
-                <Route path="/Reports" element={<Reports />} />
-                <Route path="Logout" element={<Logout />}/>
+                <Route path="/Reports" element={<Reports />} />s
               </Routes>
         </div>
 

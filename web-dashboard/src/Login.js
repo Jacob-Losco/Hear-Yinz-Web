@@ -1,7 +1,19 @@
+/*+===================================================================
+File: App.js
 
+Summary: A set of controls that hosts ands wraps the NavBar with the BrowserRouter component for the Hear-Yinz application.
 
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import React, { useState, useEffect } from 'react';
+Exported Data Structures: None
+
+Exported Functions: App
+
+Contributors:
+	Jacob Losco - 01/24/23 - SP-341
+
+===================================================================+*/
+
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from 'react';
 import { oAuthentication } from './firebase-config';
 import '@fontsource/dm-sans';
 import './font.css';
@@ -12,11 +24,14 @@ function Login() {
   const [sLoginPassword, fnSetLoginPassword] = useState("");
 
   /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function: fnLogin
-  Summary: authenticates user from firebase authentication based on current set email and password, or rejects them and prints an error message
-  Args: None
-  Returns: None
--------------------------------------------------------------------F*/
+    Function: fnLogin
+  
+    Summary: authenticates user from firebase authentication based on current set email and password, or rejects them and prints an error message
+  
+    Args: None
+  
+    Returns: None
+  -------------------------------------------------------------------F*/
   const fnLogin = async () => {
       try {
           const oUser = await signInWithEmailAndPassword(
@@ -31,13 +46,8 @@ function Login() {
           Message.innerHTML = "Invalid email, please enter an associated email or contact administration!";
       }
   }
-  /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function: fnLogout
-  Summary: signs out a currently signed in user.
-  Args: None
-  Returns: None
--------------------------------------------------------------------F*/
-      return <div >
+  
+  return <div >
     <div className='container'>
       <h2> Hear Yinz! </h2>
       <h1> Admin Dashboard </h1>

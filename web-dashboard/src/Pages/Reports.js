@@ -13,7 +13,7 @@ Contributors:
 ===================================================================+*/
 
 import React from 'react';
-export default function Reports () {
+export default function Reports() {
     return(
         <div className="Reports">
             <h>Welcome Reports</h>

@@ -15,7 +15,13 @@
 
 }
 
-
+.logoutButton {
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
 
 .leftNavbar {
     display: flex;

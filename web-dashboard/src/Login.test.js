@@ -16,6 +16,16 @@ import React from "react";
 import Login from "./Login";
 import { oAuthentication } from "./firebase-config";
 
+    /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Test: Login sucess oAuth is not null
+
+      Target: Login Form
+
+      Assertions: input can be entered into both form boxes
+        there is a user logged in are clicking the login button
+
+      Writer: Sam Merlin
+    -------------------------------------------------------------------T*/
     test("Login success oAuth is not null",  () => {
         render(
             <Login
@@ -25,19 +35,29 @@ import { oAuthentication } from "./firebase-config";
             fnSetLoginPassword={()=>{}}/>
             );
 
-        const submitButton = screen.getByRole('button');
-        const inputElementEmail = screen.getByPlaceholderText(/email/i);
-        const inputElementPassword = screen.getByPlaceholderText(/password/i);
+        const oSubmitButton = screen.getByRole('button');
+        const oInputElementEmail = screen.getByPlaceholderText(/email/i);
+        const oInputElementPassword = screen.getByPlaceholderText(/password/i);
 
-        fireEvent.change(inputElementEmail, { target: { value: "test@stvincent.edu"} });
-        fireEvent.change(inputElementPassword, { target: { value: "test123"} });
-        fireEvent.click(submitButton);
+        fireEvent.change(oInputElementEmail, { target: { value: "test@stvincent.edu"} });
+        fireEvent.change(oInputElementPassword, { target: { value: "test123"} });
+        fireEvent.click(oSubmitButton);
 
-        expect(inputElementEmail.value).toBe("test@stvincent.edu")
-        expect(inputElementPassword.value).toBe("test123");
+        expect(oInputElementEmail.value).toBe("test@stvincent.edu")
+        expect(oInputElementPassword.value).toBe("test123");
         !expect(oAuthentication.currentUser).toBeNull;
     });
 
+    /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Test: Login fail html is displayed
+
+      Target: Login Form
+
+      Assertions: input can be entered into both form boxes
+        error message is displayed when login fails
+
+      Writer: Sam Merlin
+    -------------------------------------------------------------------T*/
     test("Login fail html is diplayed",  () => {
         render(
             <Login
@@ -47,15 +67,16 @@ import { oAuthentication } from "./firebase-config";
             fnSetLoginPassword={()=>{}}/>
             );
 
-        const submitButton = screen.getByRole('button');
-        const inputElementEmail = screen.getByPlaceholderText(/Email/i);
-        const inputElementPassword = screen.getByPlaceholderText(/Password/i);
+        const oSubmitButton = screen.getByRole('button');
+        const oInputElementEmail = screen.getByPlaceholderText(/Email/i);
+        const oInputElementPassword = screen.getByPlaceholderText(/Password/i);
 
-        const htmlElement = screen.queryByTestId('Message');
+        const oHtmlElement = screen.queryByTestId('Message');
 
-        fireEvent.change(inputElementEmail, { target: { value: "Some Text"} })
-        fireEvent.change(inputElementPassword, { target: { value: "Some Text"} })
-        fireEvent.click(submitButton);
+        fireEvent.change(oInputElementEmail, { target: { value: "Some Text"} })
+        fireEvent.change(oInputElementPassword, { target: { value: "Some Text"} })
+        fireEvent.click(oSubmitButton);
 
-        expect(htmlElement).toBeDefined();
-        });
+        expect(oHtmlElement).toBeDefined();
+        
+    });
