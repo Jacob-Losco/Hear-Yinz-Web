@@ -20,7 +20,7 @@ Contributors:
 ===================================================================+*/
 
 import { oFirestore, oAuthentication } from "./firebase-config";
-import { collection, getDocs, query, where, doc, getDoc, addDoc, Timestamp, updateDoc} from "firebase/firestore";
+import { collection, getDocs, query, where, doc, getDoc, addDoc, Timestamp, updateDoc, deleteDoc} from "firebase/firestore";
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: fnGetInstitution
@@ -351,5 +351,30 @@ export async function fnAddOfficer(sOrganizationId, sAccountEmail) {
         }
     } else {
         return "Error Invalid Email";
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnDeleteOfficer
+
+  Summary: Deletes an officer relationship between an account and the current organization
+
+  Args: sOrganizationId - a string the contains the id for the current organization
+    sAccountEmail - an email meant to link to an account
+
+  Returns: None if successful, error message if failue
+-------------------------------------------------------------------F*/
+export async function fnRemoveOfficer(sOrganizationId, sAccountEmail) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    const oOrganizationRef = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId)
+    const oAccountRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts"), where("account_email", "==", sAccountEmail));
+    const oAccountDocs = await getDocs(oAccountRefs);
+    if(oAccountDocs.docs.length > 0) {
+        const sAccountId = oAccountDocs.docs[0].id;
+        const oRelationshipRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", sAccountId, "Relationships"), where("relationship_org", "==", oOrganizationRef), where("relationship_type", "==", 0));
+        const oRelationshipDocs = await getDocs(oRelationshipRefs);
+        await deleteDoc(oRelationshipDocs.docs[0].ref);
+    } else {
+        return "Error No Account for Email";
     }
 }
