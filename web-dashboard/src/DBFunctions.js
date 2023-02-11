@@ -132,7 +132,7 @@ export async function fnGetOrganizationEvents(sOrganizationId) {
     let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
     const oEventRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events"));
     const oEventDocs = await getDocs(oEventRefs);
-    return oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data() }));
+    return oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data(), event_id: oEventDoc.id }));
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -178,9 +178,31 @@ export async function fnGetEventRequests() {
     for(const oOrganizationDoc of oOrganizationDocs.docs) {
         const oEventRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", oOrganizationDoc.id, "Events"), where("event_status", "==", 1));
         const oEventDocs = await getDocs(oEventRefs);
-        aoRequestData.push(oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data() })));
+        aoRequestData.push(oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data(), event_id: oEventDoc.id, host_id: oOrganizationDoc.id })));
     }
     return aoRequestData;
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnHandleEventRequest
+
+  Summary: Updates the status of an event based on user input
+
+  Args: sEventId - the document id of the event being updated
+    bApproved - true if the event is approved, false otherwise
+
+  Returns: None if successful, error message if failure
+-------------------------------------------------------------------F*/
+export async function fnHandleEventRequest(sOrganizationId, sEventId, bApproved) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    try {
+        const oEventDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events", sEventId);
+        updateDoc(oEventDoc, {
+            event_status: bApproved ? 2 : 3,
+        });
+    } catch (error) {
+        console.error("Error editing document: ", error);
+    }
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
