@@ -15,16 +15,15 @@ Contributors:
 
 import React from "react";
 import Grid from '@mui/material/Grid';
-import logo from './Recources /HearYinzLogo.png'
 
       
 export default function Organizations() {
     return(
         <Grid container spacing={{ xs: 5, md: 3 }} columnSpacing={ 4 } >
-        {Array.from(Array(9)).map((_, index) => (
-          <Grid  alignItems='center' item xs={6} sm={4} md={4} key={index}>
-            <img src={logo} width={234} height={234} />
-            <div>Click for the form!</div>
+        {Array.from(Array(10)).map((_, index) => (
+          <Grid  textAlign='center' item xs={2} sm={2} md={3} key={index}>
+            <img className="img" src='/Recources/Exmpl1' width={200} height={200} />
+            <div>Organization Name</div>
           </Grid>
         ))}
       </Grid>
