@@ -20,7 +20,6 @@ import {
   import { useEffect } from 'react';  
   import { onAuthStateChanged, signOut } from 'firebase/auth';
   import {oAuthentication} from './firebase-config';
-
   import Requests from './Pages/Requests'
   import Organizations from './Pages/Organizations';
   import Reports from './Pages/Reports';
@@ -28,36 +27,19 @@ import {
   import './font.css';
   import './NavBar.css';
   import logo from './Recources/HearYinzLogo.png'
-
-  
-  /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function: NavBar
-  Summary: Creates the routes to pages, creates the link button on the navbar, and creates the logo on the navbar.
-  Args: 
-  Returns: The routes to pages and the html to create Navlinks
--------------------------------------------------------------------F*/
-
+  import { fnInitSessionData, sInstitutionId } from './DBFunctions';
 
   function NavBar() {
-
-
-/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function: navigate
-  Summary: checks the oCurrentUser oAuthentication and navigates the page accordingly.
-  Args: 
-  Returns:
--------------------------------------------------------------------F*/
-
     const navigate = useNavigate();
-    useEffect(() =>{
-        onAuthStateChanged(oAuthentication, (oCurrentUser) => {
-            if(oCurrentUser != null) {
-                navigate("/Organizations");
-            }
-            else {
-              navigate("/");
-            }
-        });
+    useEffect(() => {
+      onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
+        if(oCurrentUser != null) {
+          navigate("/Organizations");
+        }
+        else {
+          navigate("/");
+        }
+      });
     }, []);
 
     const fnLogout = async () => {

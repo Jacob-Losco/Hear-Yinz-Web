@@ -12,9 +12,27 @@ Contributors:
 
 ===================================================================+*/
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useEffect } from 'react';  
+import { fnGetEventReports } from '../DBFunctions';
+import { onAuthStateChanged } from 'firebase/auth';
+import { oAuthentication } from '../firebase-config';
 
 export default function Organizations() {
+
+    useEffect(() => {
+        const fnUpdateOrganizations = async () => {
+            let oOrgs = await fnGetEventReports();
+            //set state variable to the oOrgs HERE
+        }
+
+        onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
+            if(oCurrentUser != null) {
+              fnUpdateOrganizations()
+            }
+          });
+      }, []);
+
     return(
         // used to query the organization page
         <div className="OrganizationPage">  
