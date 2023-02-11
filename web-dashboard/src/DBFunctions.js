@@ -15,7 +15,7 @@ Exported Functions: fnInitSessionData - sets the variables necessary to run othe
                 fnCreateAnnouncement - creates announcement based on parameterized data
 
 Contributors:
-	Jacob Losco - 01/24/23 - SP-341
+	Jacob Losco - 02/11/23 - SP-341
 
 ===================================================================+*/
 
@@ -321,5 +321,35 @@ export async function fnUpdateEvent(sOrganizationId, sEventId, oNewEvent) {
             }
     } else {
         return "Error: invalid object parameter";
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnAddOfficer
+
+  Summary: Creates a officer relationship between an account and the current organization
+
+  Args: sOrganizationId - a string the contains the id for the current organization
+    sAccountEmail - an email meant to link to an account
+
+  Returns: None if successful, error message if failue
+-------------------------------------------------------------------F*/
+export async function fnAddOfficer(sOrganizationId, sAccountEmail) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    const oAccountRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts"), where("account_email", "==", sAccountEmail));
+    const oAccountDocs = await getDocs(oAccountRefs);
+    if(oAccountDocs.docs.length > 0) {
+        const sAccountId = oAccountDocs.docs[0].id;
+        try {
+            const newDocRef = await addDoc(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", sAccountId, "Relationships"), {
+                relationship_org: doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId),
+                relationship_status: 1,
+                relationship_type: 0
+            });
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
+    } else {
+        return "Error Invalid Email";
     }
 }
