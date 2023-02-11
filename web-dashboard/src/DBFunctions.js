@@ -20,7 +20,7 @@ Contributors:
 ===================================================================+*/
 
 import { oFirestore, oAuthentication } from "./firebase-config";
-import { collection, getDocs, query, where, doc, getDoc, addDoc, Timestamp} from "firebase/firestore";
+import { collection, getDocs, query, where, doc, getDoc, addDoc, Timestamp, updateDoc} from "firebase/firestore";
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: fnGetInstitution
@@ -272,6 +272,49 @@ export async function fnCreateAnnouncement(sOrganizationId, oNewAnnouncement) {
                   announcement_name: oNewAnnouncement.announcement_message,
                   announcement_status: oNewAnnouncement.announcement_status,
                   announcement_timestamp: Timestamp.fromDate(oNewAnnouncement.announcement_timestamp)
+                });
+            } catch (error) {
+                console.error("Error adding document: ", error);
+            }
+    } else {
+        return "Error: invalid object parameter";
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnUpdateEvent
+
+  Summary: Updates an event in database based off of passed in information
+
+  Args: sOrganizationId - a string the contains the id for the current organization
+    sEventId - a string that contains the id of the event being updated
+    oNewEvent - an object that contains all of the information about
+    the new event, it should be organized as follows:
+        event_description - string
+        event_name - string
+        event_status - 0 if private, 1 if public (int)
+        event_timestamp - timestamp
+        event_location - id of location chosen (string)
+
+  Returns: None if successful, error message if failue
+-------------------------------------------------------------------F*/
+export async function fnUpdateEvent(sOrganizationId, sEventId, oNewEvent) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    if(oNewEvent.event_description !== null &&
+        oNewEvent.event_name !== null &&
+        oNewEvent.event_status !== null &&
+        oNewEvent.event_timestamp !== null &&
+        oNewEvent.event_location !== null) {
+            const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oNewEvent.event_location);
+            const oLocationDoc = await getDoc(oLocationRef);
+            try {
+                const oEventDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events", sEventId);
+                updateDoc(oEventDoc, {
+                    event_name: oNewEvent.event_name,
+                    event_description: oNewEvent.event_description,
+                    event_status: oNewEvent.event_status,
+                    event_timestamp: Timestamp.fromDate(oNewEvent.event_timestamp),
+                    event_location: oLocationDoc.ref,
                 });
             } catch (error) {
                 console.error("Error adding document: ", error);
