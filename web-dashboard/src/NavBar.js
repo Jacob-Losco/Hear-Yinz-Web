@@ -1,17 +1,12 @@
 /*+===================================================================
 File: NavBar.js
-
 Summary: Creates the NavBar function by using router components. 
 Checks the status of the uses and navigates valid users to the Organizations page where they can navigate
 to the Reports page, the Requests page and Logout page.
-
 Exported Data Structures: None
-
 Exported Functions: NavBar
-
 Contributors:
 	Philip Pavlick - 02/2/23 - SP-263
-
 ===================================================================+*/
 
 import React from 'react';
@@ -76,9 +71,16 @@ import {
           <img src={logo} width={50} height={50} />
           </div>
           <nav>
-              <NavLink to="Organizations" > Organizations</NavLink>
-              <NavLink to="Requests" >Requests</NavLink>
-              <NavLink to="Reports" >Reports</NavLink>
+              <div className='Organizations'>
+                <NavLink to="Organizations" > Organizations</NavLink>
+              </div>
+              <div className='Requests'>
+                <NavLink to="Requests" >Requests</NavLink>
+              </div>
+              <div className='Reports'>
+                <NavLink to="Reports" >Reports</NavLink>
+                <div className='notification'>5</div>
+              </div>
           </nav>
           <div className='rightNavbar'>
               <button className="logoutButton" onClick={fnLogout} >Logout </button>
