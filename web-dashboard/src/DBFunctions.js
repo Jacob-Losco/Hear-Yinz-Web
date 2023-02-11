@@ -20,7 +20,7 @@ Contributors:
 ===================================================================+*/
 
 import { oFirestore, oAuthentication } from "./firebase-config";
-import { collection, getDocs, query, where, doc, getDoc, addDoc } from "firebase/firestore";
+import { collection, getDocs, query, where, doc, getDoc, addDoc, Timestamp} from "firebase/firestore";
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: fnGetInstitution
@@ -228,14 +228,14 @@ export async function fnCreateEvent(sOrganizationId, oNewEvent) {
         oNewEvent.event_status !== null &&
         oNewEvent.event_timestamp !== null &&
         oNewEvent.event_location !== null) {
-            const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oNewEvent.location);
-            const oLocationDoc = getDoc(oLocationRef);
+            const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oNewEvent.event_location);
+            const oLocationDoc = await getDoc(oLocationRef);
             try {
                 const newDocRef = await addDoc(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events"), {
                   event_name: oNewEvent.event_name,
                   event_description: oNewEvent.event_description,
                   event_status: oNewEvent.event_status,
-                  event_timestamp: oNewEvent.event_timestamp,
+                  event_timestamp: Timestamp.fromDate(oNewEvent.event_timestamp),
                   event_location: oLocationDoc.ref,
                   event_likes: 0,
                   event_reports: 0   
@@ -271,7 +271,7 @@ export async function fnCreateAnnouncement(sOrganizationId, oNewAnnouncement) {
                 const newDocRef = await addDoc(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Announcements"), {
                   announcement_name: oNewAnnouncement.announcement_message,
                   announcement_status: oNewAnnouncement.announcement_status,
-                  announcement_timestamp: oNewAnnouncement.announcement_timestamp
+                  announcement_timestamp: Timestamp.fromDate(oNewAnnouncement.announcement_timestamp)
                 });
             } catch (error) {
                 console.error("Error adding document: ", error);

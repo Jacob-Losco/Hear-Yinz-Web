@@ -14,7 +14,7 @@ Contributors:
 
 import React, { useState } from 'react';
 import { useEffect } from 'react';  
-import { fnGetEventReports } from '../DBFunctions';
+import { fnGetOfficerOrganizations } from '../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
 
@@ -22,7 +22,7 @@ export default function Organizations() {
 
     useEffect(() => {
         const fnUpdateOrganizations = async () => {
-            let oOrgs = await fnGetEventReports();
+            let oOrgs = await fnGetOfficerOrganizations();
             //set state variable to the oOrgs HERE
         }
 
