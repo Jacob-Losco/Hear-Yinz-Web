@@ -206,6 +206,51 @@ export async function fnHandleEventRequest(sOrganizationId, sEventId, bApproved)
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnGetAnnouncementRequests
+
+  Summary: returns a list of objects that contain information on all announcements that have a pending status
+
+  Args: None
+
+  Returns: [{}] - list of announcement data
+-------------------------------------------------------------------F*/
+export async function fnGetAnnouncementRequests() {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    const aoRequestData = [];
+    const oOrganizationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations"));
+    const oOrganizationDocs = await getDocs(oOrganizationRefs);
+    for(const oOrganizationDoc of oOrganizationDocs.docs) {
+        const oAnnouncementRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", oOrganizationDoc.id, "Announcements"), where("announcement_status", "==", 1));
+        const oAnnouncementDocs = await getDocs(oAnnouncementRefs);
+        aoRequestData.push(oAnnouncementDocs.docs.map((oAnnouncementDoc) => ({ ...oAnnouncementDoc.data(), announcement_id: oAnnouncementDoc.id, host_id: oOrganizationDoc.id })));
+    }
+    return aoRequestData;
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnHandleAnnouncementRequest
+
+  Summary: Updates the status of an announcement based on user input
+
+  Args: sOrganizationId: the id of the organization associated with the request 
+    sAnnouncementId - the document id of the announcement being updated
+    bApproved - true if the event is approved, false otherwise
+
+  Returns: None if successful, error message if failure
+-------------------------------------------------------------------F*/
+export async function fnHandleAnnouncementRequest(sOrganizationId, sAnnouncementId, bApproved) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    try {
+        const oAnnouncementDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Announcement", sAnnouncementId);
+        updateDoc(oAnnouncementDoc, {
+            announcement_status: bApproved ? 2 : 3,
+        });
+    } catch (error) {
+        console.error("Error editing document: ", error);
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: fnGetEventReports
 
   Summary: returns a list of objects that contain information on all events that have at least one report made
@@ -377,7 +422,7 @@ export async function fnAddOfficer(sOrganizationId, sAccountEmail) {
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function: fnDeleteOfficer
+  Function: fnRemoveOfficer
 
   Summary: Deletes an officer relationship between an account and the current organization
 
