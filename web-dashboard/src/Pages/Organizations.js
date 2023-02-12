@@ -12,12 +12,10 @@ Contributors:
     Sam Merlin - 02/10/23
 
 ===================================================================+*/
-
-import React from "react";
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import './OrgList.css'      
-import React, { useState } from 'react';
 import { useEffect } from 'react';  
 import { fnGetOfficerOrganizations } from '../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
