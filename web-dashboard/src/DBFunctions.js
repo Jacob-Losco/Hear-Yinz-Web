@@ -251,6 +251,60 @@ export async function fnHandleAnnouncementRequest(sOrganizationId, sAnnouncement
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnGetOfficerRequests
+
+  Summary: returns a list of objects that contain information on all officers that have a pending status
+
+  Args: None
+
+  Returns: [{}] - list of account data
+-------------------------------------------------------------------F*/
+export async function fnGetOfficerRequests() {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    const aoRequestData = [];
+    const oAccountRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts"));
+    const oAccountDocs = await getDocs(oAccountRefs);
+    for (const oAccountDoc of oAccountDocs.docs) {
+        const oAccountData = oAccountDoc.data();
+        const oRelationshipRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", oAccountDoc.id, "Relationships"), where("relationship_type", "==", 0), where("relationship_status", "==", 1));
+        const oRelationshipDocs = await getDocs(oRelationshipRefs);
+        console.log(oRelationshipDocs.docs.length);
+        if(oRelationshipDocs.docs.length > 0) {
+            for(const oRelationshipDoc of oRelationshipDocs.docs) {
+                const oRelationshipData = oRelationshipDoc.data();
+                const oOrganizationDoc = await getDoc(oRelationshipData["relationship_org"]);
+                const oOrganizationData = oOrganizationDoc.data();
+                aoRequestData.push({ account_name: oAccountData["account_email"], account_id: oAccountDoc.id, organization_name: oOrganizationData["organization_name"], officer_relationship_id: oRelationshipDoc.id })
+            }
+        }
+    }
+    return aoRequestData;
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnHandleOfficerRequest
+
+  Summary: Updates the status of an officer based on user input
+
+  Args: sAccountId - the document id of the account being updated
+    sRelationshipId - the document id of the officer relationship being approved
+    bApproved - true if the officer is approved, false otherwise
+
+  Returns: None if successful, error message if failure
+-------------------------------------------------------------------F*/
+export async function fnHandleOfficerRequest(sAccountId, sRelationshipId, bApproved) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    try {
+        const oRelationshipDoc = doc(oFirestore, "Institutions", sInstitutionId, "Accounts", sAccountId, "Relationships", sRelationshipId);
+        updateDoc(oRelationshipDoc, {
+            relationship_status: bApproved ? 2 : 3,
+        });
+    } catch (error) {
+        console.error("Error editing document: ", error);
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: fnGetEventReports
 
   Summary: returns a list of objects that contain information on all events that have at least one report made
