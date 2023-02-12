@@ -17,7 +17,7 @@ import {
     NavLink,
     useNavigate
   } from 'react-router-dom'
-  import { useEffect } from 'react';  
+  import { useEffect, useState } from 'react';  
   import { onAuthStateChanged, signOut } from 'firebase/auth';
   import {oAuthentication} from './firebase-config';
   import Requests from './Pages/Requests'
@@ -28,6 +28,10 @@ import {
   import './NavBar.css';
   import logo from './Recources/HearYinzLogo.png'
   import { fnInitSessionData, sInstitutionId } from './DBFunctions';
+  import { async } from '@firebase/util';
+  import { fnGetEventReports } from './DBFunctions'
+  
+
 
   function NavBar() {
     const navigate = useNavigate();
@@ -46,6 +50,26 @@ import {
       await signOut(oAuthentication);
     };
 
+    const [iCountReports, setiCountReports] = useState(0);
+
+    useEffect(() => {
+      const fnDisplayReports = async () => {
+          let oReports = await fnGetEventReports();
+          setiCountReports(oReports.length)
+          console.log(oReports);
+          console.log(iCountReports)
+      }
+
+      onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
+        if(oCurrentUser != null) {
+          fnDisplayReports()
+        }
+      });
+
+  },[]);
+
+
+
     return (
         <div className='PageContainer'>
         <div className='leftNavbar'>
@@ -61,7 +85,7 @@ import {
               </div>
               <div className='Reports'>
                 <NavLink to="Reports" >Reports</NavLink>
-                <div className='notification'>5</div>
+                <div className='notification'>{iCountReports}</div>
               </div>
           </nav>
           <div className='rightNavbar'>

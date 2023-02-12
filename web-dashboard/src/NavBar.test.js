@@ -60,3 +60,27 @@ describe("NavBar naviation link testing", () => {
 
 
 
+// describe("Report Notifications"), () => {
+
+//   test("Report notification renders", async () => {
+//     render(<NavBar />, { wrapper: BrowserRouter });
+//     const organizationsLink = screen.getByText("Organizations");
+//     expect(organizationsLink).toBeInTheDocument();
+//     expect(organizationsLink.href).toContain("/Organizations");
+// });
+
+// test(" Report Notification Count when signed in ", async () => {
+//   render(<NavBar />, { wrapper: BrowserRouter });
+//   const organizationsLink = screen.getByText("Organizations");
+//   expect(organizationsLink).toBeInTheDocument();
+//   expect(organizationsLink.href).toContain("/Organizations");
+// });
+
+// test(" Report Notification count when signed out  ", async () => {
+//   render(<NavBar />, { wrapper: BrowserRouter });
+//   const organizationsLink = screen.getByText("Organizations");
+//   expect(organizationsLink).toBeInTheDocument();
+//   expect(organizationsLink.href).toContain("/Organizations");
+// });
+
+// }
