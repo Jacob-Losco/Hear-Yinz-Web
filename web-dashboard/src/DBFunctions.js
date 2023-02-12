@@ -327,6 +327,35 @@ export async function fnGetEventReports() {
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnHandleEventReport
+
+  Summary: Updates the status of an event based on user input
+
+  Args: sOrganizationId - the document id of the organization with the event
+    sEventId - the document id of the event being updated
+    bToBeRemoved - true if the event needs to be removed, false otherwise
+
+  Returns: None if successful, error message if failure
+-------------------------------------------------------------------F*/
+export async function fnHandleEventReport(sOrganizationId, sEventId, bToBeRemoved) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    try {
+        const oEventDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events", sEventId);
+        if (bToBeRemoved) {
+            updateDoc(oEventDoc, {
+                event_status: 4,
+            });
+        } else {
+            updateDoc(oEventDoc, {
+                event_reports: 0,
+            });
+        }
+    } catch (error) {
+        console.error("Error editing document: ", error);
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: fnCreateEvent
 
   Summary: Creates an event in database based off of passed in information
