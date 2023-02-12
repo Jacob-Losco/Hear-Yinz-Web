@@ -15,16 +15,23 @@ Contributors:
 
 import React from "react";
 import Grid from '@mui/material/Grid';
-
-      
+import Box from '@mui/material/Box';
+import './OrgList.css'      
 export default function Organizations() {
     return(
-        <Grid container spacing={{ xs: 5, md: 3 }} columnSpacing={ 4 } >
+      <Box sx={{ m: 9 }} >
+        <Grid container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
         {Array.from(Array(10)).map((_, index) => (
-          <Grid  textAlign='center' item xs={2} sm={2} md={3} key={index}>
-            <img className="img" src='/Recources/Exmpl1' width={200} height={200} />
+          // Array updates dynamically
+          <Grid  textAlign='center' item xs={5} sm={4} md={3} key={index}>
+            <div>
+              <img className="img" src='/Recources/Exmpl1' width={150} height={150} />
+              {/* switches based on function */}
+            </div>
             <div>Organization Name</div>
+            {/* switches based on function */}
           </Grid>
         ))}
       </Grid>
+    </Box>
   )};
