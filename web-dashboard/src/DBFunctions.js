@@ -3,8 +3,7 @@ File: DBFunctions.js
 
 Summary: A set of functions that return formatted data from the database.
 
-Exported Data Structures: fnInitSessionData - sets sInstituionId and sAccountId values. Necessary for calling other data functions
-    fnGetOfficerOrganizations - returns the name and ids of all organizations that this account is an officer of
+Exported Data Structures: None
 
 Exported Functions: fnInitSessionData - sets the variables necessary to run other database functions
                 fnGetOfficerOrganizations - returns a list of all organizations that the account is an officer of
@@ -16,33 +15,12 @@ Exported Functions: fnInitSessionData - sets the variables necessary to run othe
                 fnCreateAnnouncement - creates announcement based on parameterized data
 
 Contributors:
-	Jacob Losco - 01/24/23 - SP-341
+	Jacob Losco - 02/11/23 - SP-341
 
 ===================================================================+*/
 
 import { oFirestore, oAuthentication } from "./firebase-config";
-import { collection, getDocs, query, where} from "firebase/firestore";
-
-export var sInstitutionId;
-export var sAccountId;
-
-/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function: fnInitSessionData
-
-  Summary: sets the institution and account ids for database functions. MUST BE RUN BEFORE RUNNING OTHER DATABASE FUNCTIONS
-
-  Args: None
-
-  Returns: None
--------------------------------------------------------------------F*/
-export async function fnInitSessionData() {
-    fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A").then(result => {
-        sInstitutionId = result;
-        fnGetUserAccount(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A").then(result => {
-            sAccountId = result;
-        })
-    })
-}
+import { collection, getDocs, query, where, doc, getDoc, addDoc, Timestamp, updateDoc, deleteDoc} from "firebase/firestore";
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: fnGetInstitution
@@ -64,7 +42,6 @@ async function fnGetInstitution(sUserEmail) {
             return "Error No Documents";
         }
     } else {
-        
         return "Error Invalid Login";
     }
 }
@@ -79,6 +56,7 @@ async function fnGetInstitution(sUserEmail) {
   Returns: String - the firestore document id of the account
 -------------------------------------------------------------------F*/
 async function fnGetUserAccount(sUserEmail) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
     if(sUserEmail != "N/A") {
         const oAccountRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts"), where("account_email", "==", sUserEmail));
         const oAccountDocs = await getDocs(oAccountRefs);
@@ -102,10 +80,12 @@ async function fnGetUserAccount(sUserEmail) {
   Returns: [{}] - list of organization data
 -------------------------------------------------------------------F*/
 export async function fnGetOfficerOrganizations() {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    let sAccountId = await fnGetUserAccount(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
     const aoOrganizationData = []
     const oAccountRelationshipRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", sAccountId, "Relationships"), where("relationship_type", "==", 0), where("relationship_status", "==", 2));
     const oAccountRelationshipDocs = await getDocs(oAccountRelationshipRefs);
-    const aoOrganizationDictionary = await fnGetOrganizationDictionary();
+    const aoOrganizationDictionary = await fnGetOrganizationDictionary(sInstitutionId);
     oAccountRelationshipDocs.docs.forEach(oAccountRelationshipDoc => {
         const oAccountRelationshipData = oAccountRelationshipDoc.data();
         aoOrganizationData.push({
@@ -125,7 +105,7 @@ export async function fnGetOfficerOrganizations() {
 
   Returns: { documentReference -> {}} - organization data dictionary
 -------------------------------------------------------------------F*/
-async function fnGetOrganizationDictionary() {
+async function fnGetOrganizationDictionary(sInstitutionId) {
     const aoOrganizationDictionary = {}
     const oOrganizationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations"));
     const oOrganizationDocs = await getDocs(oOrganizationRefs);
@@ -149,9 +129,10 @@ async function fnGetOrganizationDictionary() {
   Returns: [{}] - list of event data
 -------------------------------------------------------------------F*/
 export async function fnGetOrganizationEvents(sOrganizationId) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
     const oEventRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events"));
     const oEventDocs = await getDocs(oEventRefs);
-    return oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data() }));
+    return oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data(), event_id: oEventDoc.id }));
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -164,6 +145,7 @@ export async function fnGetOrganizationEvents(sOrganizationId) {
   Returns: [{}] - list of officer data
 -------------------------------------------------------------------F*/
 export async function fnGetOrganizationOfficers(sOrganizationId) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
     const aoOfficerData = [];
     const oOrganizationRef = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId);
     const oOrganizationDoc = await getDoc(oOrganizationRef);
@@ -180,7 +162,7 @@ export async function fnGetOrganizationOfficers(sOrganizationId) {
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function: fnGetRequests
+  Function: fnGetEventRequests
 
   Summary: returns a list of objects that contain information on all events that have a pending status
 
@@ -189,19 +171,141 @@ export async function fnGetOrganizationOfficers(sOrganizationId) {
   Returns: [{}] - list of event data
 -------------------------------------------------------------------F*/
 export async function fnGetEventRequests() {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
     const aoRequestData = [];
     const oOrganizationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations"));
     const oOrganizationDocs = await getDocs(oOrganizationRefs);
     for(const oOrganizationDoc of oOrganizationDocs.docs) {
         const oEventRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", oOrganizationDoc.id, "Events"), where("event_status", "==", 1));
         const oEventDocs = await getDocs(oEventRefs);
-        aoRequestData.push(oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data() })));
+        aoRequestData.push(oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data(), event_id: oEventDoc.id, host_id: oOrganizationDoc.id })));
     }
     return aoRequestData;
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function: fnGetReports
+  Function: fnHandleEventRequest
+
+  Summary: Updates the status of an event based on user input
+
+  Args: sEventId - the document id of the event being updated
+    bApproved - true if the event is approved, false otherwise
+
+  Returns: None if successful, error message if failure
+-------------------------------------------------------------------F*/
+export async function fnHandleEventRequest(sOrganizationId, sEventId, bApproved) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    try {
+        const oEventDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events", sEventId);
+        updateDoc(oEventDoc, {
+            event_status: bApproved ? 2 : 3,
+        });
+    } catch (error) {
+        console.error("Error editing document: ", error);
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnGetAnnouncementRequests
+
+  Summary: returns a list of objects that contain information on all announcements that have a pending status
+
+  Args: None
+
+  Returns: [{}] - list of announcement data
+-------------------------------------------------------------------F*/
+export async function fnGetAnnouncementRequests() {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    const aoRequestData = [];
+    const oOrganizationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations"));
+    const oOrganizationDocs = await getDocs(oOrganizationRefs);
+    for(const oOrganizationDoc of oOrganizationDocs.docs) {
+        const oAnnouncementRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", oOrganizationDoc.id, "Announcements"), where("announcement_status", "==", 1));
+        const oAnnouncementDocs = await getDocs(oAnnouncementRefs);
+        aoRequestData.push(oAnnouncementDocs.docs.map((oAnnouncementDoc) => ({ ...oAnnouncementDoc.data(), announcement_id: oAnnouncementDoc.id, host_id: oOrganizationDoc.id })));
+    }
+    return aoRequestData;
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnHandleAnnouncementRequest
+
+  Summary: Updates the status of an announcement based on user input
+
+  Args: sOrganizationId: the id of the organization associated with the request 
+    sAnnouncementId - the document id of the announcement being updated
+    bApproved - true if the event is approved, false otherwise
+
+  Returns: None if successful, error message if failure
+-------------------------------------------------------------------F*/
+export async function fnHandleAnnouncementRequest(sOrganizationId, sAnnouncementId, bApproved) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    try {
+        const oAnnouncementDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Announcement", sAnnouncementId);
+        updateDoc(oAnnouncementDoc, {
+            announcement_status: bApproved ? 2 : 3,
+        });
+    } catch (error) {
+        console.error("Error editing document: ", error);
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnGetOfficerRequests
+
+  Summary: returns a list of objects that contain information on all officers that have a pending status
+
+  Args: None
+
+  Returns: [{}] - list of account data
+-------------------------------------------------------------------F*/
+export async function fnGetOfficerRequests() {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    const aoRequestData = [];
+    const oAccountRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts"));
+    const oAccountDocs = await getDocs(oAccountRefs);
+    for (const oAccountDoc of oAccountDocs.docs) {
+        const oAccountData = oAccountDoc.data();
+        const oRelationshipRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", oAccountDoc.id, "Relationships"), where("relationship_type", "==", 0), where("relationship_status", "==", 1));
+        const oRelationshipDocs = await getDocs(oRelationshipRefs);
+        console.log(oRelationshipDocs.docs.length);
+        if(oRelationshipDocs.docs.length > 0) {
+            for(const oRelationshipDoc of oRelationshipDocs.docs) {
+                const oRelationshipData = oRelationshipDoc.data();
+                const oOrganizationDoc = await getDoc(oRelationshipData["relationship_org"]);
+                const oOrganizationData = oOrganizationDoc.data();
+                aoRequestData.push({ account_name: oAccountData["account_email"], account_id: oAccountDoc.id, organization_name: oOrganizationData["organization_name"], officer_relationship_id: oRelationshipDoc.id })
+            }
+        }
+    }
+    return aoRequestData;
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnHandleOfficerRequest
+
+  Summary: Updates the status of an officer based on user input
+
+  Args: sAccountId - the document id of the account being updated
+    sRelationshipId - the document id of the officer relationship being approved
+    bApproved - true if the officer is approved, false otherwise
+
+  Returns: None if successful, error message if failure
+-------------------------------------------------------------------F*/
+export async function fnHandleOfficerRequest(sAccountId, sRelationshipId, bApproved) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    try {
+        const oRelationshipDoc = doc(oFirestore, "Institutions", sInstitutionId, "Accounts", sAccountId, "Relationships", sRelationshipId);
+        updateDoc(oRelationshipDoc, {
+            relationship_status: bApproved ? 2 : 3,
+        });
+    } catch (error) {
+        console.error("Error editing document: ", error);
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnGetEventReports
 
   Summary: returns a list of objects that contain information on all events that have at least one report made
 
@@ -210,6 +314,7 @@ export async function fnGetEventRequests() {
   Returns: [{}] - list of event data
 -------------------------------------------------------------------F*/
 export async function fnGetEventReports() {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
     const aoReportData = [];
     const oOrganizationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations"));
     const oOrganizationDocs = await getDocs(oOrganizationRefs);
@@ -219,6 +324,35 @@ export async function fnGetEventReports() {
         aoReportData.push(oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data() })));
     }
     return aoReportData;
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnHandleEventReport
+
+  Summary: Updates the status of an event based on user input
+
+  Args: sOrganizationId - the document id of the organization with the event
+    sEventId - the document id of the event being updated
+    bToBeRemoved - true if the event needs to be removed, false otherwise
+
+  Returns: None if successful, error message if failure
+-------------------------------------------------------------------F*/
+export async function fnHandleEventReport(sOrganizationId, sEventId, bToBeRemoved) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    try {
+        const oEventDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events", sEventId);
+        if (bToBeRemoved) {
+            updateDoc(oEventDoc, {
+                event_status: 4,
+            });
+        } else {
+            updateDoc(oEventDoc, {
+                event_reports: 0,
+            });
+        }
+    } catch (error) {
+        console.error("Error editing document: ", error);
+    }
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -238,25 +372,26 @@ export async function fnGetEventReports() {
   Returns: None if successful, error message if failue
 -------------------------------------------------------------------F*/
 export async function fnCreateEvent(sOrganizationId, oNewEvent) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
     if(oNewEvent.event_description !== null &&
         oNewEvent.event_name !== null &&
         oNewEvent.event_status !== null &&
         oNewEvent.event_timestamp !== null &&
         oNewEvent.event_location !== null) {
-            const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oNewEvent.location);
-            const oLocationDoc = getDoc(oLocationRef);
+            const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oNewEvent.event_location);
+            const oLocationDoc = await getDoc(oLocationRef);
             try {
-                const newDocRef = await addDoc(collection(db, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events"), {
+                const newDocRef = await addDoc(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events"), {
                   event_name: oNewEvent.event_name,
                   event_description: oNewEvent.event_description,
                   event_status: oNewEvent.event_status,
-                  event_timestamp: oNewEvent.event_timestamp,
+                  event_timestamp: Timestamp.fromDate(oNewEvent.event_timestamp),
                   event_location: oLocationDoc.ref,
                   event_likes: 0,
                   event_reports: 0   
                 });
             } catch (error) {
-                console.error("Error adding document: ", e);
+                console.error("Error adding document: ", error);
             }
     } else {
         return "Error: invalid object parameter";
@@ -269,7 +404,7 @@ export async function fnCreateEvent(sOrganizationId, oNewEvent) {
   Summary: Creates an announcement in database based off of passed in information
 
   Args: sOrganizationId - a string the contains the id for the current organization
-    oNewEvent - an object that contains all of the information about
+    oNewAnnouncement - an object that contains all of the information about
     the new announcement, it should be organized as follows:
         announcement_message - string
         announcement_status - 0 if private, 1 if public (int)
@@ -278,19 +413,118 @@ export async function fnCreateEvent(sOrganizationId, oNewEvent) {
   Returns: None if successful, error message if failue
 -------------------------------------------------------------------F*/
 export async function fnCreateAnnouncement(sOrganizationId, oNewAnnouncement) {
-    if(oNewEvent.announcement_message !== null &&
-        oNewEvent.announcement_status !== null &&
-        oNewEvent.announcement_timestamp !== null) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    if(oNewAnnouncement.announcement_message !== null &&
+        oNewAnnouncement.announcement_status !== null &&
+        oNewAnnouncement.announcement_timestamp !== null) {
             try {
-                const newDocRef = await addDoc(collection(db, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Announcements"), {
+                const newDocRef = await addDoc(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Announcements"), {
                   announcement_name: oNewAnnouncement.announcement_message,
                   announcement_status: oNewAnnouncement.announcement_status,
-                  announcement_timestamp: oNewAnnouncement.announcement_timestamp
+                  announcement_timestamp: Timestamp.fromDate(oNewAnnouncement.announcement_timestamp)
                 });
             } catch (error) {
-                console.error("Error adding document: ", e);
+                console.error("Error adding document: ", error);
             }
     } else {
         return "Error: invalid object parameter";
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnUpdateEvent
+
+  Summary: Updates an event in database based off of passed in information
+
+  Args: sOrganizationId - a string the contains the id for the current organization
+    sEventId - a string that contains the id of the event being updated
+    oNewEvent - an object that contains all of the information about
+    the new event, it should be organized as follows:
+        event_description - string
+        event_name - string
+        event_status - 0 if private, 1 if public (int)
+        event_timestamp - timestamp
+        event_location - id of location chosen (string)
+
+  Returns: None if successful, error message if failue
+-------------------------------------------------------------------F*/
+export async function fnUpdateEvent(sOrganizationId, sEventId, oNewEvent) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    if(oNewEvent.event_description !== null &&
+        oNewEvent.event_name !== null &&
+        oNewEvent.event_status !== null &&
+        oNewEvent.event_timestamp !== null &&
+        oNewEvent.event_location !== null) {
+            const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oNewEvent.event_location);
+            const oLocationDoc = await getDoc(oLocationRef);
+            try {
+                const oEventDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events", sEventId);
+                updateDoc(oEventDoc, {
+                    event_name: oNewEvent.event_name,
+                    event_description: oNewEvent.event_description,
+                    event_status: oNewEvent.event_status,
+                    event_timestamp: Timestamp.fromDate(oNewEvent.event_timestamp),
+                    event_location: oLocationDoc.ref,
+                });
+            } catch (error) {
+                console.error("Error adding document: ", error);
+            }
+    } else {
+        return "Error: invalid object parameter";
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnAddOfficer
+
+  Summary: Creates a officer relationship between an account and the current organization
+
+  Args: sOrganizationId - a string the contains the id for the current organization
+    sAccountEmail - an email meant to link to an account
+
+  Returns: None if successful, error message if failue
+-------------------------------------------------------------------F*/
+export async function fnAddOfficer(sOrganizationId, sAccountEmail) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    const oAccountRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts"), where("account_email", "==", sAccountEmail));
+    const oAccountDocs = await getDocs(oAccountRefs);
+    if(oAccountDocs.docs.length > 0) {
+        const sAccountId = oAccountDocs.docs[0].id;
+        try {
+            const newDocRef = await addDoc(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", sAccountId, "Relationships"), {
+                relationship_org: doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId),
+                relationship_status: 1,
+                relationship_type: 0
+            });
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
+    } else {
+        return "Error Invalid Email";
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnRemoveOfficer
+
+  Summary: Deletes an officer relationship between an account and the current organization
+
+  Args: sOrganizationId - a string the contains the id for the current organization
+    sAccountEmail - an email meant to link to an account
+
+  Returns: None if successful, error message if failue
+-------------------------------------------------------------------F*/
+export async function fnRemoveOfficer(sOrganizationId, sAccountEmail) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    const oOrganizationRef = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId)
+    const oAccountRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts"), where("account_email", "==", sAccountEmail));
+    const oAccountDocs = await getDocs(oAccountRefs);
+    if(oAccountDocs.docs.length > 0) {
+        const sAccountId = oAccountDocs.docs[0].id;
+        const oRelationshipRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", sAccountId, "Relationships"), where("relationship_org", "==", oOrganizationRef), where("relationship_type", "==", 0));
+        const oRelationshipDocs = await getDocs(oRelationshipRefs);
+        await deleteDoc(oRelationshipDocs.docs[0].ref);
+    } else {
+        return "Error No Account for Email";
     }
 }

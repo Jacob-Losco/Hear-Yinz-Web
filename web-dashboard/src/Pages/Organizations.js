@@ -17,7 +17,27 @@ import React from "react";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import './OrgList.css'      
+import React, { useState } from 'react';
+import { useEffect } from 'react';  
+import { fnGetOfficerOrganizations } from '../DBFunctions';
+import { onAuthStateChanged } from 'firebase/auth';
+import { oAuthentication } from '../firebase-config';
+
 export default function Organizations() {
+
+    useEffect(() => {
+        const fnUpdateOrganizations = async () => {
+            let oOrgs = await fnGetOfficerOrganizations();
+            //set state variable to the oOrgs HERE
+        }
+
+        onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
+            if(oCurrentUser != null) {
+              fnUpdateOrganizations()
+            }
+          });
+      }, []);
+
     return(
       <Box sx={{ m: 9 }} >
         <Grid container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
