@@ -17,7 +17,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import './OrgList.css'      
 import { useEffect } from 'react';  
-import { fnGetOfficerOrganizations } from '../DBFunctions';
+import { fnGetOfficerOrganizations, fnGetOrganizationDictionary } from '../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
 
@@ -34,6 +34,11 @@ export default function Organizations() {
               fnUpdateOrganizations()
             }
           });
+        const getOrganizationDictionary = async() = {
+          let oId = await fnGetOrganizationDictionary();
+          //id=array
+          //name = underneath the img
+        }
       }, []);
 
     return(
