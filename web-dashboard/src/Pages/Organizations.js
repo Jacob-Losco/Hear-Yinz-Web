@@ -23,36 +23,46 @@ import { oAuthentication } from '../firebase-config';
 
 export default function Organizations() {
 
+  const [iCountOrganizations, setiCountOrganizations] = useState(0);
+
     useEffect(() => {
         const fnUpdateOrganizations = async () => {
             let oOrgs = await fnGetOfficerOrganizations();
-            console.log(oOrgs)
-            //set state variable to the oOrgs HERE
+            setiCountOrganizations(oOrgs.length)
+          console.log(oOrgs);
+          console.log(iCountOrganizations)
         }
+        const oGetOrgName = async () => {
+          try {
+              const oOrgName = await fnGetOrganizationDictionary(
+                  oOrgID, 
+                  oOrgName 
+              );
+          } 
+          catch (error) {
+              console.log(error.message);
+
+          }
+      }
 
         onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
             if(oCurrentUser != null) {
               fnUpdateOrganizations()
             }
           });
-        const getOrganizationDictionary = async() = {
-          let oId = await fnGetOrganizationDictionary();
-          //id=array
-          //name = underneath the img
-        }
       }, []);
 
     return(
       <Box sx={{ m: 9 }} >
         <Grid container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
-        {Array.from(Array(10)).map((_, index) => (
+        {Array.from(Array({iCountOrganizations})).map((_, index) => (
           // Array updates dynamically
           <Grid  textAlign='center' item xs={5} sm={4} md={3} key={index}>
             <div>
               <img className="img" src='/Recources/Exmpl1' width={150} height={150} />
               {/* switches based on function */}
             </div>
-            <div>Organization Name</div>
+            <div>{oOrgID}</div>
             {/* switches based on function */}
           </Grid>
         ))}
