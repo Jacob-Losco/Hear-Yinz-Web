@@ -26,6 +26,7 @@ export default function Organizations() {
     useEffect(() => {
         const fnUpdateOrganizations = async () => {
             let oOrgs = await fnGetOfficerOrganizations();
+            console.log(oOrgs)
             //set state variable to the oOrgs HERE
         }
 
