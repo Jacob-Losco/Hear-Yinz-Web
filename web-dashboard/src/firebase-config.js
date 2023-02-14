@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { getAuth } from "firebase/auth"
+import { getStorage } from "firebase/storage";
 require("dotenv").config();
 
 const oFirebaseConfig = {
@@ -15,5 +16,6 @@ const oFirebaseConfig = {
 
   const oFirebaseApp = initializeApp(oFirebaseConfig);
 
-  export const oFirestore = getFirestore()
-  export const oAuthentication = getAuth(oFirebaseApp)
+  export const oFirestore = getFirestore();
+  export const oAuthentication = getAuth(oFirebaseApp);
+  export const oStorage = getStorage(oFirebaseApp, "gs://hear-yinz.appspot.com/");
