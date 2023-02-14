@@ -23,28 +23,25 @@ import { oAuthentication } from '../firebase-config';
 
 export default function Organizations() {
 
-  const [iCountOrganizations, setiCountOrganizations] = useState(0);
+  const [iCountOrganizations] = useState(0);
+  const [iNameOrganizations] = useState('');
 
     useEffect(() => {
         const fnUpdateOrganizations = async () => {
-            let oOrgs = await fnGetOfficerOrganizations();
-            setiCountOrganizations(oOrgs.length)
-          console.log(oOrgs);
-          console.log(iCountOrganizations)
+            let oOrgsNameAndID = await fnGetOfficerOrganizations(
+              iCountOrganizations, 
+              iNameOrganizations
+            );
+          console.log(oOrgsNameAndID);
+          document.getElementById("loop").innerHTML = oOrgsNameAndID;
+          // //console.log(oOrgsNameAndID[0]);
+          // console.log(iCountOrganizations); 
+          // console.log(iNameOrganizations);
+          // // setiNameOrganizations(oOrgsNameAndID[0])
+          // console.log(oOrgsNameAndID.length)
+          // setiNameOrganizations(oOrgsNameAndID[1])
+
         }
-        const oGetOrgName = async () => {
-          try {
-              const oOrgName = await fnGetOrganizationDictionary(
-                  oOrgID, 
-                  oOrgName 
-              );
-          } 
-          catch (error) {
-              console.log(error.message);
-
-          }
-      }
-
         onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
             if(oCurrentUser != null) {
               fnUpdateOrganizations()
@@ -62,7 +59,7 @@ export default function Organizations() {
               <img className="img" src='/Recources/Exmpl1' width={150} height={150} />
               {/* switches based on function */}
             </div>
-            <div>{oOrgID}</div>
+            <div id = 'loop'></div>
             {/* switches based on function */}
           </Grid>
         ))}
