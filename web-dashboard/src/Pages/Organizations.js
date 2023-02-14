@@ -9,10 +9,13 @@ Exported Functions: Organizations
 
 Contributors:
 	Philip Pavlick - 02/2/23 - SP-263
+    Sam Merlin - 02/10/23
 
 ===================================================================+*/
-
 import React, { useState } from 'react';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import './OrgList.css'      
 import { useEffect } from 'react';  
 import { fnGetOfficerOrganizations } from '../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -35,10 +38,19 @@ export default function Organizations() {
       }, []);
 
     return(
-        // used to query the organization page
-        <div className="OrganizationPage">  
-            <h>Welcome Organizations</h>
-            <p>Sample text from Organizations page.</p>
-        </div>
-    );
-}
+      <Box sx={{ m: 9 }} >
+        <Grid container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
+        {Array.from(Array(10)).map((_, index) => (
+          // Array updates dynamically
+          <Grid  textAlign='center' item xs={5} sm={4} md={3} key={index}>
+            <div>
+              <img className="img" src='/Recources/Exmpl1' width={150} height={150} />
+              {/* switches based on function */}
+            </div>
+            <div>Organization Name</div>
+            {/* switches based on function */}
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  )};

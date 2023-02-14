@@ -1,0 +1,4 @@
+.leftNavigation {
+    display: flex;
+    position: Absolute; right: 150px;
+}
