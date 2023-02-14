@@ -56,8 +56,6 @@ import {
       const fnDisplayReports = async () => {
           let oReports = await fnGetEventReports();
           setiCountReports(oReports.length)
-          console.log(oReports);
-          console.log(iCountReports)
       }
 
       onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
