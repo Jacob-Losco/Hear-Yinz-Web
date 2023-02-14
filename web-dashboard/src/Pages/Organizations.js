@@ -10,7 +10,6 @@ Exported Functions: Organizations
 Contributors:
 	Philip Pavlick - 02/2/23 - SP-263
     Sam Merlin - 02/10/23
-
 ===================================================================+*/
 import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
@@ -23,24 +22,13 @@ import { oAuthentication } from '../firebase-config';
 
 export default function Organizations() {
 
-  const [iCountOrganizations] = useState(0);
-  const [iNameOrganizations] = useState('');
+  const [iOrganizations, setiOrganizations] = useState([]);
 
     useEffect(() => {
         const fnUpdateOrganizations = async () => {
-            let oOrgsNameAndID = await fnGetOfficerOrganizations(
-              iCountOrganizations, 
-              iNameOrganizations
-            );
-          console.log(oOrgsNameAndID);
-          document.getElementById("loop").innerHTML = oOrgsNameAndID;
-          // //console.log(oOrgsNameAndID[0]);
-          // console.log(iCountOrganizations); 
-          // console.log(iNameOrganizations);
-          // // setiNameOrganizations(oOrgsNameAndID[0])
-          // console.log(oOrgsNameAndID.length)
-          // setiNameOrganizations(oOrgsNameAndID[1])
-
+            let oOrgs = await fnGetOfficerOrganizations();
+            console.log(oOrgs);
+            setiOrganizations(oOrgs)
         }
         onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
             if(oCurrentUser != null) {
@@ -52,15 +40,12 @@ export default function Organizations() {
     return(
       <Box sx={{ m: 9 }} >
         <Grid container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
-        {Array.from(Array({iCountOrganizations})).map((_, index) => (
-          // Array updates dynamically
-          <Grid  textAlign='center' item xs={5} sm={4} md={3} key={index}>
+        {iOrganizations.map(iOrganization => (
+          <Grid  textAlign='center' item xs={5} sm={4} md={3} key={iOrganization.id}>
             <div>
               <img className="img" src='/Recources/Exmpl1' width={150} height={150} />
-              {/* switches based on function */}
             </div>
-            <div id = 'loop'></div>
-            {/* switches based on function */}
+            <div>{iOrganization.name}</div>
           </Grid>
         ))}
       </Grid>
