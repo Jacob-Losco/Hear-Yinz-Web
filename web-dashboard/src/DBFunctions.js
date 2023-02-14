@@ -468,9 +468,30 @@ export async function fnUpdateEvent(sOrganizationId, sEventId, oNewEvent) {
                 });
             } catch (error) {
                 console.error("Error adding document: ", error);
+                return "Error adding document";
             }
     } else {
         return "Error: invalid object parameter";
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnDeleteEvent
+
+  Summary: Deletes an event from the database
+
+  Args: sOrganizationId - the document id of the organization
+    sEventId - the document id of the event
+
+  Returns: None if successful, error message if failue
+-------------------------------------------------------------------F*/
+export async function fnDeleteEvent(sOrganizationId, sEventId) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    try {
+        await deleteDoc(doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events", sEventId));
+    } catch (error) {
+        console.error("Error deleting document: ", error);
+        return "Error deleting document: ";
     }
 }
 
