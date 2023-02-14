@@ -19,7 +19,8 @@ Contributors:
 
 ===================================================================+*/
 
-import { oFirestore, oAuthentication } from "./firebase-config";
+import { ref, getDownloadURL } from "firebase/storage";
+import { oFirestore, oAuthentication, oStorage } from "./firebase-config";
 import { collection, getDocs, query, where, doc, getDoc, addDoc, Timestamp, updateDoc, deleteDoc} from "firebase/firestore";
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -90,7 +91,9 @@ export async function fnGetOfficerOrganizations() {
         const oAccountRelationshipData = oAccountRelationshipDoc.data();
         aoOrganizationData.push({
             id : aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["id"],
-            name: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["name"]
+            name: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["name"],
+            image: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["image"],
+            lastedit: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["lastedit"]
         });
     });
     return aoOrganizationData;
@@ -106,17 +109,29 @@ export async function fnGetOfficerOrganizations() {
   Returns: { documentReference -> {}} - organization data dictionary
 -------------------------------------------------------------------F*/
 async function fnGetOrganizationDictionary(sInstitutionId) {
-    const aoOrganizationDictionary = {}
+    const aoOrganizationDictionary = {};
     const oOrganizationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations"));
     const oOrganizationDocs = await getDocs(oOrganizationRefs);
-    oOrganizationDocs.docs.forEach(oOrganizationDoc => {
-        const oOrganizationData = oOrganizationDoc.data();
-        aoOrganizationDictionary[oOrganizationDoc.ref] = {
-            id: oOrganizationDoc.id,
-            name: oOrganizationData["organization_name"]
+    for(var i = 0; i < oOrganizationDocs.docs.length; i++) {
+        const oOrganizationData = oOrganizationDocs.docs[i].data();
+        const oInstitutionReference = ref(oStorage, "images/" + sInstitutionId + "/" + sInstitutionId + ".png");
+        var oOrganizationImage = await fnGetImage(oInstitutionReference);
+        aoOrganizationDictionary[oOrganizationDocs.docs[i].ref] = {
+            id: oOrganizationDocs.docs[i].id,
+            name: oOrganizationData["organization_name"],
+            image: oOrganizationImage,
+            lastedit: oOrganizationData["organization_lastedit"]
         };
-    });
+    }
     return aoOrganizationDictionary;
+}
+
+async function fnGetImage(oReference) {
+    try {
+        return Promise.resolve(getDownloadURL(oReference));
+    } catch {
+        return null;
+    }
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -268,7 +283,6 @@ export async function fnGetOfficerRequests() {
         const oAccountData = oAccountDoc.data();
         const oRelationshipRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", oAccountDoc.id, "Relationships"), where("relationship_type", "==", 0), where("relationship_status", "==", 1));
         const oRelationshipDocs = await getDocs(oRelationshipRefs);
-        console.log(oRelationshipDocs.docs.length);
         if(oRelationshipDocs.docs.length > 0) {
             for(const oRelationshipDoc of oRelationshipDocs.docs) {
                 const oRelationshipData = oRelationshipDoc.data();
