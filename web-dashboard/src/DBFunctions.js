@@ -72,6 +72,34 @@ async function fnGetUserAccount(sUserEmail) {
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnGetUserRole
+
+  Summary: returns and int the indicates the role of the authenticated user, or indicates of a user is not authenticated
+
+  Args: None
+
+  Returns: Int - indicator of the user's highest level role in the system
+    -1 - not logged in
+    0 - standard user
+    1 - officer
+    2 - administrator
+-------------------------------------------------------------------F*/
+export async function fnGetUserRole() {
+    if(oAuthentication.currentUser) {
+        let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser.email);
+        let sAccountId = await fnGetUserAccount(oAuthentication.currentUser.email);
+        try {
+            const oAccountDoc = await getDoc(doc(oFirestore, "Institutions", sInstitutionId, "Accounts", sAccountId));
+            return oAccountDoc.data()["account_role"];
+        } catch (error) {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: fnGetOfficerOrganizations
 
   Summary: returns a list of objects that contain basic information for all of the organizations that this account is an officer of
