@@ -83,7 +83,7 @@ import {
               </div>
               <div className='Reports'>
                 <NavLink to="Reports" >Reports</NavLink>
-                <div className='notification'>{iCountReports}</div>
+                <div title='ReportNotification' className='notification'>{iCountReports}</div>
               </div>
           </nav>
           <div className='rightNavbar'>

@@ -66,7 +66,7 @@ function Login() {
       </div>
       <br></br>
       <br></br>
-      <button className = 'btn' onClick={fnLogin} >Log in</button>
+      <button className = 'btn' data-testid="SignInSubmit" onClick={fnLogin} >Log in</button>
       <p id ='Message'></p>
       </div>
   </div> 
