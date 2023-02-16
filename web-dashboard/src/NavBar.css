@@ -41,7 +41,7 @@ nav {
 
 .leftNavbar a {
     justify-content: left;
-    padding-left: 15px;
+    padding-left: 25px;
     color: white;
     text-decoration: none;
     
@@ -53,6 +53,18 @@ nav {
 
 
 .notification  {
+    margin: auto;
+    display: inline-block;
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    background-color: rgb(204, 0, 0);
+    border-radius: 50%;
+    text-align: center;
+    font-size: small;
+}
+
+.RequestNotification  {
     margin: auto;
     display: inline-block;
     position: absolute;

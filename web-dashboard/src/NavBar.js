@@ -28,11 +28,12 @@ import {
   import './NavBar.css';
   import logo from './Recources/HearYinzLogo.png'
   import { fnGetUserRole } from './DBFunctions';
-  import { fnGetEventReports } from './DBFunctions'
+  import { fnGetEventReports, fnGetEventRequests, fnGetOfficerRequests, fnGetAnnouncementRequests } from './DBFunctions'
   import { fnLogout } from './LoginFunctions';
   
   function NavBar() {
     const [iCountReports, setiCountReports] = useState(0);
+    const [iCountRequests, setiCountRequests] = useState(0);
     const [iUserRole, setUserRole] = useState(-1);
 
     const navigate = useNavigate();
@@ -41,11 +42,21 @@ import {
       const error = await fnLogout();
     }
 
+
     useEffect(() => {
       const fnDisplayReports = async () => {
           let oReports = await fnGetEventReports();
+          console.log(oReports)
           setiCountReports(oReports.length);
       }
+
+      const fnDisplayRequests = async () => {
+        let oRequests = await fnGetEventRequests();
+        let oOfficers = await fnGetOfficerRequests();
+        let oEvents = await fnGetAnnouncementRequests();
+        console.log(oRequests);
+        setiCountRequests(oRequests.length + oOfficers.length + oEvents.length);
+    }
 
       const fnSetUserRole = async () => {
         setUserRole(await fnGetUserRole());
@@ -55,6 +66,7 @@ import {
         if(oCurrentUser != null) {
           fnSetUserRole();
           fnDisplayReports();
+          fnDisplayRequests();
           navigate("/Organizations");
         } else {
           fnSetUserRole();
@@ -80,6 +92,7 @@ import {
           {iUserRole > 1 ? (
               <div className='Requests'>
                 <NavLink to="Requests" >Requests</NavLink>
+                <div className='RequestNotification'>{iCountRequests}</div>
               </div>
           ) : (
             <div />
