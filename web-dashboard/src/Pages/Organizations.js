@@ -24,22 +24,21 @@ export default function Organizations() {
 
   const [iOrganizations, setiOrganizations] = useState([]);
 
-    useEffect(() => {
-        const fnUpdateOrganizations = async () => {
-            let oOrgs = await fnGetOfficerOrganizations();
-            console.log(oOrgs);
-            setiOrganizations(oOrgs)
-        }
-        onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
-            if(oCurrentUser != null) {
-              fnUpdateOrganizations()
-            }
-          });
-         }, []);
+  useEffect(() => {
+    const fnUpdateOrganizations = async () => {
+      let oOrgs = await fnGetOfficerOrganizations();
+      setiOrganizations(oOrgs)
+    }
+    onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
+      if(oCurrentUser != null) {
+        fnUpdateOrganizations()
+      }
+    });
+  }, []);
 
-    return(
-      <Box sx={{ m: 9 }} >
-        <Grid container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
+  return(
+    <Box sx={{ m: 9 }} >
+      <Grid container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
         {iOrganizations.map(iOrganization => (
           <Grid  textAlign='center' item xs={5} sm={4} md={3} key={iOrganization.id}>
             <div>
@@ -50,4 +49,5 @@ export default function Organizations() {
         ))}
       </Grid>
     </Box>
-)};
+  )
+};

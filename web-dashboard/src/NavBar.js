@@ -18,7 +18,7 @@ import {
     useNavigate
   } from 'react-router-dom'
   import { useEffect, useState } from 'react';  
-  import { onAuthStateChanged, signOut } from 'firebase/auth';
+  import { onAuthStateChanged } from 'firebase/auth';
   import {oAuthentication} from './firebase-config';
   import Requests from './Pages/Requests'
   import Organizations from './Pages/Organizations';
@@ -27,46 +27,41 @@ import {
   import './font.css';
   import './NavBar.css';
   import logo from './Recources/HearYinzLogo.png'
-  import { fnInitSessionData, sInstitutionId } from './DBFunctions';
-  import { async } from '@firebase/util';
+  import { fnGetUserRole } from './DBFunctions';
   import { fnGetEventReports } from './DBFunctions'
+  import { fnLogout } from './LoginFunctions';
   
-
-
   function NavBar() {
-    const navigate = useNavigate();
-    useEffect(() => {
-      onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
-        if(oCurrentUser != null) {
-          navigate("/Organizations");
-        }
-        else {
-          navigate("/");
-        }
-      });
-    }, []);
-
-    const fnLogout = async () => {
-      await signOut(oAuthentication);
-    };
-
     const [iCountReports, setiCountReports] = useState(0);
+    const [iUserRole, setUserRole] = useState(-1);
+
+    const navigate = useNavigate();
+
+    const fnHandleLogout = async () => {
+      const error = await fnLogout();
+    }
 
     useEffect(() => {
       const fnDisplayReports = async () => {
           let oReports = await fnGetEventReports();
-          setiCountReports(oReports.length)
+          setiCountReports(oReports.length);
+      }
+
+      const fnSetUserRole = async () => {
+        setUserRole(await fnGetUserRole());
       }
 
       onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
         if(oCurrentUser != null) {
-          fnDisplayReports()
+          fnSetUserRole();
+          fnDisplayReports();
+          navigate("/Organizations");
+        } else {
+          fnSetUserRole();
+          navigate("/");
         }
       });
-
-  },[]);
-
-
+    },[]);
 
     return (
         <div className='PageContainer'>
@@ -75,19 +70,32 @@ import {
           <img src={logo} width={50} height={50} />
           </div>
           <nav>
-              <div className='Organizations'>
-                <NavLink to="Organizations" > Organizations</NavLink>
-              </div>
+          {iUserRole > -1 ? (
+            <div className='Organizations'>
+              <NavLink to="Organizations" > Organizations</NavLink>
+            </div>
+          ) : (
+            <div />
+          )}
+          {iUserRole > 1 ? (
               <div className='Requests'>
                 <NavLink to="Requests" >Requests</NavLink>
               </div>
-              <div className='Reports'>
-                <NavLink to="Reports" >Reports</NavLink>
-                <div className='notification'>{iCountReports}</div>
-              </div>
+          ) : (
+            <div />
+          )} 
+          {iUserRole > 1 ? (
+            <div className='Reports'>
+              <NavLink to="Reports" >Reports</NavLink>
+              <div className='notification'>{iCountReports}</div>
+            </div>
+          ) : (
+            <div />
+          )} 
+          
           </nav>
           <div className='rightNavbar'>
-              <button className="logoutButton" onClick={fnLogout} >Logout </button>
+              <button className="logoutButton" onClick={fnHandleLogout} >Logout </button>
           </div>
         </div>
               <Routes>
