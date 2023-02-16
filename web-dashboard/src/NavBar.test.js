@@ -94,7 +94,7 @@ test("Report Notification Count when user is signed in", async () => {
   const oInputElementEmail = screen.getByPlaceholderText(/email/i);
   const oInputElementPassword = screen.getByPlaceholderText(/password/i);
 
-  fireEvent.change(oInputElementEmail, { target: { value: "teststatic_officer@teststatic.edu"} });
+  fireEvent.change(oInputElementEmail, { target: { value: "teststatic_admin@teststatic.edu"} });
   fireEvent.change(oInputElementPassword, { target: { value: "test123"} });
   fireEvent.click(oSubmitButton);
 
