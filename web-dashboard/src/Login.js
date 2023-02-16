@@ -12,12 +12,11 @@ Contributors:
 
 ===================================================================+*/
 
-import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from 'react';
-import { oAuthentication } from './firebase-config';
 import '@fontsource/dm-sans';
 import './font.css';
 import './Login.css';
+import { fnLogin } from "./LoginFunctions";
 
 function Login() {
   const [sLoginEmail, fnSetLoginEmail] = useState("");
@@ -32,19 +31,13 @@ function Login() {
   
     Returns: None
   -------------------------------------------------------------------F*/
-  const fnLogin = async () => {
-      try {
-          const oUser = await signInWithEmailAndPassword(
-              oAuthentication, 
-              sLoginEmail, 
-              sLoginPassword
-          );
-      } 
-      catch (error) {
-          console.log(error.message);
-          const Message = document.getElementById('Message');
-          Message.innerHTML = "Invalid email, please enter an associated email or contact administration!";
-      }
+  const fnHandleLogin = async () => {
+    const error = await fnLogin(sLoginEmail, sLoginPassword);
+    if(error) {
+      console.log(error.message);
+      const Message = document.getElementById('Message');
+      Message.innerHTML = "Invalid email, please enter an associated email or contact administration!";
+    }
   }
   
   return <div >
@@ -66,7 +59,7 @@ function Login() {
       </div>
       <br></br>
       <br></br>
-      <button className = 'btn' data-testid="SignInSubmit" onClick={fnLogin} >Log in</button>
+      <button className = 'btn' onClick={fnHandleLogin} >Log in</button>
       <p id ='Message'></p>
       </div>
   </div> 
