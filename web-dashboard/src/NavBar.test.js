@@ -1,8 +1,12 @@
 
 import React from 'react';
-import {render, screen} from '@testing-library/react';
+import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import NavBar from './NavBar'
+import NavBar from './NavBar';
+import Login from "./Login";
+import 'mutationobserver-shim';
+
+
 
 describe("NavBar naviation link testing", () => {
 
@@ -60,27 +64,88 @@ describe("NavBar naviation link testing", () => {
 
 
 
-// describe("Report Notifications"), () => {
+describe("Report Notifications", () => {
 
-//   test("Report notification renders", async () => {
-//     render(<NavBar />, { wrapper: BrowserRouter });
-//     const organizationsLink = screen.getByText("Organizations");
-//     expect(organizationsLink).toBeInTheDocument();
-//     expect(organizationsLink.href).toContain("/Organizations");
-// });
 
-// test(" Report Notification Count when signed in ", async () => {
+    /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Test: Report Notification testing
+
+      Target: Navbar report notification
+
+      Assertions: report notification bubble can be seen when an admin user who has outstanding reports signs in
+
+      Writer: Phil Pavlick
+    -------------------------------------------------------------------T*/
+
+test("Report Notification Count when user is signed in", async () => {
+    
+    
+  render(
+    <NavBar />, 
+    { wrapper: BrowserRouter},
+    <Login
+    button
+    fnSetLoginEmail={()=>{}}
+    LoginPassword={[]}
+    fnSetLoginPassword={()=>{}}/>
+    );
+    
+  const oSubmitButton = screen.getByRole('button',{name: /log in/i}); 
+  const oInputElementEmail = screen.getByPlaceholderText(/email/i);
+  const oInputElementPassword = screen.getByPlaceholderText(/password/i);
+
+  fireEvent.change(oInputElementEmail, { target: { value: "teststatic_admin@teststatic.edu"} });
+  fireEvent.change(oInputElementPassword, { target: { value: "test123"} });
+  fireEvent.click(oSubmitButton);
+
+  const oReportNotification = await waitFor( () => screen.findByText("3"), { timeout: 8000 }); // Timeout might have to be toggled. findByText is required for async queries. 
+  expect(oReportNotification).toBeInTheDocument();
+
+});
+
+
+
+
+});
+
+
+
+// test is important as it shows how to use toHaveTextContent 
+
+//   test("Reports Notification Exists", async () => {
 //   render(<NavBar />, { wrapper: BrowserRouter });
-//   const organizationsLink = screen.getByText("Organizations");
-//   expect(organizationsLink).toBeInTheDocument();
-//   expect(organizationsLink.href).toContain("/Organizations");
+
+//   const number = screen.getByTitle("ReportNotification");
+//   const oReportNotification = screen.getByTitle("ReportNotification", {name: 0});
+//   expect(number).toHaveTextContent(0);   // 
 // });
 
-// test(" Report Notification count when signed out  ", async () => {
-//   render(<NavBar />, { wrapper: BrowserRouter });
-//   const organizationsLink = screen.getByText("Organizations");
-//   expect(organizationsLink).toBeInTheDocument();
-//   expect(organizationsLink.href).toContain("/Organizations");
-// });
 
-// }
+
+// test("Report Notification Count when user not sign in", async () => {
+    
+    
+//   render(
+//     <NavBar />, 
+//     { wrapper: BrowserRouter},
+//     <Login
+//     button
+//     fnSetLoginEmail={()=>{}}
+//     LoginPassword={[]}
+//     fnSetLoginPassword={()=>{}}/>
+//     );
+    
+//   //const oSubmitButton = screen.getByRole('button',{name: /log in/i});
+//   const oInputElementEmail = screen.getByPlaceholderText(/email/i);
+//   const oInputElementPassword = screen.getByPlaceholderText(/password/i);
+//   const oSignOutButton = screen.getByRole('button', {name: /logout/i});
+
+//   fireEvent.change(oInputElementEmail, { target: { value: "l"} });
+//   fireEvent.change(oInputElementPassword, { target: { value: "l"} });
+//   fireEvent.click(oSignOutButton);
+//  // fireEvent.click(oSubmitButton);
+
+// //   const oReportNotification = await waitFor( () => screen.findByText("0")); // should be 3
+// //  const NewoReportNotification = await waitFor( () => screen.findByText("0"), { timeout: 8000 });
+// //   expect(oReportNotification).toBeInTheDocument();
+// //  expect(NewoReportNotification).toBeInTheDocument();
