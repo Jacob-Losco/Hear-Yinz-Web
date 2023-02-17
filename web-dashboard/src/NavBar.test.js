@@ -1,10 +1,15 @@
 
 import React from 'react';
-import {render, screen, fireEvent, waitFor} from '@testing-library/react';
+import {render, screen, fireEvent, waitFor, cleanup} from '@testing-library/react';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { oAuthentication } from "./firebase-config";
 import { BrowserRouter } from 'react-router-dom';
 import NavBar from './NavBar';
 import Login from "./Login";
+import { fnLogout } from './LoginFunctions';
 import 'mutationobserver-shim';
+
+afterEach(cleanup);
 
 
 
@@ -80,26 +85,28 @@ describe("Report Notifications", () => {
 test("Report Notification Count when user is signed in", async () => {
     
     
-  // render(
-  //   <NavBar />, 
-  //   { wrapper: BrowserRouter},
-  //   <Login
-  //   button
-  //   fnSetLoginEmail={()=>{}}
-  //   LoginPassword={[]}
-  //   fnSetLoginPassword={()=>{}}/>
-  //   );
+  render(
+    <NavBar />, 
+    { wrapper: BrowserRouter},
+    <Login
+    button
+    fnSetLoginEmail={()=>{}}
+    LoginPassword={[]}
+    fnSetLoginPassword={()=>{}}/>
+    );
     
-  // const oSubmitButton = screen.getByRole('button',{name: /log in/i}); 
-  // const oInputElementEmail = screen.getByPlaceholderText(/email/i);
-  // const oInputElementPassword = screen.getByPlaceholderText(/password/i);
+  const oSubmitButton = screen.getByRole('button',{name: /log in/i}); 
+  const oInputElementEmail = screen.getByPlaceholderText(/email/i);
+  const oInputElementPassword = screen.getByPlaceholderText(/password/i);
 
-  // fireEvent.change(oInputElementEmail, { target: { value: "teststatic_admin@teststatic.edu"} });
-  // fireEvent.change(oInputElementPassword, { target: { value: "test123"} });
-  // fireEvent.click(oSubmitButton);
+  fireEvent.change(oInputElementEmail, { target: { value: "teststatic_admin@teststatic.edu"} });
+  fireEvent.change(oInputElementPassword, { target: { value: "test123"} });
+  fireEvent.click(oSubmitButton);
 
-  // const oReportNotification = await waitFor( () => screen.findByText("3"), { timeout: 8000 }); // Timeout might have to be toggled. findByText is required for async queries. 
-  // expect(oReportNotification).toBeInTheDocument();
+  const oReportNotification = await waitFor( () => screen.findByText("3"), { timeout: 8000 }); // Timeout might have to be toggled. findByText is required for async queries. 
+  expect(oReportNotification).toBeInTheDocument();
+  await fnLogout();
+
 
 });
 
