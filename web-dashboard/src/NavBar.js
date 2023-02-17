@@ -46,7 +46,7 @@ import {
     useEffect(() => {
       const fnDisplayReports = async () => {
           let oReports = await fnGetEventReports();
-          console.log(oReports)
+          // console.log(oReports)
           setiCountReports(oReports.length);
       }
 
@@ -54,7 +54,7 @@ import {
         let oRequests = await fnGetEventRequests();
         let oOfficers = await fnGetOfficerRequests();
         let oEvents = await fnGetAnnouncementRequests();
-        console.log(oRequests);
+        // console.log(oRequests);
         setiCountRequests(oRequests.length + oOfficers.length + oEvents.length);
     }
 
