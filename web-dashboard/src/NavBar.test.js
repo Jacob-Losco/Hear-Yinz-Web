@@ -148,6 +148,47 @@ describe("NavBar naviation link testing", () => {
 
       const oReportNotification = await waitFor( () => screen.findByText("3"), { timeout: 8000 }); // Timeout might have to be toggled. findByText is required for async queries. 
       expect(oReportNotification).toBeInTheDocument();
-
+      await fnLogout();
     });
 });
+
+
+describe ("Request Notifiaction", async () => {
+
+  
+  //     /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //       Test: Request Notification testing
+  
+  //       Target: Navbar Request notification
+  
+  //       Assertions: Request notification bubble can be seen when an admin user who has outstanding Request is logged in.
+  
+  //       Writer: Phil Pavlick
+  //     -------------------------------------------------------------------T*/
+  
+    test ("Request Notification Count when user is signed in", async () => {
+  
+      render(
+        <NavBar />, 
+        { wrapper: BrowserRouter},
+        <Login
+        button
+        fnSetLoginEmail={()=>{}}
+        LoginPassword={[]}
+        fnSetLoginPassword={()=>{}}/>
+        );
+        
+      const oSubmitButton = screen.getByRole('button',{name: /log in/i}); 
+      const oInputElementEmail = screen.getByPlaceholderText(/email/i);
+      const oInputElementPassword = screen.getByPlaceholderText(/password/i);
+    
+      fireEvent.change(oInputElementEmail, { target: { value: "teststatic_admin@teststatic.edu"} });
+      fireEvent.change(oInputElementPassword, { target: { value: "test123"} });
+      fireEvent.click(oSubmitButton);
+    
+      const oReportNotification = await waitFor( () => screen.findByText("7"), { timeout: 11000 }); // Timeout might have to be toggled. findByText is required for async queries. 
+      expect(oReportNotification).toBeInTheDocument();
+  
+    });
+  
+  });
