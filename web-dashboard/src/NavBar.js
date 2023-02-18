@@ -38,15 +38,22 @@ import {
 
     const navigate = useNavigate();
 
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnHandleLogout
+  
+    Summary: logouts out a user using associated Auth Function
+  
+    Args: None
+  
+    Returns: None
+  -------------------------------------------------------------------F*/
     const fnHandleLogout = async () => {
       const error = await fnLogout();
     }
 
-
     useEffect(() => {
       const fnDisplayReports = async () => {
           let oReports = await fnGetEventReports();
-      //    console.log(oReports)
           setiCountReports(oReports.length);
       }
 
@@ -54,7 +61,6 @@ import {
         let oRequests = await fnGetEventRequests();
         let oOfficers = await fnGetOfficerRequests();
         let oEvents = await fnGetAnnouncementRequests();
-      //  console.log(oRequests);
         setiCountRequests(oRequests.length + oOfficers.length + oEvents.length);
     }
 

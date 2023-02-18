@@ -29,6 +29,7 @@ export default function Organizations() {
       let oOrgs = await fnGetOfficerOrganizations();
       setiOrganizations(oOrgs)
     }
+    
     onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
       if(oCurrentUser != null) {
         fnUpdateOrganizations()
