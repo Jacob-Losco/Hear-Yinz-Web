@@ -1,22 +1,20 @@
 /*+===================================================================
 File: NavBar.js
-Summary: Creates the NavBar function by using router components. 
-Checks the status of the uses and navigates valid users to the Organizations page where they can navigate
-to the Reports page, the Requests page and Logout page.
-Exported Data Structures: None
-Exported Functions: NavBar
-Contributors:
-	Philip Pavlick - 02/2/23 - SP-263
+
+  Summary: Creates the navigation bar routes and links. 
+  Checks the status of the user and returns nav bar functionality to the nav bar according to the users role.
+
+  Exported Data Structures: None
+
+  Exported Functions: NavBar
+
+  Contributors:
+	  Philip Pavlick - 02/2/23 - SP-263
+    Philip Pavlick - 02/16/23 - SP-435,447
 ===================================================================+*/
 
 import React from 'react';
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-    NavLink,
-    useNavigate
-  } from 'react-router-dom'
+import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
   import { useEffect, useState } from 'react';  
   import { onAuthStateChanged } from 'firebase/auth';
   import {oAuthentication} from './firebase-config';
