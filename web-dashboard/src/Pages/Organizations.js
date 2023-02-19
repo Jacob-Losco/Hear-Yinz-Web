@@ -37,10 +37,11 @@ export default function Organizations() {
   }, []);
 
   return(
-    <Box sx={{ m: 9 }} >
-      <Grid container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
+    <Box sx={{ m: 9 }} className='OrgName'>
+      <div className='leftNavigation'></div>
+      <Grid className='OrgName' container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
         {iOrganizations.map(iOrganization => (
-          <Grid  textAlign='center' item xs={5} sm={4} md={3} key={iOrganization.id}>
+          <Grid  className='OrgName' textAlign='center' item xs={5} sm={4} md={3} key={iOrganization.id}>
             <div>
               <img className='img' src={iOrganization.img} width={150} height={150} />
             </div>
