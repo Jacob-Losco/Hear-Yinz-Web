@@ -100,7 +100,7 @@ import {
         </div>
               <Routes>
                 <Route path='/' element={<Login />}/>
-                <Route path="/Organizations" element={<Organizations /> }/>
+                <Route path="/Organizations/*" element={<Organizations /> }/>
                 <Route path="/Requests" element={<Requests /> }/>
                 <Route path="/Reports" element={<Reports />} />s
               </Routes>
