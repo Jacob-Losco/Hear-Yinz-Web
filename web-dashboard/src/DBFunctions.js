@@ -19,8 +19,8 @@ Contributors:
 
 ===================================================================+*/
 
-import { ref, getDownloadURL } from "firebase/storage";
-import { oFirestore, oAuthentication, oStorage } from "./firebase-config";
+import { getDownloadURL, ref } from "firebase/storage";
+import { oAuthentication, oFirestore, oStorage } from "./firebase-config";
 import { collection, getDocs, query, where, doc, getDoc, addDoc, Timestamp, updateDoc, deleteDoc} from "firebase/firestore";
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -104,26 +104,49 @@ export async function fnGetUserRole() {
 
   Summary: returns a list of objects that contain basic information for all of the organizations that this account is an officer of
 
-  Args: None
+  Args: iAccountRole - the role of the user
+    -1 - not logged in
+    0 - standard user
+    1 - officer
+    2 - administrator
 
   Returns: [{}] - list of organization data
 -------------------------------------------------------------------F*/
 export async function fnGetOfficerOrganizations() {
-    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
-    let sAccountId = await fnGetUserAccount(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
     const aoOrganizationData = []
-    const oAccountRelationshipRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", sAccountId, "Relationships"), where("relationship_type", "==", 0), where("relationship_status", "==", 2));
-    const oAccountRelationshipDocs = await getDocs(oAccountRelationshipRefs);
-    const aoOrganizationDictionary = await fnGetOrganizationDictionary(sInstitutionId);
-    oAccountRelationshipDocs.docs.forEach(oAccountRelationshipDoc => {
-        const oAccountRelationshipData = oAccountRelationshipDoc.data();
-        aoOrganizationData.push({
-            id : aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["id"],
-            name: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["name"],
-            image: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["image"],
-            lastedit: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["lastedit"]
-        });
-    });
+    let iAccountRole = await fnGetUserRole();
+    if(iAccountRole > 0) {
+        let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+        if(iAccountRole == 1) {
+            let sAccountId = await fnGetUserAccount(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+            const oAccountRelationshipRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", sAccountId, "Relationships"), where("relationship_type", "==", 0), where("relationship_status", "==", 2));
+            const oAccountRelationshipDocs = await getDocs(oAccountRelationshipRefs);
+            const aoOrganizationDictionary = await fnGetOrganizationDictionary(sInstitutionId);
+            oAccountRelationshipDocs.docs.forEach(oAccountRelationshipDoc => {
+                const oAccountRelationshipData = oAccountRelationshipDoc.data();
+                aoOrganizationData.push({
+                    id : aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["id"],
+                    name: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["name"],
+                    image: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["image"],
+                    lastedit: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["lastedit"]
+                });
+            });
+        } else if (iAccountRole == 2) {
+            const oOrganizationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations"));
+            const oOrganizationDocs = await getDocs(oOrganizationRefs);
+            for(var i = 0; i < oOrganizationDocs.docs.length; i++) {
+                const oOrganizationData = oOrganizationDocs.docs[i].data();
+                const oInstitutionReference = ref(oStorage, "images/" + sInstitutionId + "/" + sInstitutionId + ".png");
+                var oOrganizationImage = await fnGetImage(oInstitutionReference);
+                aoOrganizationData.push ({
+                    id: oOrganizationDocs.docs[i].id,
+                    name: oOrganizationData["organization_name"],
+                    image: oOrganizationImage,
+                    lastedit: oOrganizationData["organization_lastedit"]
+                });
+            }
+        }
+    }
     return aoOrganizationData;
 }
 
@@ -363,7 +386,11 @@ export async function fnGetEventReports() {
     for(const oOrganizationDoc of oOrganizationDocs.docs) {
         const oEventRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", oOrganizationDoc.id, "Events"), where("event_reports", ">", 0));
         const oEventDocs = await getDocs(oEventRefs);
-        aoReportData.push(oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data() })));
+        if(oEventDocs.docs.length > 0) {
+            for(const oEventDoc of oEventDocs.docs) {
+                aoReportData.push(oEventDoc.data());
+            }
+        }
     }
     return aoReportData;
 }

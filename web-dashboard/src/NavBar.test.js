@@ -1,8 +1,6 @@
 
 import React from 'react';
 import {render, screen, fireEvent, waitFor, cleanup} from '@testing-library/react';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { oAuthentication } from "./firebase-config";
 import { BrowserRouter } from 'react-router-dom';
 import NavBar from './NavBar';
 import Login from "./Login";
@@ -146,7 +144,7 @@ describe("NavBar naviation link testing", () => {
       fireEvent.change(oInputElementPassword, { target: { value: "test123"} });
       fireEvent.click(oSubmitButton);
 
-      const oReportNotification = await waitFor( () => screen.findByText("3"), { timeout: 8000 }); // Timeout might have to be toggled. findByText is required for async queries. 
+      const oReportNotification = await waitFor( () => screen.findByText("2"), { timeout: 8000 }); // Timeout might have to be toggled. findByText is required for async queries. 
       expect(oReportNotification).toBeInTheDocument();
       await fnLogout();
     });
