@@ -1,5 +1,5 @@
 import React from 'react';
-export default function OrgEventsPage() {
+export default function Officers() {
     return(
         <div className="Requests">
             <h>Welcome Requests</h>
