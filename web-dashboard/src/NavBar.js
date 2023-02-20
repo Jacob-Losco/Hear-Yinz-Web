@@ -19,6 +19,7 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
   import { onAuthStateChanged } from 'firebase/auth';
   import {oAuthentication} from './firebase-config';
   import Requests from './Pages/Requests'
+  import AdminEvents from './Pages/AdminEvents'
   import Organizations from './Pages/Organizations';
   import Reports from './Pages/Reports';
   import Login from './Login';
@@ -111,6 +112,7 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
           )} 
           
           </nav>
+          
           <div className='rightNavbar'>
               <button className="logoutButton" onClick={fnHandleLogout} >Logout </button>
           </div>
@@ -118,8 +120,8 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
               <Routes>
                 <Route path='/' element={<Login />}/>
                 <Route path="/Organizations" element={<Organizations /> }/>
-                <Route path="/Requests" element={<Requests /> }/>
-                <Route path="/Reports" element={<Reports />} />s
+                <Route path="/Requests/*" element={<Requests /> }/>
+                <Route path="/Reports" element={<Reports />} />
               </Routes>
         </div>
 
