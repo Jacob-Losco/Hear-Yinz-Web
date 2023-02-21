@@ -1,4 +1,16 @@
+/*+===================================================================
+File: AdminEvents.js
 
+Summary: Host content for Admin Events page
+
+Exported Data Structures: None
+
+Exported Functions: AdminEvents
+
+Contributors:
+	Philip Pavlick - 02/18/23 - SP-312
+
+===================================================================+*/
 
 import React from 'react';
 

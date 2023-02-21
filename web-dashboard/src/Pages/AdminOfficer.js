@@ -1,3 +1,17 @@
+/*+===================================================================
+File: AdminOfficer.js
+
+Summary: Host content for Admin Officers page
+
+Exported Data Structures: None
+
+Exported Functions: AdminOfficer
+
+Contributors:
+	Philip Pavlick - 02/18/23 - SP-312
+
+===================================================================+*/
+
 import React from 'react';
 
 

@@ -1,7 +1,7 @@
 /*+===================================================================
 File: Requests.js
 
-Summary: Hosts Requests page information
+Summary: Container page that routes Requests sub navigation and displays sub navbar.
 
 Exported Data Structures: None
 
@@ -9,6 +9,7 @@ Exported Functions: Requests
 
 Contributors:
 	Philip Pavlick - 02/2/23 - SP-263
+    Philip Pavlick - 02/18/23 - SP-312
 
 ===================================================================+*/
 
