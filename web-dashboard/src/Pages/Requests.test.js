@@ -4,7 +4,21 @@ import { BrowserRouter } from 'react-router-dom';
 
 import Requests from "./Requests"
 
+
 describe("Request Naviagtion testing", () => {
+
+
+    
+    /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Test: Requests Events page sub navigation link testing
+
+      Target: Requests
+
+      Assertions: link for requests can be seen in Requests sub Navbar
+        link takes user to /Requests/Events
+
+      Writer: Philip Pavlick - 2/20/23 - SP 313
+    -------------------------------------------------------------------T*/
 
     test("AdminEvent Navigation Testing ", async () => {
         render(
@@ -17,6 +31,16 @@ describe("Request Naviagtion testing", () => {
 
 
     
+    /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Test: Requests Officer page sub navigation link testing
+
+      Target: Requests
+
+      Assertions: link for requests Officer can be seen in Requests sub Navbar
+        link takes user to /Requests/Officer
+
+      Writer: Philip Pavlick - 2/20/23 - SP 313
+    -------------------------------------------------------------------T*/
     
     });
 
@@ -31,6 +55,16 @@ describe("Request Naviagtion testing", () => {
 
 
     
+    /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Test: Requests Annoucement page sub navigation link testing
+
+      Target: Requests
+
+      Assertions: link for requests Annoucement can be seen in Requests sub Navbar
+        link takes user to /Requests/Annoucement
+
+      Writer: Philip Pavlick - 2/20/23 - SP 313
+    -------------------------------------------------------------------T*/
     
     });
 
