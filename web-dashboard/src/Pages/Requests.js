@@ -12,12 +12,34 @@ Contributors:
 
 ===================================================================+*/
 
+
 import React from 'react';
+import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
+import AdminEvents from './AdminEvents';
+import AdminAnnouncement from './AdminAnnouncement';
+import AdminOfficer from './AdminOfficer';
+
+import '../font.css';
+import './Requests.css'
+
+
 export default function Requests() {
     return(
         <div className="Requests">
-            <h>Welcome Requests</h>
-            <p>Sample test from Requests page.</p>
+            <div className='RequestNavigation'>
+                <NavLink to="Events"> Events</NavLink>
+                <NavLink to="Announcements"> Announcements</NavLink>
+                <NavLink to="Officers"> Officer</NavLink>
+            </div>
+
+            <Routes>
+                
+                <Route path='/Events' element={<AdminEvents/>} />
+                <Route path='/Announcements' element={<AdminAnnouncement/>} />
+                <Route path='/Officers' element={<AdminOfficer/>}/>
+            </Routes>
+
         </div>
+        
     );
 }
