@@ -1,5 +1,9 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom'
+import {NavLink, Route, Routes} from 'react-router-dom'
+import OrgE from './OrgE';
+import OrgAnn from './OrgAnn';
+import OrgAU from './OrgAU';
+import OrgOff from './OrgOff';
 import './OrgList.css'
 
 export default function Events() {
@@ -11,6 +15,14 @@ export default function Events() {
                 <NavLink to="Announcements"> Announcements</NavLink>
                 <NavLink to="Officers"> Officer</NavLink>
             </div>
+            <div>
+                <Routes>
+                    <Route path='/Events' element={<OrgE/>} />
+                    <Route path='/AboutUs' element={<OrgAU/>} />
+                    <Route path='/Announcements' element={<OrgAnn/>} />
+                    <Route path='/Officers' element={<OrgOff/>}/>
+                </Routes>
+              </div>
         </div>
     );
 }

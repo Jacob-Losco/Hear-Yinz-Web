@@ -24,6 +24,7 @@ import {
   import Organizations from './Pages/Organizations';
   import Reports from './Pages/Reports';
   import Login from './Login';
+  import OrgE from './Pages/OrgE';
   import './font.css';
   import './NavBar.css';
   import logo from './Recources/HearYinzLogo.png'
@@ -100,7 +101,8 @@ import {
         </div>
               <Routes>
                 <Route path='/' element={<Login />}/>
-                <Route path="/Organizations/*" element={<Organizations /> }/>
+                <Route path="/Organizations" element={<Organizations /> }/>
+                <Route path="Organizations/Events/*" element={<OrgE /> }/>
                 <Route path="/Requests" element={<Requests /> }/>
                 <Route path="/Reports" element={<Reports />} />s
               </Routes>

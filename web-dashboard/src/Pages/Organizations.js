@@ -17,10 +17,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import './OrgList.css'      
 import {Link, Route, Routes} from 'react-router-dom';
-import OrgE from './OrgE';
-import OrgAnn from './OrgAnn';
-import OrgAU from './OrgAU';
-import OrgOff from './OrgOff';
+
 
 import { useEffect } from 'react';  
 import { fnGetOfficerOrganizations} from '../DBFunctions';
@@ -54,14 +51,6 @@ export default function Organizations() {
             </div>
             </Button>
             <div>{iOrganization.name}</div>
-              <div>
-                <Routes>
-                    <Route path='/Events' element={<OrgE/>} />
-                    <Route path='/AboutUs' element={<OrgAU/>} />
-                    <Route path='/Announcements' element={<OrgAnn/>} />
-                    <Route path='/Officers' element={<OrgOff/>}/>
-                </Routes>
-              </div>
           </Grid>
         ))}
       </Grid>
