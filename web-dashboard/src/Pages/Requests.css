@@ -1,0 +1,23 @@
+
+
+
+.RequestNavigation {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    word-spacing: 7px;
+    
+    text-decoration: none;
+    justify-content: center;
+}
+
+.RequestNavigation a {
+    padding-left: 60px;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+.RequestNavigation a.active {
+    font-weight: bold;
+
+}

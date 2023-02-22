@@ -1,27 +1,4 @@
-
-.OrgNameHeader{
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.OrgNavigation {
+.leftNavigation {
     display: flex;
-    align-items: center;
-    height: 60px;
-    word-spacing: 7px;
-    
-    text-decoration: none;
-    justify-content: center;
-}
-
-.OrgNavigation a {
-    padding-left: 60px;
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-}
-
-.OrgNavigation a.active {
-    font-weight: bold;
-
+    position: Absolute; right: 150px;
 }
