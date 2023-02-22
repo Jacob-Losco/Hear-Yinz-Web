@@ -21,10 +21,11 @@ import {
   import { onAuthStateChanged } from 'firebase/auth';
   import {oAuthentication} from './firebase-config';
   import Requests from './Pages/Requests'
-  import Organizations from './Pages/Organizations';
+  import Organizations from './Pages/OrganizationList';
+  
   import Reports from './Pages/Reports';
   import Login from './Login';
-  import OrgE from './Pages/OrgE';
+  import OrganizationsPage from './Pages/OrganizationsPage';
   import './font.css';
   import './NavBar.css';
   import logo from './Recources/HearYinzLogo.png'
@@ -102,7 +103,7 @@ import {
               <Routes>
                 <Route path='/' element={<Login />}/>
                 <Route path="/Organizations" element={<Organizations /> }/>
-                <Route path="Organizations/Events/*" element={<OrgE /> }/>
+                <Route path="Organizations/OrgPage/*" element={<OrganizationsPage /> }/>
                 <Route path="/Requests" element={<Requests /> }/>
                 <Route path="/Reports" element={<Reports />} />s
               </Routes>
