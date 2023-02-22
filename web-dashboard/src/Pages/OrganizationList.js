@@ -11,7 +11,7 @@ Contributors:
 	Philip Pavlick - 02/2/23 - SP-263
   Sam Merlin - 02/10/23
 ===================================================================+*/
-import React, { useState } from 'react';
+import React, { useState, Component } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -37,13 +37,13 @@ export default function Organizations() {
       }
     });
   }, []);
-
+  
   return(
     <Box sx={{ m: 9 }} >
       <Grid container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
         {iOrganizations.map(iOrganization => (
           <Grid  textAlign='center' item xs={5} sm={4} md={3} key={iOrganization.id}>
-            <Button component={Link} to ="OrgPage">
+            <Button component={Link} to ="OrgPage" state={{name:iOrganization.name}}>
             <div>
               <img className='img' src={iOrganization.img} width={150} height={150} />
             </div>

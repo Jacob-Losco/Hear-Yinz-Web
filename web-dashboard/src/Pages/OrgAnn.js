@@ -12,7 +12,10 @@ Contributors:
 
 ===================================================================+*/
 import React from 'react';
+import {useLocation} from 'react-router-dom'
 export default function Announcements() {
+    const location = useLocation()
+    const { name } = location.state
     return(
         <div>
             <h>Welcome Announcements</h>
