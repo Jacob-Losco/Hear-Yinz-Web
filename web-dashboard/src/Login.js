@@ -23,7 +23,7 @@ function Login() {
   const [sLoginPassword, fnSetLoginPassword] = useState("");
 
   /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    Function: fnHandleLogin
+    Function: fnLogin
   
     Summary: authenticates user from firebase authentication based on current set email and password, or rejects them and prints an error message
   

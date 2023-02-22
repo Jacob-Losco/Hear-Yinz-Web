@@ -1,20 +1,21 @@
 /*+===================================================================
-File: Requests.js
+File: OrgAnn.js
 
-Summary: Container page that routes Requests sub navigation and displays sub navbar.
+Summary: A holder page for the organization events page
 
 Exported Data Structures: None
 
-Exported Functions: Requests
+Exported Functions: Events
 
 Contributors:
-	Philip Pavlick - 02/2/23 - SP-263
-    Philip Pavlick - 02/18/23 - SP-312
+    Sam Merlin 2/21/2023 - SP 269
 
 ===================================================================+*/
-
 import React from 'react';
-export default function Requests() {
+import {useLocation} from 'react-router-dom'
+export default function Events() {
+    const location = useLocation()
+    const { name } = location.state
     return(
         <div className="Requests">
             <h>Welcome Requests</h>
