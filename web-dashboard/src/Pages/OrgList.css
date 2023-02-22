@@ -1,4 +1,23 @@
-.leftNavigation {
+
+
+
+.OrgNavigation {
     display: flex;
-    position: Absolute; right: 150px;
+    align-items: center;
+    height: 60px;
+    word-spacing: 7px;
+    
+    text-decoration: none;
+    justify-content: center;
+}
+
+.OrgNavigation a {
+    padding-left: 60px;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+.OrgNavigation a.active {
+    font-weight: bold;
+
 }
