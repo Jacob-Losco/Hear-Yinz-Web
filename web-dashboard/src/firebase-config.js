@@ -1,3 +1,19 @@
+/*+===================================================================
+File: firebase-config.js
+
+Summary: Configures and intitialize firebase functionality
+
+Exported Data Structures: oFirestore - object for accessing firestore database
+  oAuthentication - object for using firebase authentication
+  oStorage - object for accessing firebase storage
+
+Exported Functions: None
+
+Contributors:
+	Jacob Losco - 02/17/23 - SP-475
+
+===================================================================+*/
+
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { getAuth } from "firebase/auth"
