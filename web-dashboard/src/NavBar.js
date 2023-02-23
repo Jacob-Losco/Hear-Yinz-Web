@@ -21,6 +21,7 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
   import Requests from './Pages/Requests'
   import AdminEvents from './Pages/AdminEvents'
   import Organizations from './Pages/Organizations';
+  import OrgPage from './Pages/OrgPage';
   import Reports from './Pages/Reports';
   import Login from './Login';
   import './font.css';
@@ -120,6 +121,7 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
               <Routes>
                 <Route path='/' element={<Login />}/>
                 <Route path="/Organizations" element={<Organizations /> }/>
+                <Route path="Organizations/OrgPage/*" element={<OrgPage /> }/>
                 <Route path="/Requests/*" element={<Requests /> }/>
                 <Route path="/Reports" element={<Reports />} />
               </Routes>
