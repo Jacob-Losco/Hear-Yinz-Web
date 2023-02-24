@@ -13,6 +13,7 @@ Exported Functions: fnInitSessionData - sets the variables necessary to run othe
                 fnGetEventReports - returns all events that have at least one report
                 fnCreateEvent - creates event based on parameterized data
                 fnCreateAnnouncement - creates announcement based on parameterized data
+                fnGetLocations - returns a list of all locations in the institution
 
 Contributors:
 	Jacob Losco - 02/11/23 - SP-341
@@ -617,4 +618,24 @@ export async function fnRemoveOfficer(sOrganizationId, sAccountEmail) {
     } else {
         return "Error No Account for Email";
     }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnGetLocations
+
+  Summary: Gets a list of all locations for institution user is logged into
+
+  Args: None
+
+  Returns: [{}] - list of objects with location data
+-------------------------------------------------------------------F*/
+export async function fnGetLocations() {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    aoLocationData = [];
+    const oLocationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Locations"));
+    const oLocationDocs = await getDocs(oLocationRefs);
+    for(const oLocationDoc of oLocationDocs.docs) {
+        aoLocationData.push(oLocationDoc.data());
+    }
+    return aoLocationData;
 }
