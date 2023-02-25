@@ -1,26 +1,61 @@
 /*+===================================================================
-File: AboutAnn.js
+File: OrgAnnouncementsForm.js
 
-Summary: A holder page for the organization Annoucements page
+Summary: Form for creating announcements for an organization
 
 Exported Data Structures: None
 
-Exported Functions: OrganizationAnnouncementsForm
+Exported Functions: None
 
 Contributors:
     Sam Merlin 2/21/2023 - SP 269
     Jacob Losco 2/25/2023 - SP 466
 
 ===================================================================+*/
-import React from 'react';
+import React, { useState } from 'react';
 import '@fontsource/dm-sans';
 import '../font.css';
 import './OrgAnnouncementsForm.css';
-import { useLocation } from 'react-router-dom'
+import { fnCreateAnnouncement } from '../DBFunctions';
+import {useLocation} from 'react-router-dom'
 
 export default function OrganizationAnnouncementsForm() {
-    const location = useLocation()
-    const data = location.state.data;
+
+    const [sAnnouncementMessage, fnSetAnnouncementMessage] = useState("");
+    const [sAnnouncementStatus, fnSetAnnouncementStatus] = useState("");
+    const oOrganization = useLocation().state.data;
+
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnHandleAnnouncementFormSubmit
+  
+    Summary: front end validates announcement form submission and handling submission to backend
+  
+    Args: None
+  
+    Returns: None
+    -------------------------------------------------------------------F*/
+    const fnHandleAnnouncementFormSubmit = async () => {
+        const oMessage = document.querySelector(".AnnouncementMessage");
+        if(sAnnouncementMessage == "" || sAnnouncementStatus == "") {
+            oMessage.innerHTML = "Invalid input. Please complete all form elements."
+        } else {
+            const error = await fnCreateAnnouncement(oOrganization.id, {
+                announcement_message: sAnnouncementMessage,
+                announcement_status: sAnnouncementStatus == "Public" ? 1 : 0,
+                announcement_timestamp: new Date()
+            });
+            if(error) {
+                oMessage.innerHTML = "Error creating announcement. Please try again later.";
+            } else {
+                document.querySelector(".AnnouncementTextInput").value = "";
+                document.querySelector(".AnnouncementPrivateRadio").checked = false;
+                document.querySelector(".AnnouncementPublicRadio").checked = false;
+                fnSetAnnouncementMessage("");
+                fnSetAnnouncementStatus("");
+                oMessage.innerHTML = "Successfully created announcement!";
+            }
+        }
+    }
 
     return(
         <div className="container">
@@ -30,23 +65,38 @@ export default function OrganizationAnnouncementsForm() {
                         <p className="AnnouncementLabel">Message:</p>
                     </div>
                     <div className="AnnouncementTextInputContainer">
-                        <textarea className="AnnouncementTextInput"></textarea>
+                        <textarea className="AnnouncementTextInput" onChange={(event) => {
+                            fnSetAnnouncementMessage(event.target.value);
+                        }}></textarea>
                     </div>    
                 </div>
                 <div className="AnnouncementRadioContainer">
                     <div className="AnnouncementPublicRadioContainer">
-                        <input type="radio" value="Public" className="AnnouncementPublicRadio" /> Public
+                        <input type="radio" value="Public" className="AnnouncementPublicRadio" onChange={(event) => {
+                            document.querySelector(".AnnouncementPrivateRadio").checked = false;
+                            fnSetAnnouncementStatus(event.target.value);
+                        }}/> Public
                     </div>
                     <div className="AnnouncementPrivateRadioContainer">
-                        <input type="radio" value="Private" className="AnnouncementPrivateRadio" /> Private (Followers Only)
+                        <input type="radio" value="Private" className="AnnouncementPrivateRadio" onChange={(event) => {
+                            document.querySelector(".AnnouncementPublicRadio").checked = false;
+                            fnSetAnnouncementStatus(event.target.value);
+                        }}/> Private (Followers Only)
                     </div>
                 </div>
                 <div className="AnnouncementButtonContainer">
                     <div className="AnnouncementCancelButtonContainer">
-                        <button className="AnnouncementCancelButton">Cancel</button>
+                        <button className="AnnouncementCancelButton" onClick={(event) => {
+                            document.querySelector(".AnnouncementTextInput").value = "";
+                            document.querySelector(".AnnouncementPrivateRadio").checked = false;
+                            document.querySelector(".AnnouncementPublicRadio").checked = false;
+                            document.querySelector(".AnnouncementMessage").innerHTML = "";
+                            fnSetAnnouncementMessage("");
+                            fnSetAnnouncementStatus("");
+                        }}>Cancel</button>
                     </div>
                     <div className="AnnouncementSubmitButtonContainer">
-                        <button className="AnnouncementSubmitButton">Submit</button>
+                        <button className="AnnouncementSubmitButton" onClick={fnHandleAnnouncementFormSubmit}>Submit</button>
                     </div>
                 </div>
                 <div className="AnnouncementMessageContainer">
