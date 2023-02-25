@@ -631,7 +631,7 @@ export async function fnRemoveOfficer(sOrganizationId, sAccountEmail) {
 -------------------------------------------------------------------F*/
 export async function fnGetLocations() {
     let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
-    aoLocationData = [];
+    var aoLocationData = [];
     const oLocationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Locations"));
     const oLocationDocs = await getDocs(oLocationRefs);
     for(const oLocationDoc of oLocationDocs.docs) {
