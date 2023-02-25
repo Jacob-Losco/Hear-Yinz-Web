@@ -488,13 +488,14 @@ export async function fnCreateAnnouncement(sOrganizationId, oNewAnnouncement) {
         oNewAnnouncement.announcement_status !== null &&
         oNewAnnouncement.announcement_timestamp !== null) {
             try {
-                const newDocRef = await addDoc(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Announcements"), {
+                await addDoc(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Announcements"), {
                   announcement_name: oNewAnnouncement.announcement_message,
                   announcement_status: oNewAnnouncement.announcement_status,
                   announcement_timestamp: Timestamp.fromDate(oNewAnnouncement.announcement_timestamp)
                 });
             } catch (error) {
                 console.error("Error adding document: ", error);
+                return "Error adding document...";
             }
     } else {
         return "Error: invalid object parameter";

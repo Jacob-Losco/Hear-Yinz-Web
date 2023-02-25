@@ -15,7 +15,7 @@ import React from 'react';
 import {NavLink, Route, Routes, useLocation} from 'react-router-dom'
 import OrgE from './OrgE';
 import Events from './OrgE';
-import OrgAnn from './OrgAnn';
+import OrganizationAnnouncementsForm from './OrgAnnouncementsForm'
 import OrgAU from './OrgAU';
 import OrgOff from './OrgOff';
 import './OrgList.css'
@@ -23,7 +23,7 @@ import './OrgList.css'
 export default function OrgPage(props) {
     const location = useLocation()
     const OrgInfo = location.state.data;
-    console.log(location.state)
+    console.log(OrgInfo);
     return(
         <div>
            <div className='OrgNameHeader'>{OrgInfo.name}</div>
@@ -38,10 +38,10 @@ export default function OrgPage(props) {
                 <Routes>
                     <Route path='/Events' element={<OrgE/>} />
                     <Route path='/AboutUs' element={<OrgAU/>} />
-                    <Route path='/Announcements' element={<OrgAnn/>} />
+                    <Route path='/Announcements' element={<OrganizationAnnouncementsForm/>} />
                     <Route path='/Officers' element={<OrgOff/>}/>
                 </Routes>
-              </div>
+            </div>
         </div>
     );
 }
