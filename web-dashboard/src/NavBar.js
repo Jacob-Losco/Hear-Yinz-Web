@@ -62,7 +62,7 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
         let oOfficers = await fnGetOfficerRequests();
         let oEvents = await fnGetAnnouncementRequests();
         setiCountRequests(oRequests.length + oOfficers.length + oEvents.length);
-    }
+      }
 
       const fnSetUserRole = async () => {
         setUserRole(await fnGetUserRole());

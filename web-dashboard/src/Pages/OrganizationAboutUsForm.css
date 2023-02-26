@@ -1,0 +1,113 @@
+.OrganizationAboutUsContainer {
+    display: flex;
+    justify-content: center;
+    height: 500px;
+    width: 100%;
+}
+
+.AboutUsFormContainer {
+    height: 100%;
+    width: 50%;
+}
+
+.AboutUsDataContainer {
+    display: flex;
+    justify-content: flex-end;
+    height: 50%;
+    width: 100%;
+}
+
+.AboutUsImageAndSpacersContainer {
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+    width: 50%;
+}
+
+.AboutUsImageAndSpacerContainer {
+    height: 100%;
+    width: 75%;
+}
+
+.AboutUsImageVerticalSpacerContainer {
+    height: 25%;
+    width: 100%;
+}
+
+.AboutUsImageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75%;
+}
+
+.AboutUsImage {
+    border-color: black;
+    height: 95%;
+    width: 95%;
+}
+
+.AboutUsImageHorizantalSpacerContainer {
+    height: 100%;
+    width: 35%;
+}
+
+.AboutUsUpdateContainer {
+    height: 100%;
+    width: 50%;
+}
+
+.AboutUsUpdateVerticalSpacerContainer {
+    height: 65%;
+    width: 100%;
+}
+
+.AboutUsUpdateDateContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 15%;
+    width: 100%;
+}
+
+.AboutUsUpdateButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 20%;
+    width: 100%;
+}
+
+.AboutUsUpdateButton {
+    background-color: rgb(230, 145, 56);
+    color: white;
+    width: 40%;
+    height: 50%;
+    border-radius: 20px;
+}
+
+.AboutUsTextInputContainer {
+    height: 50%;
+}
+
+.AboutUsLabelContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    height: 15%;
+}
+
+.AboutUsLabel {
+    font-size: 18px;
+}
+
+.AboutUsDescriptionContainer {
+    height: 85%;
+}
+
+.AboutUsDescription {
+    height: 100%;
+    width: 100%;
+    resize: none;
+}
+

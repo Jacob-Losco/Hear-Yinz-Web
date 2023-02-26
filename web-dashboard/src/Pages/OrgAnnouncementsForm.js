@@ -58,7 +58,7 @@ export default function OrganizationAnnouncementsForm() {
     }
 
     return(
-        <div className="container">
+        <div className="OrganizationAnnouncementsContainer">
             <div className="AnnouncementFormContainer">
                 <div className="AnnouncementTextAreaContainer">
                     <div className="AnnouncementLabelContainer">
