@@ -13,7 +13,7 @@
 .AboutUsDataContainer {
     display: flex;
     justify-content: flex-end;
-    height: 50%;
+    height: 40%;
     width: 100%;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .AboutUsImageVerticalSpacerContainer {
-    height: 25%;
+    height: 0%;
     width: 100%;
 }
 
@@ -38,7 +38,7 @@
     display: grid;
     justify-content: center;
     align-items: center;
-    height: 75%;
+    height: 100%;
 }
 
 .AboutUsImage, 
@@ -63,7 +63,7 @@
 }
 
 .AboutUsUpdateVerticalSpacerContainer {
-    height: 65%;
+    height: 50%;
     width: 100%;
 }
 
@@ -78,8 +78,8 @@
 .AboutUsUpdateButtonContainer {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    height: 20%;
+    align-items: flex-end;
+    height: 25%;
     width: 100%;
 }
 
@@ -114,4 +114,11 @@
     height: 100%;
     width: 100%;
     resize: none;
+}
+
+.AboutUsMessageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
 }

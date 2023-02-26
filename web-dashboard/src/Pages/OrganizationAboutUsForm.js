@@ -34,22 +34,32 @@ export default function OrganizationAboutUsForm() {
     },[]);
 
     const fnHandleAboutUsFormSubmission = async () => {
+        var success = false;
         if(oOrganizationImage) {
             const error = await fnUpdateOrganizationImage(oOrganizationImage, oOrganization.id);
             if(error) {
                 console.log(error);
+                success = false;
             }
             else {
                 console.log("Successfully uploaded image");
+                success = true;
             }
         }
         if(sOrganizationDescription != oOrganization.description) {
             const error = await fnUpdateOrganizationDescription(sOrganizationDescription, oOrganization.id);
             if(error) {
                 console.log(error);
+                success = false;
             } else {
                 console.log("Sucessfully updated description");
+                success = true;
             }
+        }
+        if(success) {
+            document.querySelector(".AboutUsMessage").innerHTML = "Organization successfully updated.";
+        } else {
+            document.querySelector(".AboutUsMessage").innerHTML = "Error updating organization information.";
         }
     }
 
@@ -88,6 +98,9 @@ export default function OrganizationAboutUsForm() {
                             fnSetOrganizationDescription(event.target.value);
                         }}></textarea>
                     </div>
+                </div>
+                <div className="AboutUsMessageContainer">
+                    <p className="AboutUsMessage"></p>
                 </div>
             </div>
         </div>
