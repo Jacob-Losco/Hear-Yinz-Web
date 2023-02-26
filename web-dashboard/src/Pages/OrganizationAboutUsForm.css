@@ -35,16 +35,21 @@
 }
 
 .AboutUsImageContainer {
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
     height: 75%;
 }
 
-.AboutUsImage {
+.AboutUsImage, 
+.AboutUsUploadImageButton {
+    grid-row: 1;
+    grid-column: 1;
     border-color: black;
     height: 95%;
     width: 95%;
+    background-color: rgb(0, 0, 0, 0);
+    cursor: pointer;
 }
 
 .AboutUsImageHorizantalSpacerContainer {
@@ -110,4 +115,3 @@
     width: 100%;
     resize: none;
 }
-

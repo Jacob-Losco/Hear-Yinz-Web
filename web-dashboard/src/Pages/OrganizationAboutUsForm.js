@@ -16,19 +16,42 @@ import '@fontsource/dm-sans';
 import '../font.css';
 import './OrganizationAboutUsForm.css';
 import { useLocation } from 'react-router-dom'
-import { Timestamp } from "firebase/firestore";
+import { fnUpdateOrganizationImage, fnUpdateOrganizationDescription } from '../DBFunctions';
 
 export default function OrganizationAboutUsForm() {
 
     const oOrganization = useLocation().state.data;
     const [sOrganizationImageLink, fnSetOrganizationImageLink] = useState("");
     const [sOrganizationDateLabel, fnSetOrganizationDate] = useState("");
+    const [sOrganizationDescription, fnSetOrganizationDescription] = useState("");
+    const [oOrganizationImage, fnSetOrganizationImage] = useState(null);
 
     useEffect(() => {
         fnSetOrganizationImageLink(oOrganization.image);
         const oLastEditTime = new Date(oOrganization.lastedit.seconds * 1000 + oOrganization.lastedit.nanoseconds / 1000000,);
         fnSetOrganizationDate(oLastEditTime.toDateString());
+        fnSetOrganizationDescription(oOrganization.description);
     },[]);
+
+    const fnHandleAboutUsFormSubmission = async () => {
+        if(oOrganizationImage) {
+            const error = await fnUpdateOrganizationImage(oOrganizationImage, oOrganization.id);
+            if(error) {
+                console.log(error);
+            }
+            else {
+                console.log("Successfully uploaded image");
+            }
+        }
+        if(sOrganizationDescription != oOrganization.description) {
+            const error = await fnUpdateOrganizationDescription(sOrganizationDescription, oOrganization.id);
+            if(error) {
+                console.log(error);
+            } else {
+                console.log("Sucessfully updated description");
+            }
+        }
+    }
 
     return(
         <div className="OrganizationAboutUsContainer">
@@ -39,6 +62,9 @@ export default function OrganizationAboutUsForm() {
                             <div className="AboutUsImageVerticalSpacerContainer" />
                             <div className="AboutUsImageContainer">
                                 <img className='AboutUsImage' src={sOrganizationImageLink} />
+                                <input type="file" accept=".png" className="AboutUsUploadImageButton" onChange={(event) => {
+                                    fnSetOrganizationImage(event.target.files[0]);
+                                }} />
                             </div>
                         </div>
                         <div className="AboutUsImageHorizantalSpacerContainer" />
@@ -49,7 +75,7 @@ export default function OrganizationAboutUsForm() {
                             <p className="AboutUsUpdateDate">Last edited on {sOrganizationDateLabel}</p>
                         </div>
                         <div className="AboutUsUpdateButtonContainer">
-                            <button className="AboutUsUpdateButton">Update</button>
+                            <button className="AboutUsUpdateButton" onClick={fnHandleAboutUsFormSubmission}>Update</button>
                         </div>
                     </div>
                 </div>
@@ -58,7 +84,9 @@ export default function OrganizationAboutUsForm() {
                         <p className="AboutUsLabel">Description:</p>
                     </div>
                     <div className="AboutUsDescriptionContainer">
-                        <textarea className="AboutUsDescription"></textarea>
+                        <textarea value={sOrganizationDescription} className="AboutUsDescription" onChange={(event) => {
+                            fnSetOrganizationDescription(event.target.value);
+                        }}></textarea>
                     </div>
                 </div>
             </div>
