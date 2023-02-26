@@ -1,14 +1,15 @@
 /*+===================================================================
-File: AboutUs.js
+File: OrganizationAboutUsForm.js
 
-Summary: A holder page for the organization about us page
+Summary: Form for updating image and description for organization
 
 Exported Data Structures: None
 
-Exported Functions: AboutUs
+Exported Functions: None
 
 Contributors:
     Sam Merlin 2/21/2023 - SP 269
+    Jacob Losco - 2/26/2023 - SP298
 
 ===================================================================+*/
 import React, { useState, useEffect } from 'react';

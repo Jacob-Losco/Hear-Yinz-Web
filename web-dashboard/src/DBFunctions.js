@@ -705,7 +705,7 @@ export async function fnUpdateOrganizationDescription(sNewOrganizationDescriptio
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: fnUpdateOrganizationDescription
 
-  Summary: Updates this organizations description
+  Summary: Updates this organizations lastedit timestamp
 
   Args: sInstitutionId - the document id associated with this institution
         sOrganizationId - the document id associated with this organization
