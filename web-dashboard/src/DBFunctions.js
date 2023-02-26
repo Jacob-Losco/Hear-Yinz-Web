@@ -20,7 +20,7 @@ Contributors:
 
 ===================================================================+*/
 
-import { getDownloadURL, ref } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { oAuthentication, oFirestore, oStorage } from "./firebase-config";
 import { collection, getDocs, query, where, doc, getDoc, addDoc, Timestamp, updateDoc, deleteDoc} from "firebase/firestore";
 
@@ -129,7 +129,8 @@ export async function fnGetOfficerOrganizations() {
                     id : aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["id"],
                     name: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["name"],
                     image: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["image"],
-                    lastedit: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["lastedit"]
+                    lastedit: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["lastedit"],
+                    description: aoOrganizationDictionary[oAccountRelationshipData["relationship_org"]]["description"]
                 });
             });
         } else if (iAccountRole == 2) {
@@ -143,7 +144,8 @@ export async function fnGetOfficerOrganizations() {
                     id: oOrganizationDocs.docs[i].id,
                     name: oOrganizationData["organization_name"],
                     image: oOrganizationImage,
-                    lastedit: oOrganizationData["organization_lastedit"]
+                    lastedit: oOrganizationData["organization_lastedit"],
+                    description: oOrganizationData["organization_description"]
                 });
             }
         }
@@ -166,13 +168,22 @@ async function fnGetOrganizationDictionary(sInstitutionId) {
     const oOrganizationDocs = await getDocs(oOrganizationRefs);
     for(var i = 0; i < oOrganizationDocs.docs.length; i++) {
         const oOrganizationData = oOrganizationDocs.docs[i].data();
-        const oInstitutionReference = ref(oStorage, "images/" + sInstitutionId + "/" + sInstitutionId + ".png");
-        var oOrganizationImage = await fnGetImage(oInstitutionReference);
+        var oOrganizationImage;
+        try{
+            const oOrganizationStorageReference = ref(oStorage, "images/" + sInstitutionId + "/" + oOrganizationDocs.docs[i].id + "/" + oOrganizationDocs.docs[i].id + ".png");
+            oOrganizationImage = await fnGetImage(oOrganizationStorageReference);
+        }
+        catch {
+            const oInstitutionStorageReference = ref(oStorage, "images/" + sInstitutionId + "/" + sInstitutionId + ".png");
+            oOrganizationImage = await fnGetImage(oInstitutionStorageReference);
+        }
+        console.log(oOrganizationImage);
         aoOrganizationDictionary[oOrganizationDocs.docs[i].ref] = {
             id: oOrganizationDocs.docs[i].id,
             name: oOrganizationData["organization_name"],
             image: oOrganizationImage,
-            lastedit: oOrganizationData["organization_lastedit"]
+            lastedit: oOrganizationData["organization_lastedit"],
+            description: oOrganizationData["organization_description"]
         };
     }
     return aoOrganizationDictionary;
@@ -639,4 +650,75 @@ export async function fnGetLocations() {
         aoLocationData.push(oLocationDoc.data());
     }
     return aoLocationData;
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnUpdateOrganizationImage
+
+  Summary: Updates this organizations image with a new image
+
+  Args: oNewImage - the file to be uploaded
+        sOrganizationId - the document id associated with this organization
+
+  Returns: None if successful, error message if false
+-------------------------------------------------------------------F*/
+export async function fnUpdateOrganizationImage(oNewImage, sOrganizationId) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    const oOrganizationStorageReference = ref(oStorage, "images/" + sInstitutionId + "/" + sOrganizationId + "/" + sOrganizationId + ".png");
+    try {
+        await uploadBytes(oOrganizationStorageReference, oNewImage);
+        fnUpdateOrganizationLastEdit(sInstitutionId, sOrganizationId);
+    } catch {
+        oOrganizationStorageReference = ref(oStorage, "images/" + sInstitutionId + "/" + sOrganizationId);
+        try {
+            await uploadBytes(oOrganizationStorageReference, oNewImage);
+            fnUpdateOrganizationLastEdit(sInstitutionId, sOrganizationId);
+        } catch {
+            return "Error uploading image";
+        }
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnUpdateOrganizationDescription
+
+  Summary: Updates this organizations description
+
+  Args: sNewOrganizationDescription - the new description
+        sOrganizationId - the document id associated with this organization
+
+  Returns: None if successful, error message if false
+-------------------------------------------------------------------F*/
+export async function fnUpdateOrganizationDescription(sNewOrganizationDescription, sOrganizationId) {
+    let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
+    try {
+        const oOrganizationDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId);
+        updateDoc(oOrganizationDoc, {
+            organization_description: sNewOrganizationDescription
+        });
+        fnUpdateOrganizationLastEdit(sInstitutionId, sOrganizationId);
+    } catch (error) {
+        console.error("Error editing document: ", error);
+    }
+}
+
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Function: fnUpdateOrganizationDescription
+
+  Summary: Updates this organizations lastedit timestamp
+
+  Args: sInstitutionId - the document id associated with this institution
+        sOrganizationId - the document id associated with this organization
+
+  Returns: None if successful, error message if false
+-------------------------------------------------------------------F*/
+export async function fnUpdateOrganizationLastEdit(sInstitutionId, sOrganizationId) {
+    try {
+        const oOrganizationDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId);
+        updateDoc(oOrganizationDoc, {
+            organization_lastedit: Timestamp.fromDate(new Date())
+        });
+    } catch (error) {
+        console.error("Error editing document: ", error);
+    }
 }
