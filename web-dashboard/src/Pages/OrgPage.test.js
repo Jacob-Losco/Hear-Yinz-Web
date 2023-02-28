@@ -6,9 +6,18 @@ import NavBar from "../NavBar";
 import 'mutationobserver-shim';
 import { fnLogout } from '../LoginFunctions';
 
-
 afterEach(cleanup);
 describe("OrganizationsTesting", () => {
+
+    /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Test: Organizations page Elements For the Officer
+
+      Target: Organizations
+
+      Assertions: On screen element of the organization page loads, org1 is shown is shown
+
+      Writer: Sam Merlin 2/25/2023 SP-270
+    -------------------------------------------------------------------T*/
 
 test("Organizations page Elements For the Officer ", async () => {
   jest.setTimeout(30000)
@@ -38,32 +47,4 @@ test("Organizations page Elements For the Officer ", async () => {
   await fnLogout();
 });
 
-// test("Organizations page Elements For the Officer ", async () => {
-//   jest.setTimeout(30000)
-//   render(
-//   <NavBar />, 
-//   { wrapper: BrowserRouter},
-//   <Login
-//   button
-//   fnSetLoginEmail={()=>{}}
-//   LoginPassword={[]}
-//   fnSetLoginPassword={()=>{}}/>
-//   );
-   
-//   const oSubmitButton = screen.getByRole('button',{name: /log in/i}); 
-//   const oInputElementEmail = screen.getByPlaceholderText(/email/i);
-//   const oInputElementPassword = screen.getByPlaceholderText(/password/i);
-
-//   fireEvent.change(oInputElementEmail, { target: { value: "teststatic_admin@teststatic.edu"} });
-//   fireEvent.change(oInputElementPassword, { target: { value: "test123"} });
-//   fireEvent.click(oSubmitButton);
-
-//   const OrgButton = await waitFor( () => screen.getAllByTestId('linkerton'), { timeout: 10000 });
-//   fireEvent.click(OrgButton);
-
-//   const OrgName = await waitFor( () => screen.findByText("TestStatic_Org3"), { timeout: 10000 });
-//   expect (OrgName).toBeInTheDocument();
-//   await fnLogout();
-
-  // });
 });
