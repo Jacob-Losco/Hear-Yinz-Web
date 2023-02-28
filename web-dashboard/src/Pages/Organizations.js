@@ -44,7 +44,7 @@ export default function Organizations() {
       <Grid container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
         {iOrganizations.map(iOrganization => (
           <Grid  textAlign='center' item xs={5} sm={4} md={3} key={iOrganization.id}>
-            <Button component={Link} to ="OrgPage" state={{data:iOrganization}} >
+            <Button data-testid="linkerton" component={Link} to ="OrgPage" state={{data:iOrganization}} >
             <div>
               <img className='img' src={iOrganization.img} width={150} height={150} />
             </div>
