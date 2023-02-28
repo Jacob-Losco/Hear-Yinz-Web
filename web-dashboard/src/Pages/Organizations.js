@@ -46,7 +46,7 @@ export default function Organizations() {
           <Grid  textAlign='center' item xs={5} sm={4} md={3} key={iOrganization.id}>
             <Button data-testid="linkerton" component={Link} to ="OrgPage" state={{data:iOrganization}} >
             <div>
-              <img className='img' src={iOrganization.img} width={150} height={150} />
+              <img className='img' src={iOrganization.image} width={150} height={150} />
             </div>
             </Button>
             <div>{iOrganization.name}</div>

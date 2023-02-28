@@ -58,10 +58,10 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
       }
 
       const fnDisplayRequests = async () => {
-        let oRequests = await fnGetEventRequests();
+        let oEvents = await fnGetEventRequests();
         let oOfficers = await fnGetOfficerRequests();
-        let oEvents = await fnGetAnnouncementRequests();
-        setiCountRequests(oRequests.length + oOfficers.length + oEvents.length);
+        let oAnnoucements = await fnGetAnnouncementRequests();
+        setiCountRequests(oEvents.length + oOfficers.length + oAnnoucements.length);
     }
 
       const fnSetUserRole = async () => {

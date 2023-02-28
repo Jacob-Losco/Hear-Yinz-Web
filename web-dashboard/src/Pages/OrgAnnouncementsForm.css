@@ -1,0 +1,109 @@
+.OrganizationAnnouncementsContainer {
+    display: flex;
+    justify-content: center;
+    height: 500px;
+    width: 100%;
+}
+
+.AnnouncementFormContainer {
+    height: 100%;
+    width: 50%
+}
+
+.AnnouncementTextAreaContainer {
+    height: 60%;
+}
+
+.AnnouncementLabelContainer {
+    display: flex;
+    align-items: center;
+    height: 20%;
+}
+
+.AnnouncementLabel {
+    font-size: 28px;
+}
+
+.AnnouncementTextInputContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+}
+
+.AnnouncementTextInput {
+    height: 100%;
+    width: 100%;
+    resize: none;
+}
+
+.AnnouncementRadioContainer {
+    display: flex;
+    justify-content: flex-end;
+    height: 15%
+}
+
+.AnnouncementPublicRadioContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.AnnouncementPublicRadio {
+    margin-right: 5px;
+}
+
+.AnnouncementPrivateRadioContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.AnnouncementPrivateRadio {
+    margin-right: 5px;
+}
+
+.AnnouncementButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    height: 15%;
+}
+
+.AnnouncementCancelButtonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.AnnouncementCancelButton {
+    background-color: rgb(102, 102, 102);
+    color: white;
+    width: 40%;
+    height: 50%;
+    border-radius: 20px;
+}
+
+.AnnouncementSubmitButtonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.AnnouncementSubmitButton {
+    background-color: rgb(56, 116, 29);
+    color: white;
+    width: 40%;
+    height: 50%;
+    border-radius: 20px;
+}
+
+.AnnouncementMessageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+}
