@@ -35,7 +35,6 @@ export default function AdminEvents() {
       const fnRenderEvents = async () => {
         let oEvents = await fnGetEventRequests();
         setiEvents(oEvents);
-        console.log(oEvents);
       }
       
       onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -49,22 +48,22 @@ export default function AdminEvents() {
     return(
       <Box >
         {iEvents.map(iEvent => ( 
-          <Box sx={{ m: 9, border: 1, borderRadius: '4px'}} key={iEvent[0].event_id}>
+          <Box sx={{ m: 9, border: 1, borderRadius: '4px'}} key={iEvent.event_id}>
             <Grid container spacing={2}>
               <Grid item xs={4}>
-                <div>{iEvent[0].event_name}</div>
+                <div>{iEvent.event_name}</div>
               </Grid>
               <Grid item xs={7}>
-                <div> Sample Location</div>
+                <div>{iEvent.location.location_name}</div>
               </Grid>
               <Grid item xs={1}>
                 <div></div>
               </Grid>
               <Grid item xs={4}>
-                <div>Sample Organization</div>
+                <div>{iEvent.host.organization_name}</div>
               </Grid>
               <Grid item xs={7}>
-                <div> { moment( iEvent[0].event_timestamp.seconds * 1000 + iEvent[0].event_timestamp.nanoseconds / 1000000 ).format("dddd, MMMM Do YYYY, h:mm a")  }</div>
+                <div> { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("dddd, MMMM Do YYYY, h:mm a")  }</div>
               </Grid>
               <Grid item xs={1}>
                 <div></div>

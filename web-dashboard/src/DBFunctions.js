@@ -177,7 +177,6 @@ async function fnGetOrganizationDictionary(sInstitutionId) {
             const oInstitutionStorageReference = ref(oStorage, "images/" + sInstitutionId + "/" + sInstitutionId + ".png");
             oOrganizationImage = await fnGetImage(oInstitutionStorageReference);
         }
-        console.log(oOrganizationImage);
         aoOrganizationDictionary[oOrganizationDocs.docs[i].ref] = {
             id: oOrganizationDocs.docs[i].id,
             name: oOrganizationData["organization_name"],
@@ -207,10 +206,21 @@ async function fnGetImage(oReference) {
   Returns: [{}] - list of event data
 -------------------------------------------------------------------F*/
 export async function fnGetOrganizationEvents(sOrganizationId) {
+    const aoEventList = [];
     let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
     const oEventRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events"));
     const oEventDocs = await getDocs(oEventRefs);
-    return oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data(), event_id: oEventDoc.id }));
+    for(const oEventDoc of oEventDocs.docs) {
+        const oEventData = oEventDoc.data();
+        const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oEventData["event_location"]);
+        const oLocationDoc = await getDoc(oLocationRef);
+        aoEventList.push({
+            ...oEventDoc.data(),
+            event_id: oEventDoc.id,
+            location: oLocationDoc.data()
+        });
+    }
+    return aoEventList;
 }
 
 /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -256,7 +266,17 @@ export async function fnGetEventRequests() {
     for(const oOrganizationDoc of oOrganizationDocs.docs) {
         const oEventRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", oOrganizationDoc.id, "Events"), where("event_status", "==", 1));
         const oEventDocs = await getDocs(oEventRefs);
-        aoRequestData.push(oEventDocs.docs.map((oEventDoc) => ({ ...oEventDoc.data(), event_id: oEventDoc.id, host_id: oOrganizationDoc.id })));
+        for(const oEventDoc of oEventDocs.docs) {
+            const oEventData = oEventDoc.data();
+            const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oEventData["event_location"]);
+            const oLocationDoc = await getDoc(oLocationRef);
+            aoRequestData.push({
+                ...oEventDoc.data(),
+                event_id: oEventDoc.id,
+                host: oOrganizationDoc.data(),
+                location: oLocationDoc.data()
+            })
+        }
     }
     return aoRequestData;
 }
@@ -300,7 +320,13 @@ export async function fnGetAnnouncementRequests() {
     for(const oOrganizationDoc of oOrganizationDocs.docs) {
         const oAnnouncementRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", oOrganizationDoc.id, "Announcements"), where("announcement_status", "==", 1));
         const oAnnouncementDocs = await getDocs(oAnnouncementRefs);
-        aoRequestData.push(oAnnouncementDocs.docs.map((oAnnouncementDoc) => ({ ...oAnnouncementDoc.data(), announcement_id: oAnnouncementDoc.id, host_id: oOrganizationDoc.id })));
+        for(const oAnnouncementDoc of oAnnouncementDocs.docs) {
+            aoRequestData.push({
+                ...oAnnouncementDoc.data(),
+                announcement_id: oAnnouncementDoc.id,
+                host: oOrganizationDoc.data()
+            });
+        }
     }
     return aoRequestData;
 }
