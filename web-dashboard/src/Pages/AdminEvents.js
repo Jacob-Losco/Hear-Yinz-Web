@@ -37,7 +37,6 @@ export default function AdminEvents() {
       const fnRenderEvents = async () => {
         let oEvents = await fnGetEventRequests();
         setiEvents(oEvents);
-        console.log(oEvents);
       }
       
       onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -51,20 +50,20 @@ export default function AdminEvents() {
     return(
       <Box >
         {iEvents.map(iEvent => ( 
-          <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={iEvent[0].event_id}>
+          <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={iEvent.event_id}>
             <Grid className='OuterGrid'  container spacing={2} textAlign="center">
               <Grid item xs={4} >
                 <div className='LeftRequest'>
-                    {iEvent[0].event_name}
+                    {iEvent.event_name}
                     <br></br>
-                    Sample Organization
+                    {iEvent.host.organization_name}
                 </div>
               </Grid>
               <Grid item xs={6} >
                 <div className='MiddleRequest'> 
-                  Sample Location
+                {iEvent.location.location_name}
                   <br></br>
-                  { moment( iEvent[0].event_timestamp.seconds * 1000 + iEvent[0].event_timestamp.nanoseconds / 1000000 ).format("dddd, MMMM Do YYYY, h:mm a")  }
+                  { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("dddd, MMMM Do YYYY, h:mm a")  }
                 </div>
               </Grid>
               <Grid item xs={1} sx={{mt: .75}}>
