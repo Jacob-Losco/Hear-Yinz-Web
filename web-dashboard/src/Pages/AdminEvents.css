@@ -1,0 +1,18 @@
+
+
+
+.EventApproveButton {
+    background-color: rgb(56, 116, 29);
+    width: 43px;
+    height: 37px;
+    border-radius: 8px;
+    border: white;
+}
+
+.EventDenyButton {
+    background-color: rgb(209, 0, 0);
+    width: 43px;
+    height: 37px;
+    border-radius: 8px;
+    border: white;
+}
