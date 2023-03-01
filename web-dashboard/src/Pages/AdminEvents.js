@@ -20,6 +20,8 @@ import { useEffect } from 'react';
 import { fnGetEventRequests} from '../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
+import '../font.css';
+import './AdminEvents.css';
 import moment from 'moment';
 
 
@@ -49,25 +51,35 @@ export default function AdminEvents() {
     return(
       <Box >
         {iEvents.map(iEvent => ( 
-          <Box sx={{ m: 9, border: 1, borderRadius: '4px'}} key={iEvent[0].event_id}>
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <div>{iEvent[0].event_name}</div>
+          <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={iEvent[0].event_id}>
+            <Grid className='OuterGrid'  container spacing={2} textAlign="center">
+              <Grid item xs={4} >
+                <div className='LeftRequest'>
+                    {iEvent[0].event_name}
+                    <br></br>
+                    Sample Organization
+                </div>
               </Grid>
-              <Grid item xs={7}>
-                <div> Sample Location</div>
+              <Grid item xs={6} >
+                <div className='MiddleRequest'> 
+                  Sample Location
+                  <br></br>
+                  { moment( iEvent[0].event_timestamp.seconds * 1000 + iEvent[0].event_timestamp.nanoseconds / 1000000 ).format("dddd, MMMM Do YYYY, h:mm a")  }
+                </div>
               </Grid>
-              <Grid item xs={1}>
-                <div></div>
+              <Grid item xs={1} sx={{mt: .75}}>
+                <div>
+                  <button className='EventApproveButton'>
+
+                  </button>
+                </div>
               </Grid>
-              <Grid item xs={4}>
-                <div>Sample Organization</div>
-              </Grid>
-              <Grid item xs={7}>
-                <div> { moment( iEvent[0].event_timestamp.seconds * 1000 + iEvent[0].event_timestamp.nanoseconds / 1000000 ).format("dddd, MMMM Do YYYY, h:mm a")  }</div>
-              </Grid>
-              <Grid item xs={1}>
-                <div></div>
+              <Grid item xs={1} sx={{mt: .75}}>
+                <div>
+                  <button className='EventDenyButton'>
+
+                  </button>
+                </div>
               </Grid>
             </Grid>
           </Box>
