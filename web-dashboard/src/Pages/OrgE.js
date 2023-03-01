@@ -23,6 +23,16 @@ import moment from 'moment';
 import './OrgList.css'      
 import {useLocation} from 'react-router-dom'
 
+function StatusChecking(status){
+   if (status == 1){
+    return(
+      <Box sx={{ m: 1, color: 'black', backgroundColor: '#38741D', border: 1, borderRadius: 50 }} >Approved</Box >);}
+    else if (status == 2){
+      return(
+        <Box sx={{ m: 1, color: 'black', backgroundColor: '#3C78D8', border: 1, borderRadius: 50 }} >Pending</Box >);}
+    return(<p></p>)
+}
+
 export default function Events() {
 
   const location = useLocation()
@@ -45,17 +55,17 @@ export default function Events() {
     }, []);
 
     return(
-        <Box sx={{ m: 9 }} >
+        <Box sx={{ m: 5 }} >
             <Grid container spacing={{ xs: 9, md: 2 }} columnSpacing = {4}>
                 {iEvents.map(iEvent => ( 
                     <Grid textAlign='center' key={iEvent.event_id}>
                         <Box sx={{p: 2, m:2, border: 1, borderRadius: '8px'}}>   
-                        <div>{iEvent.event_location}</div>         
+                        <div>{iEvent.location.location_name}</div><br></br>       
                             <div> { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")  }</div>
                                 <div>
-                                  <Button sx={{ m: 1, color: 'black', backgroundColor: 'green', border: 1 }} >Edit</Button ><Button sx={{  color: 'black', backgroundColor: 'red', border: 1 }}>Delete</Button>
+                                  <Button sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button ><Button sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
                                 </div>
-                                <div>{iEvent.event_status}</div>
+                                <div>{StatusChecking(iEvent.event_status)}</div>
                             </Box>
                         <div>{iEvent.event_name}</div>
                     </Grid>
