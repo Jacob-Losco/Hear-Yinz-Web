@@ -44,6 +44,8 @@ export default function AdminEvents() {
           fnRenderEvents()
         }
       });
+
+
     }, []);
 
 
@@ -58,6 +60,9 @@ export default function AdminEvents() {
     -------------------------------------------------------------------F*/
     async function fnHandleEventRequestApprove(sOrganizationId, sEventId) {
       await fnHandleEventRequest(sOrganizationId, sEventId, true);
+      let oEvents = await fnGetEventRequests();
+      setiEvents(oEvents);
+
 
     }
 
@@ -72,6 +77,8 @@ export default function AdminEvents() {
     -------------------------------------------------------------------F*/
     async function fnHandleEventRequestDeny(sOrganizationId, sEventId) {
       await fnHandleEventRequest(sOrganizationId, sEventId, false);
+      let oEvents = await fnGetEventRequests();
+      setiEvents(oEvents);
 
     }
 
@@ -90,7 +97,7 @@ export default function AdminEvents() {
               </Grid>
               <Grid item xs={6} >
                 <div className='MiddleRequest'> 
-                {/* {iEvent.location.location_name} */}
+                {iEvent.location.location_name}
                   <br></br>
                   { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("dddd, MMMM Do YYYY, h:mm a")  }
                 </div>
