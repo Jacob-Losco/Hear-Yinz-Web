@@ -14,7 +14,7 @@ Contributors:
 import React from 'react';
 import {NavLink, Route, Routes, useLocation} from 'react-router-dom'
 import OrgE from './OrgE';
-import Events from './OrgE';
+import AddEventForm from './EventForm';
 import OrganizationAnnouncementsForm from './OrgAnnouncementsForm'
 import OrganizationAboutUsForm from './OrganizationAboutUsForm';
 import OrgOff from './OrgOff';
@@ -37,6 +37,7 @@ export default function OrgPage(props) {
             <div>
                 <Routes>
                     <Route path='/Events' element={<OrgE/>} />
+                    <Route path='Events/AddEventForm' element={<AddEventForm />} />
                     <Route path='/Announcements' element={<OrganizationAnnouncementsForm/>} />
                     <Route path='/AboutUs' element={<OrganizationAboutUsForm/>} />
                     <Route path='/Officers' element={<OrgOff/>}/>
