@@ -7,8 +7,6 @@ export default function AddEventForm() {
     const location = useLocation()
     const OrgInfo = location.state.data;
     const eventProps = location.state.eventProps;
-    console.log(OrgInfo);
-    console.log(eventProps);
     return(
         <div >
             {OrgInfo.id}      
