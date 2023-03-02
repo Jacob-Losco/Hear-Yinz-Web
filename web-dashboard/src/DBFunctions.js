@@ -500,6 +500,7 @@ export async function fnCreateEvent(sOrganizationId, oNewEvent) {
                 });
             } catch (error) {
                 console.error("Error adding document: ", error);
+                return "ERROR"
             }
     } else {
         return "Error: invalid object parameter";
