@@ -119,39 +119,3 @@ export default function AdminEvents() {
     );
   } 
 
-
-//   /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//   Function: fnHandleEventRequest
-
-//   Summary: Updates the status of an event based on user input
-
-//   Args: sEventId - the document id of the event being updated
-//     bApproved - true if the event is approved, false otherwise
-
-//   Returns: None if successful, error message if failure
-// -------------------------------------------------------------------F*/
-// export async function fnHandleEventRequest(sOrganizationId, sEventId, bApproved) {
-//   let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
-//   try {
-//       const oEventDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events", sEventId);
-//       updateDoc(oEventDoc, {
-//           event_status: bApproved ? 2 : 3,
-//       });
-//   } catch (error) {
-//       console.error("Error editing document: ", error);
-//   }
-// }
-
-
-// async function fnHandleEventRequestApprove(sOrganizationId, sEventId) {
-//   await fnHandleEventRequest(sOrganizationId, sEventId, true);
-//   const updatedEvents = iEvents.map((event) =>
-//     event.event_id === sEventId
-//       ? {
-//           ...event,
-//           event_status: 2,
-//         }
-//       : event
-//   );
-//   setiEvents(updatedEvents);
-// }
