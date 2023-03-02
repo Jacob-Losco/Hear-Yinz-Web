@@ -23,7 +23,6 @@ import './OrgList.css'
 export default function OrgPage(props) {
     const location = useLocation()
     const OrgInfo = location.state.data;
-    console.log(OrgInfo);
     return(
         <div>
            <div className='OrgNameHeader'>{OrgInfo.name}</div>

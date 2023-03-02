@@ -45,7 +45,6 @@ export default function Events() {
     useEffect(() => {
       const fnRenderEvents = async () => {
         let oEvents = await fnGetOrganizationEvents(OrgInfo.id);
-        console.log(oEvents)
         setiEvents(oEvents);
       }
       
