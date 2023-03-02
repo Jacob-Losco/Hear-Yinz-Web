@@ -11,13 +11,13 @@ Contributors:
 	Philip Pavlick - 02/18/23 - SP-312
   Philip Pavlick - 02/25/23 - SP-314
   Philip Pavlick - 02/26/23 - SP-388
+  Philip Pavlick - 03/1/23  - SP-394 & SP-396
 ===================================================================+*/
 
-import React, { useState } from 'react';
-import Grid from '@mui/material/Grid';
+import React, { useState, useEffect } from 'react';
+import Grid  from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { useEffect } from 'react';  
-import { fnGetEventRequests} from '../DBFunctions';
+import { fnGetEventRequests, fnHandleEventRequest} from '../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
 import '../font.css';
@@ -44,9 +44,45 @@ export default function AdminEvents() {
           fnRenderEvents()
         }
       });
+
+
     }, []);
 
 
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnHandleEventRequestApprove
+  
+    Summary: front end passes true variable to backend in order to change value of event_status to reflect approval
+  
+    Args: event.host_id & event.event_id
+  
+    Returns: None
+    -------------------------------------------------------------------F*/
+    async function fnHandleEventRequestApprove(sOrganizationId, sEventId) {
+      await fnHandleEventRequest(sOrganizationId, sEventId, true);
+      let oEvents = await fnGetEventRequests();
+      setiEvents(oEvents);
+
+
+    }
+
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnHandleEventRequestDeny
+  
+    Summary: front end passes true variable to backend in order to change value of event_status to reflect refusal
+  
+    Args: event.host_id & event.event_id
+  
+    Returns: None
+    -------------------------------------------------------------------F*/
+    async function fnHandleEventRequestDeny(sOrganizationId, sEventId) {
+      await fnHandleEventRequest(sOrganizationId, sEventId, false);
+      let oEvents = await fnGetEventRequests();
+      setiEvents(oEvents);
+
+    }
+
+    
     return(
       <Box >
         {iEvents.map(iEvent => ( 
@@ -68,14 +104,14 @@ export default function AdminEvents() {
               </Grid>
               <Grid item xs={1} sx={{mt: .75}}>
                 <div>
-                  <button className='EventApproveButton'>
+                  <button className='EventApproveButton' onClick={() => fnHandleEventRequestApprove(iEvent.host_id, iEvent.event_id)}>
 
                   </button>
                 </div>
               </Grid>
               <Grid item xs={1} sx={{mt: .75}}>
                 <div>
-                  <button className='EventDenyButton'>
+                  <button className='EventDenyButton'onClick={() => fnHandleEventRequestDeny(iEvent.host_id, iEvent.event_id)}>
 
                   </button>
                 </div>
@@ -89,3 +125,4 @@ export default function AdminEvents() {
 
     );
   } 
+
