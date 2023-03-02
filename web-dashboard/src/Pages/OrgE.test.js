@@ -50,6 +50,8 @@ test("Organizations page Elements For the Officer ", async () => {
   const EventRequestItem = await waitFor( () => screen.findByText("TestStatic_Event2"), { timeout: 8000 });
   expect (EventRequestItem).toBeInTheDocument();
 
+  screen.debug();
+
   await fnLogout();
 });
 
