@@ -24,12 +24,21 @@ import './OrgList.css'
 import {useLocation} from 'react-router-dom'
 
 function StatusChecking(status){
-   if (status == 1){
+  if (status == 0){
     return(
-      <Box sx={{ m: 1, color: 'black', backgroundColor: '#38741D', border: 1, borderRadius: 50 }} >Approved</Box >);}
+      <Box sx={{ m: 1, color: 'white', backgroundColor: 'rgb(102,102,102)', border: 1, borderRadius: 50 }} >Private</Box >);}
+   else if (status == 1){
+    return(
+      <Box sx={{ m: 1, color: 'white', backgroundColor: '#38741D', border: 1, borderRadius: 50 }} >Approved</Box >);}
     else if (status == 2){
       return(
-        <Box sx={{ m: 1, color: 'black', backgroundColor: '#3C78D8', border: 1, borderRadius: 50 }} >Pending</Box >);}
+        <Box sx={{ m: 1, color: 'white', backgroundColor: '#3C78D8', border: 1, borderRadius: 50 }} >Pending</Box >);}
+    else if (status == 3){
+      return(
+        <Box sx={{ m: 1, color: 'white', backgroundColor: '#E69138', border: 1, borderRadius: 50 }} >Denied</Box >);}
+    else if (status == 3){
+      return(
+        <Box sx={{ m: 1, color: 'white', backgroundColor: '#CC0000', border: 1, borderRadius: 50 }} >Removed</Box >);}    
     return(<p></p>)
 }
 
