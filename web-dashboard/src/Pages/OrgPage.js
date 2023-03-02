@@ -8,7 +8,7 @@ Exported Data Structures: None
 Exported Functions: OrgPage(props)
 
 Contributors:
-    Sam Merlin 2/21/2023 - SP 269
+    Sam Merlin 2/21/2023 - SP 269 SP-272-271
 
 ===================================================================+*/
 import React from 'react';
