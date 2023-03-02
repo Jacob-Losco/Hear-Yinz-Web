@@ -62,13 +62,13 @@ export default function Events() {
                 {iEvents.map(iEvent => ( 
                     <Grid textAlign='center' key={iEvent.event_id}>
                         <Box sx={{height:170, width:200, m:2, border: 1, borderRadius: '8px'}}>   
-                          <div>{iEvent.location.location_name}</div><br></br>       
+                          <div className='box'>{iEvent.location.location_name}</div><br></br>       
                             <div> { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")  }</div>
                               <div>
                                 <Button sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button >
                                 <Button sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
                               </div>
-                            <div>{StatusChecking(iEvent.event_status)}</div>
+                            <div className='box'>{StatusChecking(iEvent.event_status)}</div>
                           </Box>
                         <div>{iEvent.event_name}</div>
                     </Grid>
@@ -76,7 +76,7 @@ export default function Events() {
                   <div>
                     <Box sx={{height:170, width:200, m:2, border: 1, borderRadius: '8px'}}>
                       <div>
-                        <Button component={Link} to ="AddEventForm" state={{data:OrgInfo}}  sx={{ color: 'black', fontWeight:'bold', height:170, width:200 }} >Add Event</Button >
+                        <Button component={Link} to ="AddEventForm" state={{data:OrgInfo}}  sx={{ fontSize:22, color: 'black', fontWeight:'bold', height:170, width:200 }} >Add Event</Button >
                      </div>
                    </Box>
                   </div>
