@@ -527,7 +527,7 @@ export async function fnCreateAnnouncement(sOrganizationId, oNewAnnouncement) {
         oNewAnnouncement.announcement_timestamp !== null) {
             try {
                 await addDoc(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Announcements"), {
-                  announcement_name: oNewAnnouncement.announcement_message,
+                  announcement_message: oNewAnnouncement.announcement_message,
                   announcement_status: oNewAnnouncement.announcement_status,
                   announcement_timestamp: Timestamp.fromDate(oNewAnnouncement.announcement_timestamp)
                 });
