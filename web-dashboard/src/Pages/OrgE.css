@@ -1,0 +1,5 @@
+.box{
+    margin:auto;
+    inline-size: 150px;
+    overflow-wrap: break-word;
+}
