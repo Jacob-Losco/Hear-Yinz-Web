@@ -273,6 +273,7 @@ export async function fnGetEventRequests() {
             aoRequestData.push({
                 ...oEventDoc.data(),
                 event_id: oEventDoc.id,
+                host_id: oOrganizationDoc.id,
                 host: oOrganizationDoc.data(),
                 location: oLocationDoc.data()
             })
