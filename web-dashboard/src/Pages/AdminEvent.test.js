@@ -96,8 +96,8 @@ describe("Admin Event Approve and Deny", () => {
 
 
     const error = fnCreateEvent("QOdUVPgaDzlWp05WlL92", {
-      event_description: "TEST FUCKER",
-      event_name: "TEST FUCK YOU PHILIP",
+      event_description: "TEST DESCRIPTION",
+      event_name: "TEST NAME",
       event_status: 1,
       event_timestamp: new Date(),
       event_location: "qGDMAJOgE70n3yJlsjqZ"
