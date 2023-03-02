@@ -12,6 +12,8 @@ Contributors:
 
 ===================================================================+*/
 import React, {useState} from 'react';
+import {Link} from 'react-router-dom'
+import AddEventForm from './EventForm';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -36,13 +38,13 @@ function StatusChecking(status){
 export default function Events() {
 
   const location = useLocation()
-  const data = location.state.data;
+    const OrgInfo = location.state.data;
 
     const [iEvents, setiEvents] = useState([]);
-  console.log(data.id)
+
     useEffect(() => {
       const fnRenderEvents = async () => {
-        let oEvents = await fnGetOrganizationEvents(data.id);
+        let oEvents = await fnGetOrganizationEvents(OrgInfo.id);
         console.log(oEvents)
         setiEvents(oEvents);
       }
@@ -59,18 +61,26 @@ export default function Events() {
             <Grid container spacing={{ xs: 9, md: 2 }} columnSpacing = {4}>
                 {iEvents.map(iEvent => ( 
                     <Grid textAlign='center' key={iEvent.event_id}>
-                        <Box sx={{p: 2, m:2, border: 1, borderRadius: '8px'}}>   
-                        <div>{iEvent.location.location_name}</div><br></br>       
+                        <Box sx={{height:170, width:200, m:2, border: 1, borderRadius: '8px'}}>   
+                          <div className='box'>{iEvent.location.location_name}</div><br></br>       
                             <div> { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")  }</div>
-                                <div>
-                                  <Button sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button ><Button sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
-                                </div>
-                                <div>{StatusChecking(iEvent.event_status)}</div>
-                            </Box>
+                              <div>
+                                <Button sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button >
+                                <Button sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
+                              </div>
+                            <div className='box'>{StatusChecking(iEvent.event_status)}</div>
+                          </Box>
                         <div>{iEvent.event_name}</div>
                     </Grid>
                 ))}
+                  <div>
+                    <Box sx={{height:170, width:200, m:2, border: 1, borderRadius: '8px'}}>
+                      <div>
+                        <Button component={Link} to ="AddEventForm" state={{data:OrgInfo}}  sx={{ fontSize:22, color: 'black', fontWeight:'bold', height:170, width:200 }} >Add Event</Button >
+                     </div>
+                   </Box>
+                  </div>
             </Grid>
-      </Box>
+        </Box>
     );
 }
