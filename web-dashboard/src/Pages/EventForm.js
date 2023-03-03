@@ -6,10 +6,13 @@ import {useLocation} from 'react-router-dom'
 export default function AddEventForm() {
     const location = useLocation()
     const OrgInfo = location.state.data;
-    const eventProps = location.state.eventProps;
+    const EventInfo = location.state.EventInfo;
     return(
-        <div >
-            {OrgInfo.id}      
+        <div>
+        <div>
+            {OrgInfo.id}<br></br>      
+            {EventInfo.event_name}      
+        </div>
         </div>
     );
 }
