@@ -8,7 +8,7 @@ Exported Data Structures: None
 Exported Functions: OrgPage(props)
 
 Contributors:
-    Sam Merlin 2/21/2023 - SP 269
+    Sam Merlin 2/21/2023 - SP 269 SP-272-271
 
 ===================================================================+*/
 import React from 'react';
@@ -23,7 +23,6 @@ import './OrgList.css'
 export default function OrgPage(props) {
     const location = useLocation()
     const OrgInfo = location.state.data;
-    console.log(OrgInfo);
     return(
         <div>
            <div className='OrgNameHeader'>{OrgInfo.name}</div>
