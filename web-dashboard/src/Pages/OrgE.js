@@ -74,7 +74,7 @@ export default function Events() {
                         <div className='box'>{iEvent.location.location_name}</div><br></br>       
                             <div> { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")  }</div>
                                 <div>
-                                  <Button sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button ><Button sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
+                                  <Button data-testid="linkertonThree" sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button ><Button sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
                                 </div>
                             <div className='box'>{StatusChecking(iEvent.event_status)}</div>
                             </Box>

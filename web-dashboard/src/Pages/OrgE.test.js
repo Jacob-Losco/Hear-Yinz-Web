@@ -100,4 +100,50 @@ test("Organizations page Elements For the Officer ", async () => {
       expect (OrgID).toBeInTheDocument();
       await fnLogout();
     });
+        /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Test: Org Edit event form testing
+
+      Target: Organizations
+
+      Assertions: On screen element of the event name loads, orgevent is shown 
+
+      Writer: Sam Merlin 2/25/2023 SP-270
+    -------------------------------------------------------------------T*/
+    test("Org Edit event form testing", async () => {
+      jest.setTimeout(30000)
+      render(
+      <NavBar />, 
+      { wrapper: BrowserRouter},
+      <Login
+      button
+      fnSetLoginEmail={()=>{}}
+      LoginPassword={[]}
+      fnSetLoginPassword={()=>{}}/>
+      );
+       
+      const oSubmitButton = screen.getByRole('button',{name: /log in/i}); 
+      const oInputElementEmail = screen.getByPlaceholderText(/email/i);
+      const oInputElementPassword = screen.getByPlaceholderText(/password/i);
+    
+      fireEvent.change(oInputElementEmail, { target: { value: "teststatic_officer@teststatic.edu"} });
+      fireEvent.change(oInputElementPassword, { target: { value: "test123"} });
+      fireEvent.click(oSubmitButton);
+    
+    
+      const OrgName =  await waitFor( () => screen.getByText('TestStatic_Org1'), { timeout: 9000 });
+      const oOrgButton = screen.getByRole('img', {  name: /orgimg/i});
+    
+      fireEvent.click(oOrgButton); 
+    
+      const organizationsLink = await waitFor( () => screen.findByText("Events"), { timeout: 9000 });
+    
+      fireEvent.click(organizationsLink);
+    
+      const AddEvent =  await waitFor( () => screen.getByTestId('LinkertonThree'), { timeout: 9000 });
+      AddEvent.click(oOrgButton);
+    
+      const OrgID =  await waitFor( () => screen.getByText('e9ovh7zgJisTDihMbNCA'), { timeout: 9000 });
+      expect (OrgID).toBeInTheDocument();
+      await fnLogout();
+    });
 });
