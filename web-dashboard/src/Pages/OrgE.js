@@ -76,6 +76,7 @@ export default function Events() {
   
     const handleClose = () => {
       setOpen(false);
+      //code to delete the event
     };
 
     return(
