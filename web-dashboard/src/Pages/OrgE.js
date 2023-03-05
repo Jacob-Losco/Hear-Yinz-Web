@@ -13,10 +13,14 @@ Contributors:
 ===================================================================+*/
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom'
-import AddEventForm from './EventForm';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import { useEffect } from 'react';  
 import { fnGetOrganizationEvents} from '../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -65,6 +69,15 @@ export default function Events() {
       });
     }, []);
 
+    const [open, setOpen] = React.useState(false);
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
     return(
         <Box sx={{ m: 5 }} >
             <Grid container spacing={{ xs: 9, md: 2 }} columnSpacing = {4}>
@@ -74,21 +87,40 @@ export default function Events() {
                         <div className='box'>{iEvent.location.location_name}</div><br></br>       
                             <div> { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")  }</div>
                                 <div>
-                                  <Button sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button ><Button sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
-                                </div>
-                            <div className='box'>{StatusChecking(iEvent.event_status)}</div>
-                            </Box>
+                                  <Button sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button >
+                                    <Button onClick={handleClickOpen} sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
+                                 </div>
+                             <div className='box'>{StatusChecking(iEvent.event_status)}</div>
+                          </Box>
                         <div className='box'>{iEvent.event_name}</div>
-                    </Grid>
-                ))}
+                        <Dialog
+                            open={open}
+                              onClose={handleClose}
+                                aria-describedby="alert-dialog-slide-description">
+                                  <DialogTitle>{"Are you sure you want to delete this event?"}</DialogTitle>
+                                    <DialogContent>
+                                      <DialogContentText id="alert-dialog-slide-description" >
+                                        <div className='prompt'>
+                                          {iEvent.event_name}<br></br>
+                                          { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")}
+                                        </div>
+                                      </DialogContentText>
+                                    </DialogContent>
+                                  <DialogActions>
+                                <Button onClick={handleClose}>No</Button>
+                                <Button onClick={handleClose}>Yes</Button>
+                              </DialogActions>
+                            </Dialog>
+                        </Grid>
+                      ))}
                   <div>
                     <Box sx={{height:170, width:200, m:2, border: 1, borderRadius: '8px'}}>
                       <div>
                         <Button data-testid="linkertonTwo" component={Link} to ="AddEventForm" state={{data:OrgInfo, props:buttonProps}} sx={{ fontSize:22, color: 'black', fontWeight:'bold', height:170, width:200 }} >Add Event</Button >
                      </div>
                    </Box>
-                  </div>
-            </Grid>
+                </div>
+          </Grid>
       </Box>
     );
 }
