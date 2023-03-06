@@ -11,7 +11,7 @@ Contributors:
     Sam Merlin 2/21/2023 - SP 269
 
 ===================================================================+*/
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {Link} from 'react-router-dom'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -78,6 +78,11 @@ export default function Events() {
       setOpen(false);
       
     };
+    const reload = () => {
+      setTimeout(() => {
+        document.location.reload();
+      }, 1800);
+    }
 
     return(
         <Box sx={{ m: 5 }} >
@@ -109,7 +114,7 @@ export default function Events() {
                                       </DialogContent>
                                     <DialogActions>
                                         <Button onClick={handleClose}>No</Button>
-                                      <Button onClick={async () => {{handleClose()};fnDeleteEvent(OrgInfo.id,iEvent.event_id);fnGetOrganizationEvents(OrgInfo.id);}}>Yes</Button>
+                                      <Button onClick={async () => {{handleClose()};fnDeleteEvent(OrgInfo.id,iEvent.event_id);reload()}}>Yes</Button>
                                     </DialogActions>
                                   </Dialog>
                         </Grid>
