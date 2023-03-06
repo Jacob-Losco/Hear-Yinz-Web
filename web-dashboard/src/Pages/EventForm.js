@@ -65,6 +65,14 @@ export default function AddEventForm() {
                             <label className="text">Description:</label>
                                 <textarea value={sEventDescription} className="EventDescriptionInput"></textarea>
                           </div>
+                          <div>
+                            <input type="radio" name="action" className='RadioBtn'/> <label className='RadioLabel'>Public</label>
+                            <input type="radio" name="action" className='RadioBtn'/> <label className='RadioLabel'>Private &#40;Followers Only&#41;</label>
+                        </div>
+                        <div>
+                            <button className='cancelBtn'>Cancel</button>
+                            <button className='submitBtn'>Create</button>
+                        </div>
                     </div>
                 </div>
             </div>
