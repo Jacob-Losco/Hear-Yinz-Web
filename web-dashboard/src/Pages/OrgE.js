@@ -109,7 +109,7 @@ export default function Events() {
                                       </DialogContent>
                                     <DialogActions>
                                         <Button onClick={handleClose}>No</Button>
-                                      <Button onClick={() => {{handleClose()};fnDeleteEvent(OrgInfo.id,iEvent.event_id);fnGetOrganizationEvents(OrgInfo.id);}}>Yes</Button>
+                                      <Button onClick={async () => {{handleClose()};fnDeleteEvent(OrgInfo.id,iEvent.event_id);fnGetOrganizationEvents(OrgInfo.id);}}>Yes</Button>
                                     </DialogActions>
                                   </Dialog>
                         </Grid>
