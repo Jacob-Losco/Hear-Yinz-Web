@@ -1,0 +1,63 @@
+.OrganizationEventFormContainer {
+    display: flex;
+    margin-top: 4%;
+    justify-content: center;
+    height: 500px;
+    width: 100%;
+}
+
+.EventFormContainer {
+    height: 100%;
+    width: 50%;
+}
+
+.EventFormDataDataContainer {
+    display: flex;
+    justify-content: flex-end;
+    height: 40%;
+    width: 100%;
+}
+
+.EventFormInputContainer {
+    margin-bottom: 4%;
+}
+
+
+.text{
+    display:inline-flex;
+    width:160px;
+    margin-bottom: 8%;
+    font-size:22px;
+}
+
+.EventNameInput{
+    width:370px;
+    height:25px;
+}
+
+.EventDateInput{
+    width:370px;
+    height:25px;
+}
+
+.EventStartTimeInput{
+    width:160px;
+    height:25px;
+    margin-right: 6%;
+}
+
+.EventEndTimeInput{
+    width:160px;
+    height:25px;
+}
+
+.EventLocationInput{
+    width:370px;
+    height:25px;
+}
+
+.EventDescriptionInput{
+    width:370px;
+    height:130px;
+    vertical-align: top;
+}
