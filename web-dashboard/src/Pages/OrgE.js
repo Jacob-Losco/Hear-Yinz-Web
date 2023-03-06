@@ -54,7 +54,7 @@ export default function Events() {
   const location = useLocation()
     const OrgInfo = location.state.data;
     const [iEvents, setiEvents] = useState([]);
-    const buttonProps = {};
+    const EventInfo = null;
 
     useEffect(() => {
       const fnRenderEvents = async () => {
@@ -117,7 +117,7 @@ export default function Events() {
                   <div>
                     <Box sx={{height:170, width:200, m:2, border: 1, borderRadius: '8px'}}>
                       <div>
-                        <Button data-testid="linkertonTwo" component={Link} to ="AddEventForm" state={{data:OrgInfo, props:buttonProps}} sx={{ fontSize:22, color: 'black', fontWeight:'bold', height:170, width:200 }} >Add Event</Button >
+                        <Button data-testid="linkertonTwo" component={Link} to ="AddEventForm" state={{data:OrgInfo, EventInfo:null}} sx={{ fontSize:22, color: 'black', fontWeight:'bold', height:170, width:200 }} >Add Event</Button >
                      </div>
                    </Box>
                 </div>
