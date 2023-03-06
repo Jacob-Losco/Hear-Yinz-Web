@@ -10,13 +10,14 @@ Exported Functions: AdminAnnouncement
 Contributors:
 	Philip Pavlick - 02/18/23 - SP-312
   Philip Pavlick - 03/2/23  - SP-464 & 390
+  Philip Pavlick p 03/5/23  - SP-300 & 301
 
 ===================================================================+*/
 
 import React, { useState, useEffect } from 'react';
 import Grid  from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { fnGetAnnouncementRequests} from '../DBFunctions';
+import { fnGetAnnouncementRequests, fnHandleAnnouncementRequest} from '../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
 import '../font.css';
@@ -32,7 +33,6 @@ export default function AdminAnnouncement() {
           const fnRenderEvents = async () => {
             let oAnnouncement = await fnGetAnnouncementRequests();
             setiAnnouncement(oAnnouncement);
-            console.log(oAnnouncement);
           }
           
           onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -43,6 +43,39 @@ export default function AdminAnnouncement() {
     
     
         }, []);
+
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnHandleAnnouncementRequestApprove
+  
+    Summary: front end passes true variable to backend in order to change value of announcement_status to reflect approval
+  
+    Args: event.host_id & event.event_id
+  
+    Returns: None
+    -------------------------------------------------------------------F*/
+    async function fnHandleAnnouncementRequestApprove(sOrganizationId, sAnnouncementId) {
+      await fnHandleAnnouncementRequest(sOrganizationId, sAnnouncementId, true);
+      let oAnnouncement = await fnGetAnnouncementRequests();
+      setiAnnouncement(oAnnouncement);
+
+
+    }
+
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnHandleAnnouncementRequestDeny
+  
+    Summary: front end passes true variable to backend in order to change value of announcement_status to reflect refusal
+  
+    Args: announcement.host_id & announcement.event_id
+  
+    Returns: None
+    -------------------------------------------------------------------F*/
+    async function fnHandleAnnouncementRequestDeny(sOrganizationId, sAnnouncementId) {
+      await fnHandleAnnouncementRequest(sOrganizationId, sAnnouncementId, false);
+      let oAnnouncement = await fnGetAnnouncementRequests();
+      setiAnnouncement(oAnnouncement);
+
+    }
     
 
     
@@ -65,14 +98,14 @@ export default function AdminAnnouncement() {
                   </Grid>
                   <Grid item xs={1} sx={{mt: .75}}>
                     <div>
-                      <button className='EventApproveButton' >
+                      <button className='EventApproveButton' onClick={() => fnHandleAnnouncementRequestApprove(iAnnouncements.host_id, iAnnouncements.announcement_id)}>
     
                       </button>
                     </div>
                   </Grid>
                   <Grid item xs={1} sx={{mt: .75}}>
                     <div>
-                      <button className='EventDenyButton'>
+                      <button className='EventDenyButton'onClick={() => fnHandleAnnouncementRequestDeny(iAnnouncements.host_id, iAnnouncements.announcement_id)}>
     
                       </button>
                     </div>

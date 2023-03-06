@@ -325,6 +325,7 @@ export async function fnGetAnnouncementRequests() {
             aoRequestData.push({
                 ...oAnnouncementDoc.data(),
                 announcement_id: oAnnouncementDoc.id,
+                host_id: oOrganizationDoc.id,
                 host: oOrganizationDoc.data()
             });
         }
@@ -346,7 +347,7 @@ export async function fnGetAnnouncementRequests() {
 export async function fnHandleAnnouncementRequest(sOrganizationId, sAnnouncementId, bApproved) {
     let sInstitutionId = await fnGetInstitution(oAuthentication.currentUser ? oAuthentication.currentUser.email : "N/A");
     try {
-        const oAnnouncementDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Announcement", sAnnouncementId);
+        const oAnnouncementDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Announcements", sAnnouncementId);
         updateDoc(oAnnouncementDoc, {
             announcement_status: bApproved ? 2 : 3,
         });
