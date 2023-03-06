@@ -9,8 +9,8 @@ Exported Functions: AdminOfficer
 
 Contributors:
 	Philip Pavlick - 02/18/23 - SP-312
-
-===================================================================+*/
+  Philip Pavlick - 03/6/23  - SP-465 & 392
+/===================================================================+*/
 
 import React, { useState, useEffect } from 'react';
 import Grid  from '@mui/material/Grid';
