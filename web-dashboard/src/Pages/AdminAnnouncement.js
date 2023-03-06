@@ -21,7 +21,7 @@ import { fnGetAnnouncementRequests, fnHandleAnnouncementRequest} from '../DBFunc
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
 import '../font.css';
-import './AdminEvents.css';
+import './AdminRequests.css';
 
 
 export default function AdminAnnouncement() {
@@ -96,14 +96,14 @@ export default function AdminAnnouncement() {
                     {iAnnouncements.announcement_message}
                     </div>
                   </Grid>
-                  <Grid item xs={1} sx={{mt: .75}}>
+                  <Grid item xs={1} sx={{mt: .5}}>
                     <div>
                       <button className='EventApproveButton' onClick={() => fnHandleAnnouncementRequestApprove(iAnnouncements.host_id, iAnnouncements.announcement_id)}>
     
                       </button>
                     </div>
                   </Grid>
-                  <Grid item xs={1} sx={{mt: .75}}>
+                  <Grid item xs={1} sx={{mt: .5}}>
                     <div>
                       <button className='EventDenyButton'onClick={() => fnHandleAnnouncementRequestDeny(iAnnouncements.host_id, iAnnouncements.announcement_id)}>
     

@@ -21,7 +21,7 @@ import { fnGetEventRequests, fnHandleEventRequest} from '../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
 import '../font.css';
-import './AdminEvents.css';
+import './AdminRequests.css';
 import moment from 'moment';
 
 
@@ -102,14 +102,14 @@ export default function AdminEvents() {
                   { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("dddd, MMMM Do YYYY, h:mm a")  }
                 </div>
               </Grid>
-              <Grid item xs={1} sx={{mt: .75}}>
+              <Grid item xs={1} sx={{mt: .5}}>
                 <div>
                   <button className='EventApproveButton' onClick={() => fnHandleEventRequestApprove(iEvent.host_id, iEvent.event_id)}>
 
                   </button>
                 </div>
               </Grid>
-              <Grid item xs={1} sx={{mt: .75}}>
+              <Grid item xs={1} sx={{mt: .5}}>
                 <div>
                   <button className='EventDenyButton'onClick={() => fnHandleEventRequestDeny(iEvent.host_id, iEvent.event_id)}>
 
