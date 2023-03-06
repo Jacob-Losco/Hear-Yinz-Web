@@ -22,7 +22,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useEffect } from 'react';  
-import { fnGetOrganizationEvents} from '../DBFunctions';
+import { fnDeleteEvent, fnGetOrganizationEvents} from '../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
 import moment from 'moment';
@@ -76,7 +76,7 @@ export default function Events() {
   
     const handleClose = () => {
       setOpen(false);
-      //code to delete the event
+      
     };
 
     return(
@@ -88,7 +88,7 @@ export default function Events() {
                         <div className='box'>{iEvent.location.location_name}</div><br></br>       
                             <div> { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")  }</div>
                                 <div>
-                                  <Button sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button >
+                                  <Button component={Link} to ="AddEventForm" state={{data:OrgInfo, EventInfo:iEvent}} sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button >
                                     <Button onClick={handleClickOpen} sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
                                  </div>
                              <div className='box'>{StatusChecking(iEvent.event_status)}</div>
@@ -105,19 +105,20 @@ export default function Events() {
                                           {iEvent.event_name}<br></br>
                                           { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")}
                                         </div>
-                                      </DialogContentText>
-                                    </DialogContent>
-                                  <DialogActions>
-                                <Button onClick={handleClose}>No</Button>
-                                <Button onClick={handleClose}>Yes</Button>
-                              </DialogActions>
-                            </Dialog>
+                                        </DialogContentText>
+                                      </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={handleClose}>No</Button>
+                                      <Button onClick={() => {{handleClose()};fnDeleteEvent(OrgInfo.id,iEvent.event_id);fnGetOrganizationEvents(OrgInfo.id);}}>Yes</Button>
+                                    </DialogActions>
+                                  </Dialog>
                         </Grid>
                       ))}
                   <div>
                     <Box sx={{height:170, width:200, m:2, border: 1, borderRadius: '8px'}}>
                       <div>
-                        <Button data-testid="linkertonTwo" component={Link} to ="AddEventForm" state={{data:OrgInfo, EventInfo:null}} sx={{ fontSize:22, color: 'black', fontWeight:'bold', height:170, width:200 }} >Add Event</Button >
+                        <Button data-testid="linkertonTwo" component={Link} to ="AddEventForm" state={{data:OrgInfo, 
+                          EventInfo:null}} sx={{ fontSize:22, color: 'black', fontWeight:'bold', height:170, width:200 }} >Add Event</Button >
                      </div>
                    </Box>
                 </div>
