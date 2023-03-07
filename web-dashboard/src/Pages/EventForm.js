@@ -33,8 +33,7 @@ export default function AddEventForm() {
     const EventInfo = location.state.EventInfo;
     const [sEventName, fnSetEventName] = useState("");
     const [sEventDate, fnSetEventDate] = useState("");
-    const [sEventStartTime, fnSetEventStartTime] = useState("");
-    const [sEventEndTime, fnSetEventEndTime] = useState("");
+    const [sEventTime, fnSetEventime] = useState("");
     const [sEventLocation, fnSetEventLocation] = useState("");
     const [sEventDescription, fndSetEventDescription] = useState("");
     const [sEventStatus, fndSetEventStatus] = useState("");
@@ -45,24 +44,24 @@ export default function AddEventForm() {
                  <div className="EventFormUsDataContainer">
                     <div className="EventFormInputContainer">
                         <div>
-                            <label className='text'>Name:</label> 
+                            <label className='text'>Name</label> 
                                 <input value={sEventName} className = "EventNameInput"></input> 
                           </div>
                         <div>
-                            <label className="text">Date:</label>
-                                <input value={sEventDate} className = "EventDateInput"></input>
-                          </div>
-                        <div>
-                            <label className="text">Time:</label>
-                                <input value={sEventStartTime} className = "EventStartTimeInput" placeholder='Start Time'></input>
-                                    <input value={sEventEndTime} className = "EventEndTimeInput" placeholder="End Time"></input>
+                            <label for='eventDateTime' className="text">Date and Time</label>
+                                <input className = "EventTimeInput" type="datetime-local" id="eventDateTime" name="eventDateTime"></input>
                             </div>
                         <div>
-                            <label className="text">Location:</label>
-                                <input value={sEventLocation} className = "EventLocationInput"></input>
+                            <label  for="loc" className="text">Location</label>
+                                <select name="loc" id="onSite" className = 'EventLocationSelectInput' >
+                                    <option value="" disabled selected>Select your option</option>
+                                    <option value="loc1">loc1</option>
+                                    <option value="loc2">loc2</option>
+                                    <option value="loc3">loc3</option>
+                                </select>
                           </div>
                         <div>
-                            <label className="text">Description:</label>
+                            <label className="text">Description</label>
                                 <textarea value={sEventDescription} className="EventDescriptionInput"></textarea>
                           </div>
                           <div>
