@@ -1,3 +1,6 @@
 .box{
     overflow-wrap: break-word;
 }
+.prompt{
+    justify-content:center;
+}
