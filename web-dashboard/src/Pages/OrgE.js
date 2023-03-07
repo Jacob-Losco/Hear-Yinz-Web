@@ -84,7 +84,8 @@ export default function Events() {
                                                           "Do you really want to delete this Event?"
                                                         )
                                                         if (confirmBox === true) {
-                                                          console.log(OrgInfo.id,iEvent.event_id)
+                                                          fnDeleteEvent(OrgInfo.id,iEvent.event_id);
+                                                          reload();
                                                         }} }
                                     sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
                                  </div>
