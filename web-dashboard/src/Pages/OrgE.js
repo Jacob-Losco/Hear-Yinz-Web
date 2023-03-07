@@ -16,11 +16,6 @@ import {Link} from 'react-router-dom'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useEffect } from 'react';  
 import { fnDeleteEvent, fnGetOrganizationEvents} from '../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -69,15 +64,6 @@ export default function Events() {
       });
     }, []);
 
-    const [open, setOpen] = React.useState(false);
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-      
-    };
     const reload = () => {
       setTimeout(() => {
         document.location.reload();
@@ -90,33 +76,21 @@ export default function Events() {
                 {iEvents.map(iEvent => ( 
                     <Grid textAlign='center' key={iEvent.event_id}>
                         <Box sx={{height:170, width:200, m:2, border: 1, borderRadius: '8px'}}>   
-                        <div className='box'>{iEvent.location.location_name}</div><br></br>       
-                            <div> { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")  }</div>
-                                <div>
-                                  <Button component={Link} to ="AddEventForm" state={{data:OrgInfo, EventInfo:iEvent}} sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button >
-                                    <Button onClick={handleClickOpen} sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
+                          <div className='box'>{iEvent.location.location_name}</div><br></br>       
+                              <div> { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")  }</div>
+                                  <div>
+                                    <Button component={Link} to ="AddEventForm" state={{data:OrgInfo, EventInfo:iEvent}} sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button >
+                                    <Button onClick={() => {const confirmBox = window.confirm(
+                                                          "Do you really want to delete this Event?"
+                                                        )
+                                                        if (confirmBox === true) {
+                                                          console.log(OrgInfo.id,iEvent.event_id)
+                                                        }} }
+                                    sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
                                  </div>
                              <div className='box'>{StatusChecking(iEvent.event_status)}</div>
                           </Box>
                         <div className='box'>{iEvent.event_name}</div>
-                        <Dialog
-                            open={open}
-                              onClose={handleClose}
-                                aria-describedby="alert-dialog-slide-description">
-                                  <DialogTitle>{"Are you sure you want to delete this event?"}</DialogTitle>
-                                    <DialogContent>
-                                      <DialogContentText id="alert-dialog-slide-description" >
-                                        <div className='prompt'>
-                                          {iEvent.event_name}<br></br>
-                                          { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")}
-                                        </div>
-                                        </DialogContentText>
-                                      </DialogContent>
-                                    <DialogActions>
-                                        <Button onClick={handleClose}>No</Button>
-                                      <Button onClick={async () => {{handleClose()};fnDeleteEvent(OrgInfo.id,iEvent.event_id);reload()}}>Yes</Button>
-                                    </DialogActions>
-                                  </Dialog>
                         </Grid>
                       ))}
                   <div>
@@ -127,7 +101,9 @@ export default function Events() {
                      </div>
                    </Box>
                 </div>
+
           </Grid>
       </Box>
+      
     );
 }
