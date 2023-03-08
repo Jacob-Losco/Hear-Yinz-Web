@@ -29,10 +29,10 @@ function GetEventName(name){
 }
 function GetEventTime(time){
     if (time){
-        return( moment( time.event_timestamp.seconds * 1000 + time.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")  );
+        return(moment( time.event_timestamp.seconds * 1000 + time.event_timestamp.nanoseconds / 1000000 ).format("YYYY-MM-DDTHH:mm"));
     }
     else{
-        return
+        return;
     }
 }
 function GetEventlocation(locations){
@@ -52,6 +52,22 @@ function GetEventDescription(descript){
     }
 }
 
+function SetRadio(status){
+    if (status) {
+        if (status == 0){
+            return true;
+        }
+        else if(status == 1){
+            return true;
+        }
+        else{
+            return;
+        }
+   }
+   return;
+}
+
+
 export default function AddEventForm() {
     const location = useLocation()
     const OrgInfo = location.state.data;
@@ -62,6 +78,7 @@ export default function AddEventForm() {
     const [sEventLocation, fnSetEventLocation] = useState("");
     const [sEventDescription, fndSetEventDescription] = useState("");
     const [sEventStatus, fndSetEventStatus] = useState("");
+
 
     const handleChange = (event) => {
         // Get input value from "event"
@@ -79,12 +96,14 @@ export default function AddEventForm() {
                 </div>
             <div>
                 <label for='eventDateTime' className="text">Date and Time</label>
-                    <input value={GetEventTime(EventInfo)} className = "EventTimeInput" type="datetime-local" id="eventDateTime" name="eventDateTime" onChange={handleChange} ></input>
+                    <input value={GetEventTime(EventInfo)} className = "EventTimeInput" type="datetime-local" id="eventDateTime" name="eventDateTime" onChange={handleChange} >
+                    
+                    </input>
                 </div>
             <div>
                 <label  for="loc" className="text">Location</label>
-                    <select value={GetEventlocation(EventInfo)} name="loc" id="onSite" className = 'EventLocationSelectInput' onChange={handleChange}>
-                        <option value="" disabled selected>Select your option</option>
+                    <select name="loc" id="onSite" className = 'EventLocationSelectInput' onChange={handleChange}>
+                        <option value={GetEventlocation(EventInfo)} selected>{GetEventlocation(EventInfo)}</option>
                         <option value="loc1">loc1</option>
                         <option value="loc2">loc2</option>
                         <option value="loc3">loc3</option>
@@ -95,8 +114,8 @@ export default function AddEventForm() {
                     <textarea value={GetEventDescription(EventInfo)} className="EventDescriptionInput" onChange={handleChange}></textarea>
                 </div>
                 <div>
-                <input type="radio" name="action" className='RadioBtn'/> <label className='RadioLabel'>Public</label>
-                <input type="radio" name="action" className='RadioBtn'/> <label className='RadioLabel'>Private &#40;Followers Only&#41;</label>
+                <input type="radio" name="action" className='RadioBtn' /> <label className='RadioLabel'>Public</label>
+                <input type="radio" name="action" className='RadioBtn' checked/> <label className='RadioLabel'>Private &#40;Followers Only&#41;</label>
             </div>
             <div>
                 <button className='cancelBtn'>Cancel</button>
