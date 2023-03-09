@@ -12,7 +12,7 @@ Contributors:
 
 ===================================================================+*/
 import React, { useState, useEffect } from 'react';
-import {fnCreateEvent , fnGetLocations} from '../DBFunctions'
+import {fnCreateEvent , fnGetLocations, fnUpdateEvent} from '../DBFunctions'
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
 import '@fontsource/dm-sans';
@@ -82,8 +82,32 @@ export default function AddEventForm() {
         const oMessage = document.querySelector(".AnnouncementMessage");
         if(sEventName == "" || sEventStatus == "") {
             oMessage.innerHTML = "Invalid input. Please complete all form elements."
-        } else {
-            const error = await fnCreateEvent(OrgInfo.id, {
+        } 
+        else if(GetEventName(EventInfo)){
+            const error = await fnUpdateEvent(OrgInfo.id, EventInfo.event_id,{
+                event_description: sEventDescription,
+                event_location: sEventLocation,
+                event_name: sEventName,
+                event_status: sEventStatus == "Public" ? 1 : 0,
+                event_timestamp: new Date(sEventDate),
+            });
+            if(error) {
+                oMessage.innerHTML = "Error updating event. Please try again later.";
+            } else {
+                document.querySelector(".EventNameInput").value = "";
+                document.querySelector(".EventLocationSelectInput").value = "";
+                document.querySelector(".EventTimeInput").value = "";
+                document.querySelector(".EventDescriptionInput").value = "";
+                document.querySelector(".RadioBtnPrivate").checked = false;
+                document.querySelector(".RadioBtnPublic").checked = false;
+                fnSetEventName("");
+                fnSetEventDescription("");
+                oMessage.innerHTML = "Successfully updated event!";
+            }
+        }
+        
+        else {
+            const error = await fnCreateEvent(OrgInfo.id,{
                 event_description: sEventDescription,
                 event_location: sEventLocation,
                 event_name: sEventName,
