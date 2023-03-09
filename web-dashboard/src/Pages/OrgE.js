@@ -55,6 +55,7 @@ export default function Events() {
       const fnRenderEvents = async () => {
         let oEvents = await fnGetOrganizationEvents(OrgInfo.id);
         setiEvents(oEvents);
+        console.log(oEvents);
       }
       
       onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
