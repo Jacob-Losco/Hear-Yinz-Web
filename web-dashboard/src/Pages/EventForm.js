@@ -104,6 +104,21 @@ export default function AddEventForm() {
         }
     }
 
+      useEffect(() => {
+        const RenderLocations = async () => {
+          let TheOrgLocations = await fnGetLocations();
+          setLocations(TheOrgLocations);
+          console.log(TheOrgLocations);
+        }
+
+        onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
+            if(oCurrentUser != null) {
+              RenderLocations()
+            }
+          });
+    }, []);
+
+
     return(
 <div className="OrganizationEventFormContainer">
     <div className="EventFormContainer">
@@ -120,12 +135,15 @@ export default function AddEventForm() {
                     <input defaultValue={GetEventTime(EventInfo)} className = "EventTimeInput" type="datetime-local" id="eventDateTime" name="eventDateTime"
                     onChange={(event) => {
                         fnSetEventDateTime(event.target.value);}}></input>
+
                 </div>
 
                 <div>
                 <label className="text">Location</label>
+
                 <select name="loc" id="onSite" className = 'EventLocationSelectInput'onChange={(event) => {
                         fnSetEventLocation(event.target.value);}}>
+
                 <option value={GetEventlocation(EventInfo)}>{GetEventlocation(EventInfo)}</option>
                     {SOrgLocations.map(SOrgLocation => (
                     <option value={SOrgLocation.location_name} key={SOrgLocation} >{SOrgLocation.location_name}</option>
