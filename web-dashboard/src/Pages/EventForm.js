@@ -119,7 +119,7 @@ export default function AddEventForm() {
                 <div>
                 <label className="text">Location</label>
                 <select name="loc" id="onSite" className = 'EventLocationSelectInput' onChange={handleChange}>
-                <option value={GetEventlocation(EventInfo)}>{GetEventlocation(EventInfo)}</option>
+                <option disabled value={GetEventlocation(EventInfo)}>{GetEventlocation(EventInfo)}</option>
                     {SOrgLocations.map(SOrgLocation => (
                     <option value={SOrgLocation.location_name} key={SOrgLocation} >{SOrgLocation.location_name}</option>
                     ))};
