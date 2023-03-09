@@ -63,7 +63,17 @@
     margin-bottom:5%;
 }
 
-.RadioBtn{
+.RadioBtnPrivate{
+    display:inline;
+    margin-right:1%;
+    margin-left:22%;
+    width:32px;
+    height:32px;
+    font-size:22px;
+    margin-bottom:5%;
+}
+
+.RadioBtnPublic{
     display:inline;
     margin-right:1%;
     margin-left:22%;

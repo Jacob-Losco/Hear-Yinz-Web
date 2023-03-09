@@ -54,37 +54,55 @@ function GetEventDescription(descript){
     }
 }
 
-function SetRadio(status){
-    if (status) {
-        if (status == 0){
-            return true;
-        }
-        else if(status == 1){
-            return true;
-        }
-        else{
-            return;
-        }
-   }
-   return;
-}
 export default function AddEventForm() {
     const location = useLocation()
     const OrgInfo = location.state.data;
     const EventInfo = location.state.EventInfo;
     const [SOrgLocations, setLocations] = useState([]);
     const [sEventName, fnSetEventName] = useState("");
-    const [sEventDate, fnSetEventDate] = useState("");
-    const [sEventTime, fnSetEventime] = useState("");
+    const [sEventDate, fnSetEventDateTime] = useState("");
     const [sEventLocation, fnSetEventLocation] = useState("");
-    const [sEventDescription, fndSetEventDescription] = useState("");
-    const [sEventStatus, fndSetEventStatus] = useState("");
+    const [sEventDescription, fnSetEventDescription] = useState("");
+    const [sEventStatus, fnSetEventStatus] = useState("");
 
+      useEffect(() => {
+        const RenderLocations = async () => {
+          let TheOrgLocations = await fnGetLocations();
+          setLocations(TheOrgLocations);
+        }
 
-    const handleChange = (event) => {
-        // Get input value from "event"
-        //setMessage(event.target.value);
-      };
+        onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
+            if(oCurrentUser != null) {
+              RenderLocations()
+            }
+          });
+    }, []);
+
+    const fnHandleEventFormSubmit = async () => {
+        const oMessage = document.querySelector(".AnnouncementMessage");
+        if(sEventName == "" || sEventStatus == "") {
+            oMessage.innerHTML = "Invalid input. Please complete all form elements."
+        } else {
+            const error = await fnCreateEvent(OrgInfo.id, {
+                event_description: sEventDescription,
+                event_location: sEventLocation,
+                event_name: sEventName,
+                event_status: sEventStatus,
+                event_timestamp: sEventDate,
+            });
+            if(error) {
+                oMessage.innerHTML = "Error creating announcement. Please try again later.";
+            } else {
+                document.querySelector(".EventNameInput").value = "";
+                document.querySelector(".EventDescriptionInput").value = "";
+                document.querySelector(".RadioBtnPrivate").checked = false;
+                document.querySelector(".RadioBtnPublic").checked = false;
+                fnSetEventName("");
+                fnSetEventDescription("");
+                oMessage.innerHTML = "Successfully created announcement!";
+            }
+        }
+    }
 
       useEffect(() => {
         const RenderLocations = async () => {
@@ -108,17 +126,24 @@ export default function AddEventForm() {
         <div className="EventFormInputContainer">
             <div>
                 <label className='text'>Name</label> 
-                    <input value={GetEventName(EventInfo)} className = "EventNameInput" onChange={handleChange}></input> 
+                    <input defaultValue={GetEventName(EventInfo)} className = "EventNameInput"
+                    onChange={(event) => {
+                        fnSetEventName(event.target.value);}}></input> 
                 </div>
             <div>
                 <label for='eventDateTime' className="text">Date and Time</label>
-                    <input value={GetEventTime(EventInfo)} className = "EventTimeInput" type="datetime-local" id="eventDateTime" name="eventDateTime" onChange={handleChange} >
-                    </input>
+                    <input defaultValue={GetEventTime(EventInfo)} className = "EventTimeInput" type="datetime-local" id="eventDateTime" name="eventDateTime"
+                    onChange={(event) => {
+                        fnSetEventDateTime(event.target.value);}}></input>
+
                 </div>
 
                 <div>
                 <label className="text">Location</label>
-                <select name="loc" id="onSite" className = 'EventLocationSelectInput' onChange={handleChange}>
+
+                <select name="loc" id="onSite" className = 'EventLocationSelectInput'onChange={(event) => {
+                        fnSetEventLocation(event.target.value);}}>
+
                 <option value={GetEventlocation(EventInfo)}>{GetEventlocation(EventInfo)}</option>
                     {SOrgLocations.map(SOrgLocation => (
                     <option value={SOrgLocation.location_name} key={SOrgLocation} >{SOrgLocation.location_name}</option>
@@ -127,17 +152,26 @@ export default function AddEventForm() {
                 </div>
 
                 <label className="text">Description</label>
-                    <textarea value={GetEventDescription(EventInfo)} className="EventDescriptionInput" onChange={handleChange}></textarea>
+                    <textarea defaultValue={GetEventDescription(EventInfo)} className="EventDescriptionInput"onChange={(event) => {
+                        fnSetEventDescription(event.target.value);}}></textarea>
                 </div>
                 <div>
-                <input type="radio" name="action" className='RadioBtn' /> <label className='RadioLabel'>Public</label>
-                <input type="radio" name="action" className='RadioBtn' checked/> <label className='RadioLabel'>Private &#40;Followers Only&#41;</label>
+                <input type="radio" name="action" className='RadioBtnPublic' onChange={(event) => {
+                            document.querySelector(".RadioBtnPublic").checked = false;
+                            fnSetEventStatus(event.target.value);
+                        }}/> <label className='RadioLabel'>Public</label>
+                <input type="radio" name="action" className='RadioBtnPrivate' onChange={(event) => {
+                            document.querySelector(".RadioBtnPrivate").checked = false;
+                            fnSetEventStatus(event.target.value);}}/> <label className='RadioLabel'>Private &#40;Followers Only&#41;</label>
             </div>
             <div>
                 <button className='cancelBtn'>Cancel</button>
-                <button className='submitBtn'>Create</button>
+                <button className='submitBtn' onClick={fnHandleEventFormSubmit}>Create</button>
             </div>
         </div>
+            <div className="AnnouncementMessageContainer">
+                <p className="AnnouncementMessage"></p>
+            </div>
     </div>
 </div>
     );
