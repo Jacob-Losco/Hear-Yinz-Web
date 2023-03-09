@@ -12,7 +12,9 @@ Contributors:
 
 ===================================================================+*/
 import React, { useState, useEffect } from 'react';
-import fnCreateEvent from '../DBFunctions'
+import {fnCreateEvent , fnGetLocations} from '../DBFunctions'
+import { onAuthStateChanged } from 'firebase/auth';
+import { oAuthentication } from '../firebase-config';
 import '@fontsource/dm-sans';
 import '../font.css';
 import './EventForm.css';
@@ -66,12 +68,11 @@ function SetRadio(status){
    }
    return;
 }
-
-
 export default function AddEventForm() {
     const location = useLocation()
     const OrgInfo = location.state.data;
     const EventInfo = location.state.EventInfo;
+    const [SOrgLocations, setLocations] = useState([]);
     const [sEventName, fnSetEventName] = useState("");
     const [sEventDate, fnSetEventDate] = useState("");
     const [sEventTime, fnSetEventime] = useState("");
@@ -85,6 +86,21 @@ export default function AddEventForm() {
         //setMessage(event.target.value);
       };
 
+      useEffect(() => {
+        const RenderLocations = async () => {
+          let TheOrgLocations = await fnGetLocations();
+          setLocations(TheOrgLocations);
+          console.log(TheOrgLocations);
+        }
+
+        onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
+            if(oCurrentUser != null) {
+              RenderLocations()
+            }
+          });
+    }, []);
+
+
     return(
 <div className="OrganizationEventFormContainer">
     <div className="EventFormContainer">
@@ -97,19 +113,19 @@ export default function AddEventForm() {
             <div>
                 <label for='eventDateTime' className="text">Date and Time</label>
                     <input value={GetEventTime(EventInfo)} className = "EventTimeInput" type="datetime-local" id="eventDateTime" name="eventDateTime" onChange={handleChange} >
-                    
                     </input>
                 </div>
-            <div>
-                <label  for="loc" className="text">Location</label>
-                    <select name="loc" id="onSite" className = 'EventLocationSelectInput' onChange={handleChange}>
-                        <option value={GetEventlocation(EventInfo)} selected>{GetEventlocation(EventInfo)}</option>
-                        <option value="loc1">loc1</option>
-                        <option value="loc2">loc2</option>
-                        <option value="loc3">loc3</option>
-                    </select>
+
+                <div>
+                <label className="text">Location</label>
+                <select name="loc" id="onSite" className = 'EventLocationSelectInput' onChange={handleChange}>
+                <option value={GetEventlocation(EventInfo)}>{GetEventlocation(EventInfo)}</option>
+                    {SOrgLocations.map(SOrgLocation => (
+                    <option value={SOrgLocation.location_name} key={SOrgLocation} >{SOrgLocation.location_name}</option>
+                    ))};
+                </select>
                 </div>
-            <div>
+
                 <label className="text">Description</label>
                     <textarea value={GetEventDescription(EventInfo)} className="EventDescriptionInput" onChange={handleChange}></textarea>
                 </div>
@@ -123,7 +139,6 @@ export default function AddEventForm() {
             </div>
         </div>
     </div>
-</div>
 </div>
     );
 }
