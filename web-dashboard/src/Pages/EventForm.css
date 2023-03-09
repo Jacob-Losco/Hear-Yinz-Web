@@ -1,0 +1,113 @@
+.OrganizationEventFormContainer {
+    display: flex;
+    margin-top: 2%;
+    margin-right:7%;
+    justify-content: center;
+    height: 500px;
+    width: 100%;
+}
+
+.EventFormContainer {
+    height: 100%;
+    width: 50%;
+}
+
+.EventFormDataDataContainer {
+    display: flex;
+    justify-content: flex-end;
+    height: 40%;
+    width: 100%;
+}
+
+.EventFormInputContainer {
+    margin-bottom: 4%;
+}
+
+
+.text{
+    display:inline-flex;
+    width:160px;
+    margin-bottom: 6%;
+    font-size:22px;
+}
+
+.EventNameInput{
+    border: 1px solid black;
+    width:370px;
+    height:35px;
+}
+
+.EventDateInput{
+    border: 1px solid black;
+    width:370px;
+    height:35px;
+}
+
+.EventTimeInput{
+    border: 1px solid black;
+    width:370px;
+    height:35px;
+}
+
+.EventLocationSelectInput{
+    border: 1px solid black;
+    width:375px;
+    height:38px;
+}
+
+.EventDescriptionInput{
+    border: 1px solid black;
+    width:370px;
+    height:130px;
+    vertical-align: top;
+    margin-bottom:5%;
+}
+
+.RadioBtnPrivate{
+    display:inline;
+    margin-right:1%;
+    margin-left:22%;
+    width:32px;
+    height:32px;
+    font-size:22px;
+    margin-bottom:5%;
+}
+
+.RadioBtnPublic{
+    display:inline;
+    margin-right:1%;
+    margin-left:22%;
+    width:32px;
+    height:32px;
+    font-size:22px;
+    margin-bottom:5%;
+}
+
+.RadioLabel {
+    font-size: 22px;
+    vertical-align: top;
+}
+
+.cancelBtn{
+    border: 1px solid black;
+    width:150px;
+    height:42px;
+    margin-right:35%;
+    margin-left:5%;
+    color:white;
+    background-color:rgb(102, 102, 102);
+    border-radius: 30px;
+    font-size: 22px;
+}
+
+.submitBtn{
+    border: 1px solid black;
+    width:150px;
+    height:42px;
+    color:white;
+    background-color:rgb(56, 116, 29);
+    margin-left:15%;
+    margin-bottom:5%;
+    border-radius: 30px;
+    font-size: 22px;
+}
