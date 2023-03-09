@@ -495,7 +495,7 @@ export async function fnCreateEvent(sOrganizationId, oNewEvent) {
                   event_description: oNewEvent.event_description,
                   event_status: oNewEvent.event_status,
                   event_timestamp: Timestamp.fromDate(oNewEvent.event_timestamp),
-                  event_location: oLocationDoc.ref,
+                  event_location: oNewEvent.event_location,
                   event_likes: 0,
                   event_reports: 0   
                 });

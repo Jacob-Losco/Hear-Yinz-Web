@@ -12,6 +12,7 @@ Contributors:
 
 ===================================================================+*/
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {fnCreateEvent , fnGetLocations} from '../DBFunctions'
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
@@ -55,6 +56,7 @@ function GetEventDescription(descript){
 }
 
 export default function AddEventForm() {
+    const navigate = useNavigate();
     const location = useLocation()
     const OrgInfo = location.state.data;
     const EventInfo = location.state.EventInfo;
@@ -69,6 +71,7 @@ export default function AddEventForm() {
         const RenderLocations = async () => {
           let TheOrgLocations = await fnGetLocations();
           setLocations(TheOrgLocations);
+          console.log(TheOrgLocations)
         }
 
         onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -87,13 +90,15 @@ export default function AddEventForm() {
                 event_description: sEventDescription,
                 event_location: sEventLocation,
                 event_name: sEventName,
-                event_status: sEventStatus,
-                event_timestamp: sEventDate,
+                event_status: sEventStatus == "Public" ? 1 : 0,
+                event_timestamp: new Date(sEventDate),
             });
             if(error) {
                 oMessage.innerHTML = "Error creating announcement. Please try again later.";
             } else {
                 document.querySelector(".EventNameInput").value = "";
+                document.querySelector(".EventLocationSelectInput").value = "";
+                document.querySelector(".EventTimeInput").value = "";
                 document.querySelector(".EventDescriptionInput").value = "";
                 document.querySelector(".RadioBtnPrivate").checked = false;
                 document.querySelector(".RadioBtnPublic").checked = false;
@@ -124,11 +129,11 @@ export default function AddEventForm() {
 
                 <div>
                 <label className="text">Location</label>
-                <select name="loc" id="onSite" className = 'EventLocationSelectInput'onChange={(event) => {
+                <select name="loc" className = 'EventLocationSelectInput'onChange={(event) => {
                         fnSetEventLocation(event.target.value);}}>
-                <option value={GetEventlocation(EventInfo)}>{GetEventlocation(EventInfo)}</option>
+                <option defaultValue={GetEventlocation(EventInfo)}>{GetEventlocation(EventInfo)}</option>
                     {SOrgLocations.map(SOrgLocation => (
-                    <option value={SOrgLocation.location_name} key={SOrgLocation} >{SOrgLocation.location_name}</option>
+                    <option defualtValue={SOrgLocation.event_location} key={SOrgLocation} >hi</option>
                     ))};
                 </select>
                 </div>
@@ -138,20 +143,29 @@ export default function AddEventForm() {
                         fnSetEventDescription(event.target.value);}}></textarea>
                 </div>
                 <div>
-                <input type="radio" name="action" className='RadioBtnPublic' onChange={(event) => {
-                            document.querySelector(".RadioBtnPublic").checked = false;
+                <input type="radio" defaultValue='Public' name="action" className='RadioBtnPublic' onChange={(event) => {
+                            document.querySelector(".RadioBtnPrivate").checked = false;
                             fnSetEventStatus(event.target.value);
                         }}/> <label className='RadioLabel'>Public</label>
-                <input type="radio" name="action" className='RadioBtnPrivate' onChange={(event) => {
-                            document.querySelector(".RadioBtnPrivate").checked = false;
+                <input type="radio" defaultValue='Private' name="action" className='RadioBtnPrivate' onChange={(event) => {
+                            document.querySelector(".RadioBtnPublic").checked = false;
                             fnSetEventStatus(event.target.value);}}/> <label className='RadioLabel'>Private &#40;Followers Only&#41;</label>
             </div>
             <div>
-                <button className='cancelBtn'>Cancel</button>
+                <button className='cancelBtn'onClick={(event)=>{
+                                    document.querySelector(".EventNameInput").value = "";
+                                    document.querySelector(".EventLocationSelectInput").value = "";
+                                    document.querySelector(".EventTimeInput").value = "";
+                                    document.querySelector(".EventDescriptionInput").value = "";
+                                    document.querySelector(".RadioBtnPrivate").checked = false;
+                                    document.querySelector(".RadioBtnPublic").checked = false;
+                                    fnSetEventName("");
+                                    fnSetEventDescription("");
+                }}>Cancel</button>
                 <button className='submitBtn' onClick={fnHandleEventFormSubmit}>Create</button>
             </div>
         </div>
-            <div className="AnnouncementMessageContainer">
+            <div>
                 <p className="AnnouncementMessage"></p>
             </div>
     </div>
