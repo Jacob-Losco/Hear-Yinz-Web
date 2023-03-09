@@ -1,7 +1,7 @@
 /*+===================================================================
 File: EventForm.js
 
-Summary: A holder page for the organization Events Form page
+Summary: Form for updating and creating an event for organization
 
 Exported Data Structures: None
 
@@ -12,7 +12,6 @@ Contributors:
 
 ===================================================================+*/
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {fnCreateEvent , fnGetLocations} from '../DBFunctions'
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
@@ -56,7 +55,6 @@ function GetEventDescription(descript){
 }
 
 export default function AddEventForm() {
-    const navigate = useNavigate();
     const location = useLocation()
     const OrgInfo = location.state.data;
     const EventInfo = location.state.EventInfo;
@@ -71,7 +69,6 @@ export default function AddEventForm() {
         const RenderLocations = async () => {
           let TheOrgLocations = await fnGetLocations();
           setLocations(TheOrgLocations);
-          console.log(TheOrgLocations)
         }
 
         onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -94,7 +91,7 @@ export default function AddEventForm() {
                 event_timestamp: new Date(sEventDate),
             });
             if(error) {
-                oMessage.innerHTML = "Error creating announcement. Please try again later.";
+                oMessage.innerHTML = "Error creating event. Please try again later.";
             } else {
                 document.querySelector(".EventNameInput").value = "";
                 document.querySelector(".EventLocationSelectInput").value = "";
@@ -104,7 +101,7 @@ export default function AddEventForm() {
                 document.querySelector(".RadioBtnPublic").checked = false;
                 fnSetEventName("");
                 fnSetEventDescription("");
-                oMessage.innerHTML = "Successfully created announcement!";
+                oMessage.innerHTML = "Successfully created event!";
             }
         }
     }
@@ -133,7 +130,7 @@ export default function AddEventForm() {
                         fnSetEventLocation(event.target.value);}}>
                 <option defaultValue={GetEventlocation(EventInfo)}>{GetEventlocation(EventInfo)}</option>
                     {SOrgLocations.map(SOrgLocation => (
-                    <option defualtValue={SOrgLocation.event_location} key={SOrgLocation} >hi</option>
+                    <option value={SOrgLocation.location_id} key={SOrgLocation} >{SOrgLocation.location_name}</option>
                     ))};
                 </select>
                 </div>
@@ -165,10 +162,10 @@ export default function AddEventForm() {
                 <button className='submitBtn' onClick={fnHandleEventFormSubmit}>Create</button>
             </div>
         </div>
-            <div>
+            <div className='InnerHTML'>
                 <p className="AnnouncementMessage"></p>
             </div>
     </div>
 </div>
-    );
+);
 }
