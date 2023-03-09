@@ -60,6 +60,7 @@ export default function AddEventForm() {
     const EventInfo = location.state.EventInfo;
     const [SOrgLocations, setLocations] = useState([]);
     const [sEventName, fnSetEventName] = useState("");
+    const [sEventId, fnSetEventid] = useState("");
     const [sEventDate, fnSetEventDateTime] = useState("");
     const [sEventLocation, fnSetEventLocation] = useState("");
     const [sEventDescription, fnSetEventDescription] = useState("");
@@ -69,6 +70,7 @@ export default function AddEventForm() {
         const RenderLocations = async () => {
           let TheOrgLocations = await fnGetLocations();
           setLocations(TheOrgLocations);
+          
         }
 
         onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -77,19 +79,31 @@ export default function AddEventForm() {
             }
           });
     }, []);
-
+function RenderEvents(eventInfo){
+if (eventInfo){
+    useEffect(()=>{
+            fnSetEventName(eventInfo.event_name);
+            fnSetEventDateTime((moment( eventInfo.event_timestamp.seconds * 1000 + eventInfo.event_timestamp.nanoseconds / 1000000 ).format("YYYY-MM-DDTHH:mm")));
+            fnSetEventLocation(eventInfo.event_location);
+            fnSetEventDescription(eventInfo.event_description);
+            fnSetEventStatus(eventInfo.event_status);
+    }, [])
+}
+}
     const fnHandleEventFormSubmit = async () => {
         const oMessage = document.querySelector(".AnnouncementMessage");
         if(sEventName == "" || sEventStatus == "") {
             oMessage.innerHTML = "Invalid input. Please complete all form elements."
         } 
         else if(GetEventName(EventInfo)){
+            
             const error = await fnUpdateEvent(OrgInfo.id, EventInfo.event_id,{
                 event_description: sEventDescription,
                 event_location: sEventLocation,
                 event_name: sEventName,
                 event_status: sEventStatus == "Public" ? 1 : 0,
                 event_timestamp: new Date(sEventDate),
+                
             });
             if(error) {
                 oMessage.innerHTML = "Error updating event. Please try again later.";
@@ -146,7 +160,7 @@ export default function AddEventForm() {
 
 
     return(
-<div className="OrganizationEventFormContainer">
+<div className="OrganizationEventFormContainer">{RenderEvents(EventInfo)}
     <div className="EventFormContainer">
         <div className="EventFormUsDataContainer">
         <div className="EventFormInputContainer">
