@@ -107,7 +107,14 @@
     color:white;
     background-color:rgb(56, 116, 29);
     margin-left:15%;
-    margin-bottom:5%;
+    margin-bottom:2%;
     border-radius: 30px;
     font-size: 22px;
+}
+.AnnouncementMessage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    font-size:22px;
 }

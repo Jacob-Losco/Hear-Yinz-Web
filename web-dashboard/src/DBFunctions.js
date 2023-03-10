@@ -487,15 +487,15 @@ export async function fnCreateEvent(sOrganizationId, oNewEvent) {
         oNewEvent.event_status !== null &&
         oNewEvent.event_timestamp !== null &&
         oNewEvent.event_location !== null) {
-            const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oNewEvent.event_location);
-            const oLocationDoc = await getDoc(oLocationRef);
+            // const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oNewEvent.event_location);
+            // const oLocationDoc = await getDoc(oLocationRef);
             try {
                 const newDocRef = await addDoc(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events"), {
                   event_name: oNewEvent.event_name,
                   event_description: oNewEvent.event_description,
                   event_status: oNewEvent.event_status,
                   event_timestamp: Timestamp.fromDate(oNewEvent.event_timestamp),
-                  event_location: oLocationDoc.ref,
+                  event_location: oNewEvent.event_location,
                   event_likes: 0,
                   event_reports: 0   
                 });
@@ -566,7 +566,7 @@ export async function fnUpdateEvent(sOrganizationId, sEventId, oNewEvent) {
         oNewEvent.event_timestamp !== null &&
         oNewEvent.event_location !== null) {
             const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oNewEvent.event_location);
-            const oLocationDoc = await getDoc(oLocationRef);
+            // const oLocationDoc = await getDoc(oLocationRef);
             try {
                 const oEventDoc = doc(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events", sEventId);
                 updateDoc(oEventDoc, {
@@ -574,7 +574,7 @@ export async function fnUpdateEvent(sOrganizationId, sEventId, oNewEvent) {
                     event_description: oNewEvent.event_description,
                     event_status: oNewEvent.event_status,
                     event_timestamp: Timestamp.fromDate(oNewEvent.event_timestamp),
-                    event_location: oLocationDoc.ref,
+                    event_location: oNewEvent.event_location,
                 });
             } catch (error) {
                 console.error("Error adding document: ", error);
@@ -675,7 +675,10 @@ export async function fnGetLocations() {
     const oLocationRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Locations"));
     const oLocationDocs = await getDocs(oLocationRefs);
     for(const oLocationDoc of oLocationDocs.docs) {
-        aoLocationData.push(oLocationDoc.data());
+        aoLocationData.push({
+            ...oLocationDoc.data(),
+            location_id: oLocationDoc.id
+        });
     }
     return aoLocationData;
 }

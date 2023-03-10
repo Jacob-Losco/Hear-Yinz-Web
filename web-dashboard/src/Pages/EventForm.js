@@ -1,7 +1,7 @@
 /*+===================================================================
 File: EventForm.js
 
-Summary: A holder page for the organization Events Form page
+Summary: Form for updating and creating an event for organization
 
 Exported Data Structures: None
 
@@ -12,7 +12,7 @@ Contributors:
 
 ===================================================================+*/
 import React, { useState, useEffect } from 'react';
-import {fnCreateEvent , fnGetLocations} from '../DBFunctions'
+import {fnCreateEvent , fnGetLocations, fnUpdateEvent} from '../DBFunctions'
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../firebase-config';
 import '@fontsource/dm-sans';
@@ -60,6 +60,7 @@ export default function AddEventForm() {
     const EventInfo = location.state.EventInfo;
     const [SOrgLocations, setLocations] = useState([]);
     const [sEventName, fnSetEventName] = useState("");
+    const [sEventId, fnSetEventid] = useState("");
     const [sEventDate, fnSetEventDateTime] = useState("");
     const [sEventLocation, fnSetEventLocation] = useState("");
     const [sEventDescription, fnSetEventDescription] = useState("");
@@ -69,6 +70,7 @@ export default function AddEventForm() {
         const RenderLocations = async () => {
           let TheOrgLocations = await fnGetLocations();
           setLocations(TheOrgLocations);
+          
         }
 
         onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -77,29 +79,67 @@ export default function AddEventForm() {
             }
           });
     }, []);
-
+function RenderEvents(eventInfo){
+if (eventInfo){
+    useEffect(()=>{
+            fnSetEventName(eventInfo.event_name);
+            fnSetEventDateTime((moment( eventInfo.event_timestamp.seconds * 1000 + eventInfo.event_timestamp.nanoseconds / 1000000 ).format("YYYY-MM-DDTHH:mm")));
+            fnSetEventLocation(eventInfo.event_location);
+            fnSetEventDescription(eventInfo.event_description);
+            fnSetEventStatus(eventInfo.event_status);
+    }, [])
+}
+}
     const fnHandleEventFormSubmit = async () => {
         const oMessage = document.querySelector(".AnnouncementMessage");
         if(sEventName == "" || sEventStatus == "") {
             oMessage.innerHTML = "Invalid input. Please complete all form elements."
-        } else {
-            const error = await fnCreateEvent(OrgInfo.id, {
+        } 
+        else if(GetEventName(EventInfo)){
+            
+            const error = await fnUpdateEvent(OrgInfo.id, EventInfo.event_id,{
                 event_description: sEventDescription,
                 event_location: sEventLocation,
                 event_name: sEventName,
-                event_status: sEventStatus,
-                event_timestamp: sEventDate,
+                event_status: sEventStatus == "Public" ? 1 : 0,
+                event_timestamp: new Date(sEventDate),
+                
             });
             if(error) {
-                oMessage.innerHTML = "Error creating announcement. Please try again later.";
+                oMessage.innerHTML = "Error updating event. Please try again later.";
             } else {
                 document.querySelector(".EventNameInput").value = "";
+                document.querySelector(".EventLocationSelectInput").value = "";
+                document.querySelector(".EventTimeInput").value = "";
                 document.querySelector(".EventDescriptionInput").value = "";
                 document.querySelector(".RadioBtnPrivate").checked = false;
                 document.querySelector(".RadioBtnPublic").checked = false;
                 fnSetEventName("");
                 fnSetEventDescription("");
-                oMessage.innerHTML = "Successfully created announcement!";
+                oMessage.innerHTML = "Successfully updated event!";
+            }
+        }
+        
+        else {
+            const error = await fnCreateEvent(OrgInfo.id,{
+                event_description: sEventDescription,
+                event_location: sEventLocation,
+                event_name: sEventName,
+                event_status: sEventStatus == "Public" ? 1 : 0,
+                event_timestamp: new Date(sEventDate),
+            });
+            if(error) {
+                oMessage.innerHTML = "Error creating event. Please try again later.";
+            } else {
+                document.querySelector(".EventNameInput").value = "";
+                document.querySelector(".EventLocationSelectInput").value = "";
+                document.querySelector(".EventTimeInput").value = "";
+                document.querySelector(".EventDescriptionInput").value = "";
+                document.querySelector(".RadioBtnPrivate").checked = false;
+                document.querySelector(".RadioBtnPublic").checked = false;
+                fnSetEventName("");
+                fnSetEventDescription("");
+                oMessage.innerHTML = "Successfully created event!";
             }
         }
     }
@@ -120,7 +160,7 @@ export default function AddEventForm() {
 
 
     return(
-<div className="OrganizationEventFormContainer">
+<div className="OrganizationEventFormContainer">{RenderEvents(EventInfo)}
     <div className="EventFormContainer">
         <div className="EventFormUsDataContainer">
         <div className="EventFormInputContainer">
@@ -146,7 +186,7 @@ export default function AddEventForm() {
 
                 <option value={GetEventlocation(EventInfo)}>{GetEventlocation(EventInfo)}</option>
                     {SOrgLocations.map(SOrgLocation => (
-                    <option value={SOrgLocation.location_name} key={SOrgLocation} >{SOrgLocation.location_name}</option>
+                    <option value={SOrgLocation.location_id} key={SOrgLocation} >{SOrgLocation.location_name}</option>
                     ))};
                 </select>
                 </div>
@@ -156,23 +196,32 @@ export default function AddEventForm() {
                         fnSetEventDescription(event.target.value);}}></textarea>
                 </div>
                 <div>
-                <input type="radio" name="action" className='RadioBtnPublic' onChange={(event) => {
-                            document.querySelector(".RadioBtnPublic").checked = false;
+                <input type="radio" defaultValue='Public' name="action" className='RadioBtnPublic' onChange={(event) => {
+                            document.querySelector(".RadioBtnPrivate").checked = false;
                             fnSetEventStatus(event.target.value);
                         }}/> <label className='RadioLabel'>Public</label>
-                <input type="radio" name="action" className='RadioBtnPrivate' onChange={(event) => {
-                            document.querySelector(".RadioBtnPrivate").checked = false;
+                <input type="radio" defaultValue='Private' name="action" className='RadioBtnPrivate' onChange={(event) => {
+                            document.querySelector(".RadioBtnPublic").checked = false;
                             fnSetEventStatus(event.target.value);}}/> <label className='RadioLabel'>Private &#40;Followers Only&#41;</label>
             </div>
             <div>
-                <button className='cancelBtn'>Cancel</button>
+                <button className='cancelBtn'onClick={(event)=>{
+                                    document.querySelector(".EventNameInput").value = "";
+                                    document.querySelector(".EventLocationSelectInput").value = "";
+                                    document.querySelector(".EventTimeInput").value = "";
+                                    document.querySelector(".EventDescriptionInput").value = "";
+                                    document.querySelector(".RadioBtnPrivate").checked = false;
+                                    document.querySelector(".RadioBtnPublic").checked = false;
+                                    fnSetEventName("");
+                                    fnSetEventDescription("");
+                }}>Cancel</button>
                 <button className='submitBtn' onClick={fnHandleEventFormSubmit}>Create</button>
             </div>
         </div>
-            <div className="AnnouncementMessageContainer">
+            <div className='InnerHTML'>
                 <p className="AnnouncementMessage"></p>
             </div>
     </div>
 </div>
-    );
+);
 }
