@@ -12,12 +12,12 @@ Contributors:
 
 ===================================================================+*/
 import React, { useState, useEffect } from 'react';
-import {fnCreateEvent , fnGetLocations, fnUpdateEvent} from '../DBFunctions'
+import {fnCreateEvent , fnGetLocations, fnUpdateEvent} from '../../DBFunctions'
 import { onAuthStateChanged } from 'firebase/auth';
-import { oAuthentication } from '../firebase-config';
+import { oAuthentication } from '../../firebase-config';
 import '@fontsource/dm-sans';
-import '../font.css';
-import './EventForm.css';
+import '../../Styles/font.css';
+import '../../Styles/EventForm.css';
 import {useLocation} from 'react-router-dom'
 import moment from 'moment';
 

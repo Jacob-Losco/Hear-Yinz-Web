@@ -8,21 +8,18 @@ Exported Data Structures: None
 Exported Functions: Requests
 
 Contributors:
-	Philip Pavlick - 02/2/23 - SP-263
     Philip Pavlick - 02/18/23 - SP-312
 
 ===================================================================+*/
 
 
 import React from 'react';
-import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
+import {Routes, Route, NavLink} from 'react-router-dom'
 import AdminEvents from './AdminEvents';
 import AdminAnnouncement from './AdminAnnouncement';
 import AdminOfficer from './AdminOfficer';
-
-import '../font.css';
-import './Requests.css'
-
+import '../../Styles/font.css';
+import '../../Styles/Requests.css'
 
 export default function Requests() {
     return(

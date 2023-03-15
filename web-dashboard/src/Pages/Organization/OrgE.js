@@ -17,12 +17,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useEffect } from 'react';  
-import { fnDeleteEvent, fnGetOrganizationEvents} from '../DBFunctions';
+import { fnDeleteEvent, fnGetOrganizationEvents} from '../../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
-import { oAuthentication } from '../firebase-config';
+import { oAuthentication } from '../../firebase-config';
 import moment from 'moment';
-import './OrgList.css'  
-import './OrgE.css'    
+import '../../Styles/OrgList.css'  
+import '../../Styles/OrgE.css'    
 import {useLocation} from 'react-router-dom'
 
 function StatusChecking(status){

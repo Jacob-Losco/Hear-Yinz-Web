@@ -14,9 +14,9 @@ Contributors:
 ===================================================================+*/
 import React, { useState } from 'react';
 import '@fontsource/dm-sans';
-import '../font.css';
-import './OrgAnnouncementsForm.css';
-import { fnCreateAnnouncement } from '../DBFunctions';
+import '../../Styles/font.css';
+import '../../Styles/OrgAnnouncementsForm.css';
+import { fnCreateAnnouncement } from '../../DBFunctions';
 import {useLocation} from 'react-router-dom'
 
 export default function OrganizationAnnouncementsForm() {

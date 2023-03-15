@@ -13,8 +13,8 @@ Contributors:
 ===================================================================+*/
 import {render, screen, fireEvent} from "@testing-library/react";
 import React from "react";
-import Login from "./Login";
-import { oAuthentication } from "./firebase-config";
+import Login from "../Login";
+import { oAuthentication } from "../firebase-config";
 
     /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       Test: Login sucess oAuth is not null

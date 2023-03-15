@@ -4,7 +4,7 @@ import {render, screen, fireEvent, waitFor, } from '@testing-library/react';
 import NavBar from '../NavBar';
 import Login from "../Login";
 import { fnLogout } from '../LoginFunctions';
-import AdminEvent from "./Requests"
+import AdminEvent from "../Pages/Requests"
 
 
 import 'mutationobserver-shim';
