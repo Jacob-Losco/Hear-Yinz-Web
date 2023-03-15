@@ -8,35 +8,26 @@ Exported Data Structures: None
 Exported Functions: AdminEvents
 
 Contributors:
-	Philip Pavlick - 02/18/23 - SP-312
-  Philip Pavlick - 02/25/23 - SP-314
-  Philip Pavlick - 02/26/23 - SP-388
-  Philip Pavlick - 03/1/23  - SP-394 & SP-396
+  Philip Pavlick - 03/1/23  - SP-396
 ===================================================================+*/
 
 import React, { useState, useEffect } from 'react';
 import Grid  from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { fnGetEventRequests, fnHandleEventRequest} from '../DBFunctions';
+import { fnGetEventRequests, fnHandleEventRequest} from '../../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
-import { oAuthentication } from '../firebase-config';
-import '../font.css';
-import './AdminRequests.css';
+import { oAuthentication } from '../../firebase-config';
+import '../../Styles/font.css';
+import '../../Styles/AdminRequests.css';
 import moment from 'moment';
 
-
-
-
-
 export default function AdminEvents() {
-
-
-    const [iEvents, setiEvents] = useState([]);
+    const [aoEvents, setEvents] = useState([]);
 
     useEffect(() => {
       const fnRenderEvents = async () => {
-        let oEvents = await fnGetEventRequests();
-        setiEvents(oEvents);
+        let aoEvents = await fnGetEventRequests();
+        setEvents(aoEvents);
       }
       
       onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -61,9 +52,7 @@ export default function AdminEvents() {
     async function fnHandleEventRequestApprove(sOrganizationId, sEventId) {
       await fnHandleEventRequest(sOrganizationId, sEventId, true);
       let oEvents = await fnGetEventRequests();
-      setiEvents(oEvents);
-
-
+      setEvents(oEvents);
     }
 
     /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -78,40 +67,38 @@ export default function AdminEvents() {
     async function fnHandleEventRequestDeny(sOrganizationId, sEventId) {
       await fnHandleEventRequest(sOrganizationId, sEventId, false);
       let oEvents = await fnGetEventRequests();
-      setiEvents(oEvents);
-
+      setEvents(oEvents);
     }
 
-    
     return(
       <Box >
-        {iEvents.map(iEvent => ( 
-          <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={iEvent.event_id}>
+        {aoEvents.map(oEvent => ( 
+          <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={oEvent.event_id}>
             <Grid className='OuterGrid'  container spacing={2} textAlign="center">
               <Grid item xs={4} >
                 <div className='LeftRequest'>
-                    {iEvent.event_name}
+                    {oEvent.event_name}
                     <br></br>
-                    {iEvent.host.organization_name}
+                    {oEvent.host.organization_name}
                 </div>
               </Grid>
               <Grid item xs={6} >
                 <div className='MiddleRequest'> 
-                {iEvent.location.location_name}
+                {oEvent.location.location_name}
                   <br></br>
-                  { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("dddd, MMMM Do YYYY, h:mm a")  }
+                  { moment( oEvent.event_timestamp.seconds * 1000 + oEvent.event_timestamp.nanoseconds / 1000000 ).format("dddd, MMMM Do YYYY, h:mm a")  }
                 </div>
               </Grid>
               <Grid item xs={1} sx={{mt: .5}}>
                 <div>
-                  <button className='EventApproveButton' onClick={() => fnHandleEventRequestApprove(iEvent.host_id, iEvent.event_id)}>
+                  <button className='EventApproveButton' onClick={() => fnHandleEventRequestApprove(oEvent.host_id, oEvent.event_id)}>
 
                   </button>
                 </div>
               </Grid>
               <Grid item xs={1} sx={{mt: .5}}>
                 <div>
-                  <button className='EventDenyButton'onClick={() => fnHandleEventRequestDeny(iEvent.host_id, iEvent.event_id)}>
+                  <button className='EventDenyButton'onClick={() => fnHandleEventRequestDeny(oEvent.host_id, oEvent.event_id)}>
 
                   </button>
                 </div>

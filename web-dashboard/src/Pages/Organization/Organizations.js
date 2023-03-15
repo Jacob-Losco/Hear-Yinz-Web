@@ -15,12 +15,12 @@ import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import './OrgList.css'      
+import '../../Styles/OrgList.css'      
 import {Link} from 'react-router-dom'
 import { useEffect } from 'react';  
-import { fnGetOfficerOrganizations} from '../DBFunctions';
+import { fnGetOfficerOrganizations} from '../../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
-import { oAuthentication } from '../firebase-config';
+import { oAuthentication } from '../../firebase-config';
 
 export default function Organizations() {
 

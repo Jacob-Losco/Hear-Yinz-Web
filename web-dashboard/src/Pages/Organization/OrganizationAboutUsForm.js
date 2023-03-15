@@ -14,10 +14,10 @@ Contributors:
 ===================================================================+*/
 import React, { useState, useEffect } from 'react';
 import '@fontsource/dm-sans';
-import '../font.css';
-import './OrganizationAboutUsForm.css';
+import '../../Styles/font.css';
+import '../../Styles/OrganizationAboutUsForm.css';
 import { useLocation } from 'react-router-dom'
-import { fnUpdateOrganizationImage, fnUpdateOrganizationDescription } from '../DBFunctions';
+import { fnUpdateOrganizationImage, fnUpdateOrganizationDescription } from '../../DBFunctions';
 
 export default function OrganizationAboutUsForm() {
 

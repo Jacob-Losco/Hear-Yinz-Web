@@ -17,15 +17,15 @@ import React from 'react';
 import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
   import { useEffect, useState } from 'react';  
   import { onAuthStateChanged } from 'firebase/auth';
-  import {oAuthentication} from './firebase-config';
-  import Requests from './Pages/Requests'
-  import AdminEvents from './Pages/AdminEvents'
-  import Organizations from './Pages/Organizations';
-  import OrgPage from './Pages/OrgPage';
-  import Reports from './Pages/Reports';
+  import { oAuthentication } from './firebase-config';
+  import Requests from './Pages/Admin/Requests'
+  import AdminEvents from './Pages/Admin/AdminEvents'
+  import Organizations from './Pages/Organization/Organizations';
+  import OrgPage from './Pages/Organization/OrgPage';
+  import Reports from './Pages/Admin/Reports';
   import Login from './Login';
-  import './font.css';
-  import './NavBar.css';
+  import './Styles/font.css';
+  import './Styles/NavBar.css';
   import logo from './Recources/HearYinzLogo.png'
   import { fnGetUserRole } from './DBFunctions';
   import { fnGetEventReports, fnGetEventRequests, fnGetOfficerRequests, fnGetAnnouncementRequests } from './DBFunctions'

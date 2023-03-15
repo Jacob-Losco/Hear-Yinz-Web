@@ -12,13 +12,13 @@ Contributors:
 
 ===================================================================+*/
 import React from 'react';
-import {NavLink, Route, Routes, useLocation} from 'react-router-dom'
+import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import OrgE from './OrgE';
 import AddEventForm from './EventForm';
 import OrganizationAnnouncementsForm from './OrgAnnouncementsForm'
 import OrganizationAboutUsForm from './OrganizationAboutUsForm';
 import OrgOff from './OrgOff';
-import './OrgList.css'
+import '../../Styles/OrgList.css'
 
 export default function OrgPage(props) {
     const location = useLocation()

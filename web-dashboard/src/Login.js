@@ -14,8 +14,8 @@ Contributors:
 
 import React, { useState } from 'react';
 import '@fontsource/dm-sans';
-import './font.css';
-import './Login.css';
+import './Styles/font.css';
+import './Styles/Login.css';
 import { fnLogin } from "./LoginFunctions";
 
 function Login() {
@@ -53,7 +53,7 @@ function Login() {
       <br></br>
       <div>
         <div className='bld' >Password</div>
-        <input className = "inpt" placeholder='Password' onChange={(event) => {
+        <input type="password" className = "inpt" placeholder='Password' onChange={(event) => {
         fnSetLoginPassword(event.target.value);
       }} />
       </div>

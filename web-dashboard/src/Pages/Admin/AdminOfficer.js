@@ -8,30 +8,25 @@ Exported Data Structures: None
 Exported Functions: AdminOfficer
 
 Contributors:
-	Philip Pavlick - 02/18/23 - SP-312
-  Philip Pavlick - 03/6/23  - SP-465 & 392
+  Philip Pavlick - 03/6/23  - SP-392
 /===================================================================+*/
 
 import React, { useState, useEffect } from 'react';
 import Grid  from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { fnGetOfficerRequests, fnHandleOfficerRequest} from '../DBFunctions';
+import { fnGetOfficerRequests, fnHandleOfficerRequest} from '../../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
-import { oAuthentication } from '../firebase-config';
-import '../font.css';
-import './AdminRequests.css';
-
+import { oAuthentication } from '../../firebase-config';
+import '../../Styles/font.css';
+import '../../Styles/AdminRequests.css';
 
 export default function AdminOfficer() {
-
-
-        const [iOfficers, setiOfficers] = useState([]);
+        const [aoOfficers, setOfficers] = useState([]);
     
         useEffect(() => {
           const fnRenderOfficers = async () => {
             let oOfficers = await fnGetOfficerRequests();
-            setiOfficers(oOfficers);
-            console.log(oOfficers);
+            setOfficers(oOfficers);
           }
           
           onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -39,12 +34,10 @@ export default function AdminOfficer() {
                 fnRenderOfficers()
             }
           });
-    
-    
         }, []);
 
 
-            /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     Function: fnHandleOfficerRequestApprove
   
     Summary: front end passes true variable to backend in order to change value of relationship_status to reflect approval
@@ -56,9 +49,7 @@ export default function AdminOfficer() {
     async function fnHandleOfficerRequestApprove(sAccountId, sRelationshipId) {
         await fnHandleOfficerRequest(sAccountId, sRelationshipId, true);
         let oOfficers = await fnGetOfficerRequests();
-        setiOfficers(oOfficers);
-  
-  
+        setOfficers(oOfficers);
       }
   
       /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -73,35 +64,34 @@ export default function AdminOfficer() {
       async function fnHandleOfficerRequestDeny(sAccountId, sRelationshipId) {
         await fnHandleOfficerRequest(sAccountId, sRelationshipId, false);
         let oOfficers = await fnGetOfficerRequests();
-        setiOfficers(oOfficers);
-  
+        setOfficers(oOfficers);
       }
     
         return(
             <Box >
-              {iOfficers.map(iOfficer => ( 
-                <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={iOfficer.account_id}>
+              {aoOfficers.map(oOfficer => ( 
+                <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={oOfficer.account_id}>
                   <Grid className='OuterGrid'  container spacing={2} textAlign="center">
                     <Grid item xs={4} sx={{mt: 1.3}}>
                       <div className='LeftRequest'>
-                          {iOfficer.organization_name}
+                          {oOfficer.organization_name}
                       </div>
                     </Grid>
                     <Grid item xs={6} sx={{mt: 1.3}}>
                       <div className='MiddleRequest'> 
-                      {iOfficer.account_name}
+                      {oOfficer.account_name}
                       </div>
                     </Grid>
                     <Grid item xs={1} sx={{mt: .5}}>
                       <div>
-                        <button className='EventApproveButton' onClick={() => fnHandleOfficerRequestApprove(iOfficer.account_id, iOfficer.officer_relationship_id)}>
+                        <button className='EventApproveButton' onClick={() => fnHandleOfficerRequestApprove(oOfficer.account_id, oOfficer.officer_relationship_id)}>
       
                         </button>
                       </div>
                     </Grid>
                     <Grid item xs={1} sx={{mt: .5}}>
                       <div>
-                        <button className='EventDenyButton' onClick={() => fnHandleOfficerRequestDeny(iOfficer.account_id, iOfficer.officer_relationship_id)}>
+                        <button className='EventDenyButton' onClick={() => fnHandleOfficerRequestDeny(oOfficer.account_id, oOfficer.officer_relationship_id)}>
       
                         </button>
                       </div>
