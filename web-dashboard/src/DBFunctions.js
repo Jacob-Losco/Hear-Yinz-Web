@@ -428,7 +428,16 @@ export async function fnGetEventReports() {
         const oEventDocs = await getDocs(oEventRefs);
         if(oEventDocs.docs.length > 0) {
             for(const oEventDoc of oEventDocs.docs) {
-                aoReportData.push(oEventDoc.data());
+                const oEventData = oEventDoc.data();
+                const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oEventData["event_location"]);
+                const oLocationDoc = await getDoc(oLocationRef);
+                aoReportData.push({
+                    ...oEventDoc.data(),
+                    event_id: oEventDoc.id,
+                    host_id: oOrganizationDoc.id,
+                    host: oOrganizationDoc.data(),
+                    location: oLocationDoc.data()
+                });
             }
         }
     }
