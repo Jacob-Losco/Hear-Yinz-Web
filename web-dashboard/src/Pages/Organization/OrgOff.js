@@ -13,13 +13,21 @@ Contributors:
 ===================================================================+*/
 import React from 'react';
 import {useLocation} from 'react-router-dom'
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import '../../Styles/OrgOff.css'   
 export default function Officers() {
     const location = useLocation()
     const data = location.state.data;
     return(
-        <div>
-            <h>Welcome Officers</h>
-            <p>Sample test from Officers page.</p>
+        <div className='offFormContainter'>
+            <div className='offFormDataContainer'>
+                <Box component="div" sx={{ display: 'inline' }}>
+                    <label className='emailInput'>Officer Email</label> 
+                        <input className='emInput'></input>
+                     <Button sx={{  color: 'white', backgroundColor: '#38741D', border: 1, borderRadius: 15 }}> + </Button> 
+                </Box>
+            </div>
         </div>
     );
 }
