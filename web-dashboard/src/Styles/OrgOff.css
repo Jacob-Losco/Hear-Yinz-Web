@@ -1,0 +1,22 @@
+.offFormContainter{
+    display: flex;
+    margin-top: 2%;
+    margin-right:7%;
+    justify-content: center;
+}
+.offFormDataContainer{
+    height: 100%;
+    width: 50%;
+}
+.emailInput{
+    display:inline-flex;
+    margin-right:3%;
+    font-size:22px;
+
+}
+.emInput{
+    width:320px;
+    height:35px;
+    margin-right: 4%;
+    vertical-align: middle;
+}
