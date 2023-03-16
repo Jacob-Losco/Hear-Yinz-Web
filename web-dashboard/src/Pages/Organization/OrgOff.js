@@ -23,7 +23,7 @@ export default function Officers() {
         <div className='offFormContainter'>
             <div className='offFormDataContainer'>
                 <Box component="div" sx={{ display: 'inline' }}>
-                    <label className='emailInput'>Officer Email:</label> 
+                    <label className='emailInput'>Officer Email</label> 
                         <input className='emInput'></input>
                      <Button sx={{  color: 'white', backgroundColor: '#38741D', border: 1, borderRadius: 15 }}> + </Button> 
                 </Box>
