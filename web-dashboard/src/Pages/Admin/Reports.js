@@ -8,7 +8,8 @@ Exported Data Structures: None
 Exported Functions: Reports
 
 Contributors:
-	Philip Pavlick - 02/2/23 - SP-263
+	Philip Pavlick - 02/2/23  - SP-263
+    Phili  Pavlick - 03/17/23 - SP-483 & 484
 
 ===================================================================+*/
 
@@ -16,6 +17,7 @@ import React, { useState, useEffect } from 'react';
 import Grid  from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import {Link} from 'react-router-dom'
 import { fnGetEventReports  } from '../../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../../firebase-config';
@@ -63,7 +65,7 @@ export default function Reports() {
                         </Grid>
                         <Grid item xs={3} sx={{mt:1.3}} >
                             <div>
-                                <Button sx={{ m: -1, color: 'black', backgroundColor: '#38741d', border: 0, padding: 0 }}> View</Button>
+                                <Button sx={{ m: -1, color: 'black', backgroundColor: '#38741d', border: 0, padding: 0 }} component={Link} to ="ReportsExpand"> View</Button>
                             </div>
                         </Grid>
                     </Grid>
