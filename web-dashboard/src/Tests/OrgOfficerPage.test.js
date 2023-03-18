@@ -43,9 +43,8 @@ test("Organizations page officer ", async () => {
   const OrgName =  await waitFor( () => screen.getByText('TestStatic_Org1'), { timeout: 8000 });
   const oOrgButton = screen.getByAltText("orgImg");
   fireEvent.click(oOrgButton); 
-  const OrgName1 =  await waitFor( () => screen.getByText('TestStatic_Org1'), { timeout: 8000 });
-  const oRequestsEventButton = screen.getByRole('link', {name: /Officer/i}); 
-  fireEvent.click(oRequestsEventButton);
+  const linkOne =  await waitFor( () => screen.getByRole('link', {name: /officer/i}), { timeout: 8000 }); 
+  fireEvent.click(linkOne);
 
   const EventRequestItem = await waitFor( () => screen.findByText("Officer Email"), { timeout: 8000 });
   expect (EventRequestItem).toBeInTheDocument();
