@@ -44,7 +44,7 @@ export default function Reports() {
 
 
     return(
-        <Box>
+        <Box data-testid="Reports333">
             {aoReports.map (oReports => ( 
                 <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={oReports.event_id}>
                     <Grid className='OuterGrid' container spacing={2} textAlign="center">
