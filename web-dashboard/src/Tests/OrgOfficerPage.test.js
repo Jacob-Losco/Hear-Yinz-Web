@@ -41,7 +41,7 @@ test("Organizations page officer ", async () => {
 
 
   const OrgName =  await waitFor( () => screen.getByText('TestStatic_Org1'), { timeout: 8000 });
-  const oOrgButton = screen.getByAltText("orgImg");
+  const oOrgButton = screen.getByTestId("linkerton");
   fireEvent.click(oOrgButton); 
   const linkOne =  await waitFor( () => screen.getByRole('link', {name: /officer/i}), { timeout: 8000 }); 
   fireEvent.click(linkOne);
