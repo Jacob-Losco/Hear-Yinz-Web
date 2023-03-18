@@ -23,6 +23,7 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
   import Organizations from './Pages/Organization/Organizations';
   import OrgPage from './Pages/Organization/OrgPage';
   import Reports from './Pages/Admin/Reports';
+  import ReportsExpand from './Pages/Admin/ReportsExpand'
   import Login from './Login';
   import './Styles/font.css';
   import './Styles/NavBar.css';
@@ -124,6 +125,7 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
                 <Route path="Organizations/OrgPage/*" element={<OrgPage /> }/>
                 <Route path="/Requests/*" element={<Requests /> }/>
                 <Route path="/Reports" element={<Reports />} />
+                <Route path="/Reports/ReportsExpand" element={<ReportsExpand />} />
               </Routes>
         </div>
 
