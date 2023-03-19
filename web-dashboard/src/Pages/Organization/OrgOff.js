@@ -17,7 +17,8 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import '../../Styles/OrgOff.css';
 import {fnAddOfficer} from   '../../DBFunctions'
-export default function Officers() {
+
+const OrgOff = ({triggerRequestsAddUpdate}) => {
 
     const [sOfficerEmail, fnSetOfficerEmail] = useState("");
 
@@ -38,6 +39,7 @@ export default function Officers() {
             } else {
                 document.querySelector(".emInput").value = "";
                 oMessage.innerHTML = "Successfully Added Officer!";
+                triggerRequestsAddUpdate();
             }
         }
     }
@@ -60,3 +62,5 @@ export default function Officers() {
         </div>
     );
 }
+
+export default OrgOff;

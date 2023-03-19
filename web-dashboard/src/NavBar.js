@@ -14,24 +14,24 @@ File: NavBar.js
 ===================================================================+*/
 
 import React from 'react';
-import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
-  import { useEffect, useState } from 'react';  
-  import { onAuthStateChanged } from 'firebase/auth';
-  import { oAuthentication } from './firebase-config';
-  import Requests from './Pages/Admin/Requests'
-  import Organizations from './Pages/Organization/Organizations';
-  import OrgPage from './Pages/Organization/OrgPage';
-  import Reports from './Pages/Admin/Reports';
-  import ReportsExpand from './Pages/Admin/ReportsExpand'
-  import Login from './Login';
-  import './Styles/font.css';
-  import './Styles/NavBar.css';
-  import logo from './Recources/HearYinzLogo.png'
-  import { fnGetUserRole } from './DBFunctions';
-  import { fnGetEventReports, fnGetEventRequests, fnGetOfficerRequests, fnGetAnnouncementRequests } from './DBFunctions'
-  import { fnLogout } from './LoginFunctions';
+import { NavLink, Routes, Route, useNavigate} from 'react-router-dom'
+import { useEffect, useState } from 'react';  
+import { onAuthStateChanged } from 'firebase/auth';
+import { oAuthentication } from './firebase-config';
+import Requests from './Pages/Admin/Requests'
+import Organizations from './Pages/Organization/Organizations';
+import OrgPage from './Pages/Organization/OrgPage';
+import Reports from './Pages/Admin/Reports';
+import ReportsExpand from './Pages/Admin/ReportsExpand'
+import Login from './Login';
+import './Styles/font.css';
+import './Styles/NavBar.css';
+import logo from './Recources/HearYinzLogo.png'
+import { fnGetUserRole } from './DBFunctions';
+import { fnGetAnnouncementRequests, fnGetEventReports, fnGetEventRequests, fnGetOfficerRequests } from './DBFunctions'
+import { fnLogout } from './LoginFunctions';
   
-  function NavBar() {
+  const NavBar = () => {
     const [iCountReports, setiCountReports] = useState(0);
     const [iCountRequests, setiCountRequests] = useState(0);
     const [bCountRequestsLoaded, setCountRequestsLoaded] = useState(false);
@@ -51,15 +51,48 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
   -------------------------------------------------------------------F*/
     const fnHandleLogout = async () => {
       const error = await fnLogout();
+      setCountReportsLoaded(false);
+      setCountRequestsLoaded(false);
+    }
+
+    const fnRemoveReport = async () => {
+      setiCountReports(iCountReports - 1);
+    }
+
+    const fnAddRequest = async () => {
+      setiCountRequests(iCountRequests + 1);
+    }
+
+    const fnRemoveRequest = async () => {
+      console.log("Hello");
+      setiCountRequests(iCountRequests - 1);
     }
 
     useEffect(() => {
+      /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Function: fnDisplayReports
+  
+      Summary: gets reports from database function and sets component state with value
+  
+      Args: None
+  
+      Returns: None
+      -------------------------------------------------------------------F*/
       const fnDisplayReports = async () => {
           let oReports = await fnGetEventReports();
           setiCountReports(oReports.length);
           setCountReportsLoaded(true);
       }
 
+      /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Function: fnDisplayRequests
+  
+      Summary: gets requests from database function and sets component state with value
+  
+      Args: None
+  
+      Returns: None
+      -------------------------------------------------------------------F*/
       const fnDisplayRequests = async () => {
         let oEvents = await fnGetEventRequests();
         let oOfficers = await fnGetOfficerRequests();
@@ -68,6 +101,15 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
         setCountRequestsLoaded(true);
       }
 
+      /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      Function: fnSetUserRole
+  
+      Summary: gets user role from database function and sets component state with value
+  
+      Args: None
+  
+      Returns: None
+      -------------------------------------------------------------------F*/
       const fnSetUserRole = async () => {
         setUserRole(await fnGetUserRole());
       }
@@ -131,10 +173,10 @@ import {Routes, Route,NavLink, useNavigate} from 'react-router-dom'
               <Routes>
                 <Route path='/' element={<Login />}/>
                 <Route path="/Organizations" element={<Organizations /> }/>
-                <Route path="Organizations/OrgPage/*" element={<OrgPage/> }/>
-                <Route path="/Requests/*" element={<Requests/> }/>
+                <Route path="Organizations/OrgPage/*" element={<OrgPage triggerRequestsAddUpdate={fnAddRequest}/> }/>
+                <Route path="/Requests/*" element={<Requests triggerRequestsRemoveUpdate={fnRemoveRequest}/> }/>
                 <Route path="/Reports" element={<Reports/>} />
-                <Route path="/Reports/ReportsExpand" element={<ReportsExpand/>} />
+                <Route path="/Reports/ReportsExpand" element={<ReportsExpand triggerReportsRemoveUpdate={fnRemoveReport}/>} />
               </Routes>
         </div>
 

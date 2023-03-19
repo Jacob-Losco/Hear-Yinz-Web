@@ -21,7 +21,7 @@ import AdminOfficer from './AdminOfficer';
 import '../../Styles/font.css';
 import '../../Styles/Requests.css'
 
-export default function Requests() {
+const Requests = ({triggerRequestsRemoveUpdate}) => {
     return(
         <div className="Requests">
             <div className='RequestNavigation'>
@@ -32,12 +32,14 @@ export default function Requests() {
 
             <Routes>
                 
-                <Route path='/Events' element={<AdminEvents/>} />
-                <Route path='/Announcements' element={<AdminAnnouncement/>} />
-                <Route path='/Officers' element={<AdminOfficer/>}/>
+                <Route path='/Events' element={<AdminEvents triggerRequestsRemoveUpdate={triggerRequestsRemoveUpdate}/>} />
+                <Route path='/Announcements' element={<AdminAnnouncement triggerRequestsRemoveUpdate={triggerRequestsRemoveUpdate}/>} />
+                <Route path='/Officers' element={<AdminOfficer triggerRequestsRemoveUpdate={triggerRequestsRemoveUpdate}/>}/>
             </Routes>
 
         </div>
         
     );
 }
+
+export default Requests;
