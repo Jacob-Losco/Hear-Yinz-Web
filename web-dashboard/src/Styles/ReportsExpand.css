@@ -1,0 +1,36 @@
+
+
+.ReportPageContainer {
+    display: flex;
+    justify-content: center;
+    height: 500px;
+    width: 100%;
+}
+
+.ReportFromContainer{
+    justify-content: center;
+    margin-top: 2%;
+    height: 100%;
+    width: 60%;
+}
+
+.TopElementContainer{
+
+    width: 100%;
+    height: 30%;
+
+}
+
+.ReportContentP {
+    margin-left: 1%;
+}
+
+.BottomElementContainer{
+    display: flex;
+    justify-content: center;
+    margin-top: 3%;
+}
+
+.ReportButtonSpacing{
+    width: 5%;
+}
