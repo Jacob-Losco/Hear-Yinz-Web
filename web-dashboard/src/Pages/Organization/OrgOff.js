@@ -55,9 +55,7 @@ const OrgOff = ({triggerRequestsAddUpdate}) => {
         if(sOfficerEmail == "") {
             oMessage.innerHTML = "Invalid input. Please enter an email!"
         } else {
-            const error = await fnAddOfficer(OrgInfo.id, {
-                account_email: sOfficerEmail
-            });
+            const error = await fnAddOfficer(OrgInfo.id, sOfficerEmail);
             if(error) {
                 console.log(error);
                 oMessage.innerHTML = "Invalid Email. Ensure the user exists in your institution or contact administration!";
