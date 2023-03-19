@@ -30,9 +30,9 @@ export default function ReportsExpand ()  {
                 </div>
 
                 <div className="BottomElementContainer">
-                    <button>Ignore</button>
+                    <button className="IgnoreButton">Ignore</button>
                     <div className="ReportButtonSpacing"> </div>
-                    <button>Remove</button>
+                    <button className="RemoveButton">Remove</button>
                 </div>
 
 

@@ -21,6 +21,10 @@
 
 }
 
+.ReportContentbreak{
+    height: 1%;
+}
+
 .ReportContentP {
     margin-left: 1%;
 }
@@ -32,5 +36,32 @@
 }
 
 .ReportButtonSpacing{
-    width: 5%;
+    width: 15%;
+}
+
+.IgnoreButton{
+    transition-duration: 0.4;
+    background-color: #125261;
+    color: white;
+    padding: 10px 32px;
+
+}
+
+.IgnoreButton:hover {
+    background-color: #ffffff; 
+    color: black;
+}
+
+.RemoveButton{
+    transition-duration: 0.4s;
+    background-color: rgb(209, 0, 0);
+    color: white;
+    padding: 10px 32px;
+
+
+}
+
+.RemoveButton:hover{
+    background-color: #ffffff;
+    color: black;
 }
