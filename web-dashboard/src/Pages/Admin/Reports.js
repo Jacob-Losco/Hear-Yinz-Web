@@ -24,7 +24,7 @@ import { oAuthentication } from '../../firebase-config';
 import '../../Styles/font.css';
 import '../../Styles/AdminRequests.css';
 
-export default function Reports() {
+export default function Reports({triggerReportsUpdate}) {
 
     const [aoReports, setReports] = useState([]);
 
@@ -37,6 +37,7 @@ export default function Reports() {
         
         onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
         if(oCurrentUser != null) {
+            console.log(triggerReportsUpdate);
             fnRenderReports()
         }
         });

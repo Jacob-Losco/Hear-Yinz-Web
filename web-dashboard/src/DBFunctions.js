@@ -243,7 +243,10 @@ export async function fnGetOrganizationOfficers(sOrganizationId) {
         const oRelationshipRefs = query(collection(oFirestore, "Institutions", sInstitutionId, "Accounts", oAccountDoc.id, "Relationships"), where("relationship_org", "==", oOrganizationDoc.ref), where("relationship_type", "==", 0), where("relationship_status", "==", 2));
         const oRelationshipDocs = await getDocs(oRelationshipRefs);
         if(oRelationshipDocs.docs.length > 0) {
-            aoOfficerData.push(oAccountDoc.data());
+            aoOfficerData.push({
+                ...oAccountDoc.data(),
+                account_id: oAccountDoc.id
+            });
         }
     }
     return aoOfficerData;

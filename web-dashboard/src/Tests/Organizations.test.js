@@ -3,13 +3,11 @@ import {render, screen, fireEvent, waitFor, cleanup} from '@testing-library/reac
 import { BrowserRouter} from 'react-router-dom';
 import Login from "../Login";
 import NavBar from "../NavBar";
-import OrgPage from "./OrgPage"
 import 'mutationobserver-shim';
 import { fnLogout } from '../LoginFunctions';
 
 afterEach(cleanup);
 describe("OrganizationsTesting", () => {
-
     /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       Test: Organizations List page Elements For the Officer
 
@@ -124,5 +122,4 @@ describe("OrganizationsTesting", () => {
         expect (OrgName3).not.toBe("TestStatic_Org1")
         await fnLogout();
     });
-
 });

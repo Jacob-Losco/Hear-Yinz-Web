@@ -30,13 +30,12 @@ export default function AdminEvents() {
         setEvents(aoEvents);
       }
       
-      onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
+      onAuthStateChanged(oAuthentication, (oCurrentUser) => {   
+        this.props.triggerRequestsUpdate(true);       
         if(oCurrentUser != null) {
           fnRenderEvents()
         }
       });
-
-
     }, []);
 
 

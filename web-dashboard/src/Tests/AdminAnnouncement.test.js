@@ -4,14 +4,9 @@ import {render, screen, fireEvent, waitFor, } from '@testing-library/react';
 import NavBar from '../NavBar';
 import Login from "../Login";
 import { fnLogout } from '../LoginFunctions';
-import AdminEvent from "../Pages/Requests"
 
 
 import 'mutationobserver-shim';
-
-
-
-
     /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       Test: Requests exist in Admin Event Requests page
 
@@ -22,8 +17,6 @@ import 'mutationobserver-shim';
       Writer: Philip Pavlick - 3/2/23 - SP 391
     -------------------------------------------------------------------T*/
 describe("Admin Announcement testing", () => { 
-
-
     test("Announcement Request exist in Admin Announcement Requests page", async () => {
         jest.setTimeout(30000)
         render(
@@ -61,15 +54,5 @@ describe("Admin Announcement testing", () => {
 
         await fnLogout();
         const UserSignedOut = await waitFor( () => screen.findByText("Admin Dashboard"), { timeout: 12000 });
-
-
-
       });
-
-
-
- 
-
-
-    
 });
