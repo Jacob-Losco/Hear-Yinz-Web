@@ -1,0 +1,67 @@
+
+
+.ReportPageContainer {
+    display: flex;
+    justify-content: center;
+    height: 500px;
+    width: 100%;
+}
+
+.ReportFromContainer{
+    justify-content: center;
+    margin-top: 2%;
+    height: 100%;
+    width: 60%;
+}
+
+.TopElementContainer{
+
+    width: 100%;
+    height: 30%;
+
+}
+
+.ReportContentbreak{
+    height: 1%;
+}
+
+.ReportContentP {
+    margin-left: 1%;
+}
+
+.BottomElementContainer{
+    display: flex;
+    justify-content: center;
+    margin-top: 3%;
+}
+
+.ReportButtonSpacing{
+    width: 15%;
+}
+
+.IgnoreButton{
+    transition-duration: 0.4;
+    background-color: #125261;
+    color: white;
+    padding: 10px 32px;
+
+}
+
+.IgnoreButton:hover {
+    background-color: #ffffff; 
+    color: black;
+}
+
+.RemoveButton{
+    transition-duration: 0.4s;
+    background-color: rgb(209, 0, 0);
+    color: white;
+    padding: 10px 32px;
+
+
+}
+
+.RemoveButton:hover{
+    background-color: #ffffff;
+    color: black;
+}
