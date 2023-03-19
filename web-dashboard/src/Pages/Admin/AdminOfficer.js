@@ -20,7 +20,7 @@ import { oAuthentication } from '../../firebase-config';
 import '../../Styles/font.css';
 import '../../Styles/AdminRequests.css';
 
-export default function AdminOfficer() {
+const AdminOfficer = ({triggerRequestsRemoveUpdate}) => {
         const [aoOfficers, setOfficers] = useState([]);
     
         useEffect(() => {
@@ -49,6 +49,7 @@ export default function AdminOfficer() {
     async function fnHandleOfficerRequestApprove(sAccountId, sRelationshipId) {
         await fnHandleOfficerRequest(sAccountId, sRelationshipId, true);
         let oOfficers = await fnGetOfficerRequests();
+        triggerRequestsRemoveUpdate();
         setOfficers(oOfficers);
       }
   
@@ -64,6 +65,7 @@ export default function AdminOfficer() {
       async function fnHandleOfficerRequestDeny(sAccountId, sRelationshipId) {
         await fnHandleOfficerRequest(sAccountId, sRelationshipId, false);
         let oOfficers = await fnGetOfficerRequests();
+        triggerRequestsRemoveUpdate();
         setOfficers(oOfficers);
       }
     
@@ -105,3 +107,5 @@ export default function AdminOfficer() {
       
           );
 }
+
+export default AdminOfficer;

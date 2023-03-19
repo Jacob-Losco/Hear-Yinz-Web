@@ -26,26 +26,7 @@ import {fnAddOfficer,fnGetOrganizationOfficers} from   '../../DBFunctions'
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../../firebase-config';
 
-// function roleChecking(role){
-//     if (role == 0){
-//       return(
-//         <Box sx={{ width:225, height:50,display:'inline-grid' , ml:6,color: 'white', backgroundColor: '#38741D', border: 1, borderColor: 'black',borderRadius: 30, alignItems:'center' }} >
-//             User
-//         </Box>);}
-//      else if (role == 1){
-//       return(
-//         <Box sx={{ width:225, height:50,display:'inline-grid' , ml:6,color: 'white', backgroundColor: '#38741D', border: 1, borderColor: 'black',borderRadius: 30, alignItems:'center' }} >
-//             Officer
-//         </Box>);}
-//       else if (role == 2){
-//         return(
-//             <Box sx={{ width:225, height:50,display:'inline-grid' , ml:6,color: 'white', backgroundColor: '#38741D', border: 1, borderColor: 'black',borderRadius: 30, alignItems:'center' }} >
-//             Admin
-//           </Box>);}
-//       return(<p></p>)
-//   }
-
-export default function Officers() {
+const OrgOff = ({triggerRequestsAddUpdate}) => {
     const location = useLocation()
     const OrgInfo = location.state.data;
     const [sOfficerEmail, fnSetOfficerEmail] = useState("");
@@ -74,15 +55,14 @@ export default function Officers() {
         if(sOfficerEmail == "") {
             oMessage.innerHTML = "Invalid input. Please enter an email!"
         } else {
-            const error = await fnAddOfficer(OrgInfo.id, {
-                account_email: sOfficerEmail
-            });
+            const error = await fnAddOfficer(OrgInfo.id, sOfficerEmail);
             if(error) {
                 console.log(error);
                 oMessage.innerHTML = "Invalid Email. Ensure the user exists in your institution or contact administration!";
             } else {
                 document.querySelector(".emInput").value = "";
                 oMessage.innerHTML = "Successfully Added Officer!";
+                triggerRequestsAddUpdate();
             }
         }
     }
@@ -120,3 +100,4 @@ export default function Officers() {
     );
 }
 
+export default OrgOff;

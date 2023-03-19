@@ -78,5 +78,4 @@ import { oAuthentication } from "../firebase-config";
         fireEvent.click(oSubmitButton);
 
         expect(oHtmlElement).toBeDefined();
-        
     });

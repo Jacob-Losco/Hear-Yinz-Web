@@ -2,10 +2,10 @@
 import React from 'react';
 import {render, screen, fireEvent, waitFor, cleanup} from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import NavBar from './NavBar';
-import Login from "./Login";
+import NavBar from '../NavBar';
+import Login from "../Login";
 import 'mutationobserver-shim';
-import { fnLogout } from './LoginFunctions';
+import { fnLogout } from '../LoginFunctions';
 
 afterEach(cleanup);
 
@@ -184,9 +184,7 @@ describe ("Request Notifiaction", async () => {
       fireEvent.change(oInputElementPassword, { target: { value: "test123"} });
       fireEvent.click(oSubmitButton);
     
-      const oReportNotification = await waitFor( () => screen.findByText("7"), { timeout: 11000 }); // Timeout might have to be toggled. findByText is required for async queries. 
+      const oReportNotification = await waitFor( () => screen.findByText("8"), { timeout: 11000 }); // Timeout might have to be toggled. findByText is required for async queries. 
       expect(oReportNotification).toBeInTheDocument();
-  
     });
-  
   });

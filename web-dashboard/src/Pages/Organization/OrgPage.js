@@ -20,7 +20,7 @@ import OrganizationAboutUsForm from './OrganizationAboutUsForm';
 import OrgOff from './OrgOff';
 import '../../Styles/OrgList.css'
 
-export default function OrgPage(props) {
+const OrgPage = ({triggerRequestsAddUpdate}) => {
     const location = useLocation()
     const OrgInfo = location.state.data;
     return(
@@ -36,12 +36,14 @@ export default function OrgPage(props) {
             <div>
                 <Routes>
                     <Route path='/Events' element={<OrgE/>} />
-                    <Route path='Events/AddEventForm' element={<AddEventForm />} />
-                    <Route path='/Announcements' element={<OrganizationAnnouncementsForm/>} />
+                    <Route path='Events/AddEventForm' element={<AddEventForm triggerRequestsAddUpdate={triggerRequestsAddUpdate}/>} />
+                    <Route path='/Announcements' element={<OrganizationAnnouncementsForm triggerRequestsAddUpdate={triggerRequestsAddUpdate}/>} />
                     <Route path='/AboutUs' element={<OrganizationAboutUsForm/>} />
-                    <Route path='/Officers' element={<OrgOff/>}/>
+                    <Route path='/Officers' element={<OrgOff triggerRequestsAddUpdate={triggerRequestsAddUpdate}/>}/>
                 </Routes>
             </div>
         </div>
     );
 }
+
+export default OrgPage;

@@ -5,10 +5,8 @@ import NavBar from '../NavBar';
 import Login from "../Login";
 import { fnLogout } from '../LoginFunctions';
 import 'mutationobserver-shim';
-
-
-
-
+ 
+describe("Admin Officer testing", () => { 
     /*T+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       Test: Requests exist in Admin Officer Requests page
 
@@ -18,9 +16,6 @@ import 'mutationobserver-shim';
 
       Writer: Philip Pavlick - 3/6/23 - SP-393
     -------------------------------------------------------------------T*/
-describe("Admin Officer testing", () => { 
-
-
     test("Requests exist in Admin Officer Requests page", async () => {
         jest.setTimeout(30000)
         render(
@@ -58,15 +53,5 @@ describe("Admin Officer testing", () => {
 
         await fnLogout();
         const UserSignedOut = await waitFor( () => screen.findByText("Admin Dashboard"), { timeout: 12000 });
-
-
-
       });
-
-
-
- 
-
-
-    
 });

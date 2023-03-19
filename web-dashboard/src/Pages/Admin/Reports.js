@@ -24,7 +24,7 @@ import { oAuthentication } from '../../firebase-config';
 import '../../Styles/font.css';
 import '../../Styles/AdminRequests.css';
 
-export default function Reports() {
+const Reports = () => {
 
     const [aoReports, setReports] = useState([]);
 
@@ -41,7 +41,6 @@ export default function Reports() {
         }
         });
     }, []);
-
 
     return(
         <Box data-testid="Reports333">
@@ -75,3 +74,4 @@ export default function Reports() {
     );
 }
 
+export default Reports;

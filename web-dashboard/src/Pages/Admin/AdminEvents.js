@@ -21,7 +21,7 @@ import '../../Styles/font.css';
 import '../../Styles/AdminRequests.css';
 import moment from 'moment';
 
-export default function AdminEvents() {
+const AdminEvents = ({triggerRequestsRemoveUpdate}) => {
     const [aoEvents, setEvents] = useState([]);
 
     useEffect(() => {
@@ -30,13 +30,11 @@ export default function AdminEvents() {
         setEvents(aoEvents);
       }
       
-      onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
+      onAuthStateChanged(oAuthentication, (oCurrentUser) => {
         if(oCurrentUser != null) {
           fnRenderEvents()
         }
       });
-
-
     }, []);
 
 
@@ -52,6 +50,7 @@ export default function AdminEvents() {
     async function fnHandleEventRequestApprove(sOrganizationId, sEventId) {
       await fnHandleEventRequest(sOrganizationId, sEventId, true);
       let oEvents = await fnGetEventRequests();
+      triggerRequestsRemoveUpdate();
       setEvents(oEvents);
     }
 
@@ -67,6 +66,7 @@ export default function AdminEvents() {
     async function fnHandleEventRequestDeny(sOrganizationId, sEventId) {
       await fnHandleEventRequest(sOrganizationId, sEventId, false);
       let oEvents = await fnGetEventRequests();
+      triggerRequestsRemoveUpdate();
       setEvents(oEvents);
     }
 
@@ -113,3 +113,4 @@ export default function AdminEvents() {
     );
   } 
 
+export default AdminEvents;

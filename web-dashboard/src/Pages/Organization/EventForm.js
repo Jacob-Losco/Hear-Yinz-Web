@@ -54,7 +54,7 @@ function GetEventDescription(descript){
     }
 }
 
-export default function AddEventForm() {
+const AddEventForm = ({triggerRequestsAddUpdate}) => {
     const location = useLocation()
     const OrgInfo = location.state.data;
     const EventInfo = location.state.EventInfo;
@@ -117,6 +117,9 @@ if (eventInfo){
                 fnSetEventName("");
                 fnSetEventDescription("");
                 oMessage.innerHTML = "Successfully updated event!";
+                if(sEventStatus == "Public") {
+                    triggerRequestsAddUpdate();
+                }
             }
         }
         
@@ -140,6 +143,9 @@ if (eventInfo){
                 fnSetEventName("");
                 fnSetEventDescription("");
                 oMessage.innerHTML = "Successfully created event!";
+                if(sEventStatus == "Public") {
+                    triggerRequestsAddUpdate();
+                }
             }
         }
     }
@@ -225,3 +231,5 @@ if (eventInfo){
 </div>
 );
 }
+
+export default AddEventForm;

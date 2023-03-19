@@ -22,7 +22,7 @@ import '../../Styles/font.css';
 import '../../Styles/AdminRequests.css';
 
 
-export default function AdminAnnouncement() {
+const AdminAnnouncement = ({triggerRequestsRemoveUpdate}) => {
         const [aoAnnouncement, setAnnouncement] = useState([]);
     
         useEffect(() => {
@@ -50,6 +50,7 @@ export default function AdminAnnouncement() {
     async function fnHandleAnnouncementRequestApprove(sOrganizationId, sAnnouncementId) {
       await fnHandleAnnouncementRequest(sOrganizationId, sAnnouncementId, true);
       let aoAnnouncement = await fnGetAnnouncementRequests();
+      triggerRequestsRemoveUpdate();
       setAnnouncement(aoAnnouncement);
     }
 
@@ -65,8 +66,8 @@ export default function AdminAnnouncement() {
     async function fnHandleAnnouncementRequestDeny(sOrganizationId, sAnnouncementId) {
       await fnHandleAnnouncementRequest(sOrganizationId, sAnnouncementId, false);
       let aoAnnouncement = await fnGetAnnouncementRequests();
+      triggerRequestsRemoveUpdate();
       setAnnouncement(aoAnnouncement);
-
     }
     
     return(
@@ -105,3 +106,4 @@ export default function AdminAnnouncement() {
     );
   } 
     
+export default AdminAnnouncement;

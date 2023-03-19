@@ -19,7 +19,7 @@ import '../../Styles/OrgAnnouncementsForm.css';
 import { fnCreateAnnouncement } from '../../DBFunctions';
 import {useLocation} from 'react-router-dom'
 
-export default function OrganizationAnnouncementsForm() {
+const OrgAnnouncemntsForm = ({triggerRequestsAddUpdate}) => {
 
     const [sAnnouncementMessage, fnSetAnnouncementMessage] = useState("");
     const [sAnnouncementStatus, fnSetAnnouncementStatus] = useState("");
@@ -53,6 +53,7 @@ export default function OrganizationAnnouncementsForm() {
                 fnSetAnnouncementMessage("");
                 fnSetAnnouncementStatus("");
                 oMessage.innerHTML = "Successfully created announcement!";
+                triggerRequestsAddUpdate();
             }
         }
     }
@@ -106,3 +107,5 @@ export default function OrganizationAnnouncementsForm() {
         </div>
     );
 }
+
+export default OrgAnnouncemntsForm;
