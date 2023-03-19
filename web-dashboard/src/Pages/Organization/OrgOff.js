@@ -26,24 +26,24 @@ import {fnAddOfficer,fnGetOrganizationOfficers} from   '../../DBFunctions'
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../../firebase-config';
 
-function roleChecking(role){
-    if (role == 0){
-      return(
-        <Box sx={{ width:225, height:50,display:'inline-grid' , ml:6,color: 'white', backgroundColor: '#38741D', border: 1, borderColor: 'black',borderRadius: 30, alignItems:'center' }} >
-            User
-        </Box>);}
-     else if (role == 1){
-      return(
-        <Box sx={{ width:225, height:50,display:'inline-grid' , ml:6,color: 'white', backgroundColor: '#38741D', border: 1, borderColor: 'black',borderRadius: 30, alignItems:'center' }} >
-            Officer
-        </Box>);}
-      else if (role == 2){
-        return(
-            <Box sx={{ width:225, height:50,display:'inline-grid' , ml:6,color: 'white', backgroundColor: '#38741D', border: 1, borderColor: 'black',borderRadius: 30, alignItems:'center' }} >
-            Admin
-          </Box>);}
-      return(<p></p>)
-  }
+// function roleChecking(role){
+//     if (role == 0){
+//       return(
+//         <Box sx={{ width:225, height:50,display:'inline-grid' , ml:6,color: 'white', backgroundColor: '#38741D', border: 1, borderColor: 'black',borderRadius: 30, alignItems:'center' }} >
+//             User
+//         </Box>);}
+//      else if (role == 1){
+//       return(
+//         <Box sx={{ width:225, height:50,display:'inline-grid' , ml:6,color: 'white', backgroundColor: '#38741D', border: 1, borderColor: 'black',borderRadius: 30, alignItems:'center' }} >
+//             Officer
+//         </Box>);}
+//       else if (role == 2){
+//         return(
+//             <Box sx={{ width:225, height:50,display:'inline-grid' , ml:6,color: 'white', backgroundColor: '#38741D', border: 1, borderColor: 'black',borderRadius: 30, alignItems:'center' }} >
+//             Admin
+//           </Box>);}
+//       return(<p></p>)
+//   }
 
 export default function Officers() {
     const location = useLocation()
@@ -92,23 +92,24 @@ export default function Officers() {
             <div className='offFormDataContainer'>
                 <Box component="div" sx={{ display: 'inline' }}>
                     <label className='emailInput'>Officer Email</label>
-                        <input className='emInput'onChange={(event) => {
+                        <input placeholder='Add an account here!'className='emInput'onChange={(event) => {
                         fnSetOfficerEmail(event.target.value);}}></input>
                      <Button sx={{ ml:2,width:16,color: 'white', backgroundColor: '#38741D', border: 1, borderRadius: 15,  borderColor:'black' }}
-                     onClick={fnHandleAddOfficer}> + </Button>
+                     onClick={fnHandleAddOfficer}> Add </Button>
                 </Box>
                 <div className='InnerHTML'>
                 <p className="AnnouncementMessage"></p>
             </div>
+            {/* Accounts */}
          </div>
     </div>
     <div className='smalldiv'>
         <Grid container spacing={{ xs: 9, md: 2 }} columnSpacing = {4}>
                         {sOfficers.map(sOfficer => ( 
                             <Grid textAlign='center' key={sOfficer.event_id}>
-                                <p className='officerDisplay'>{sOfficer.account_email}&nbsp;&nbsp;&nbsp;&nbsp;
-                                {roleChecking(sOfficer.account_role)}
-                                <Button sx={{ml:9,color: 'black', backgroundColor: '#CC0000', border: 1}}>Remove</Button>
+                                <p className='officerDisplay'>{sOfficer.account_email}
+                                {/* {roleChecking(sOfficer.account_role)} */}
+                                <Button sx={{ml:25,color: 'black', backgroundColor: '#CC0000', border: 1}}>Remove</Button>
                             </p>
                         </Grid>
                 ))}
