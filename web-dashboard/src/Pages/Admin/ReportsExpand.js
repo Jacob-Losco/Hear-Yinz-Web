@@ -26,7 +26,7 @@ export default function ReportsExpand ()  {
         <div className="ReportPageContainer">
             <div className="ReportFromContainer">
                 <div className="TopElementContainer">
-                    <div className="TopHtmlBlock">
+                    <div className="TopHtmlBlock" data-testid="ReportExpandElement">
                         Title: {aoReportData.state.data.event_name}
                         <br></br>
                         Posted From: {aoReportData.state.data.host.organization_name}
