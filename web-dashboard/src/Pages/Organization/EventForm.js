@@ -133,6 +133,7 @@ if (eventInfo){
             });
             if(error) {
                 oMessage.innerHTML = "Error creating event. Please try again later.";
+                console.log(error)
             } else {
                 document.querySelector(".EventNameInput").value = "";
                 document.querySelector(".EventLocationSelectInput").value = "";
