@@ -73,7 +73,6 @@
 }
 
 .RadioBtnPublic{
-
     margin-right:1%;
     margin-left:22%;
     width:15;
@@ -89,26 +88,25 @@
 
 .cancelBtn{
     border: 1px solid black;
-    width:150px;
-    height:42px;
+    width:130px;
+    height:32px;
     margin-right:35%;
     margin-left:5%;
     color:white;
     background-color:rgb(102, 102, 102);
     border-radius: 30px;
-    font-size: 22px;
+    font-size: 13px;
 }
 
 .submitBtn{
     border: 1px solid black;
-    width:150px;
-    height:42px;
+    width:130px;
+    height:32px;
     color:white;
     background-color:rgb(56, 116, 29);
     margin-left:15%;
-    margin-bottom:2%;
     border-radius: 30px;
-    font-size: 22px;
+    font-size: 13px;
 }
 .AnnouncementMessage{
     display: flex;

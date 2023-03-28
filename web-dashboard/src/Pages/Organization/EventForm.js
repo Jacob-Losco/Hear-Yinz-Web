@@ -61,7 +61,6 @@ const AddEventForm = ({triggerRequestsAddUpdate}) => {
     const EventInfo = location.state.EventInfo;
     const [SOrgLocations, setLocations] = useState([]);
     const [sEventName, fnSetEventName] = useState("");
-    const [sEventId, fnSetEventid] = useState("");
     const [sEventDate, fnSetEventDateTime] = useState("");
     const [sEventLocation, fnSetEventLocation] = useState("");
     const [sEventDescription, fnSetEventDescription] = useState("");
@@ -148,6 +147,7 @@ if (eventInfo){
                 if(sEventStatus == "Public") {
                     triggerRequestsAddUpdate();
                 }
+                navigate('/Organizations/OrgPage/Events',{state:{data:OrgInfo}})
             }
         }
     }
