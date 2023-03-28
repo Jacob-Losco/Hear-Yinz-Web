@@ -71,8 +71,8 @@ export default function Events() {
     }
 
     return(
-        <Box sx={{ m: 5 }} >
-            <Grid container spacing={{ xs: 9, md: 2 }} columnSpacing = {4}>
+        <Box sx={{ m: 5}} >
+            <Grid container spacing={{  xs: 9, md: 2 }} columnSpacing = {1}>
                 {iEvents.map(iEvent => ( 
                     <Grid textAlign='center' key={iEvent.event_id}>
                         <Box sx={{height:170, width:200, m:2, border: 1, borderRadius: '8px'}}>   

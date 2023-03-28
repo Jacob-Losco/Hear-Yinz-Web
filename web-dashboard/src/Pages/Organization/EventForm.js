@@ -18,7 +18,7 @@ import { oAuthentication } from '../../firebase-config';
 import '@fontsource/dm-sans';
 import '../../Styles/font.css';
 import '../../Styles/EventForm.css';
-import {useLocation} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import moment from 'moment';
 
 function GetEventName(name){
@@ -56,6 +56,7 @@ function GetEventDescription(descript){
 
 const AddEventForm = ({triggerRequestsAddUpdate}) => {
     const location = useLocation()
+    const navigate = useNavigate()
     const OrgInfo = location.state.data;
     const EventInfo = location.state.EventInfo;
     const [SOrgLocations, setLocations] = useState([]);
@@ -221,6 +222,7 @@ if (eventInfo){
                                     document.querySelector(".RadioBtnPublic").checked = false;
                                     fnSetEventName("");
                                     fnSetEventDescription("");
+                                    navigate('/Organizations/OrgPage/Events',{state:{data:OrgInfo}})
                 }}>Cancel</button>
                 <button className='submitBtn' onClick={fnHandleEventFormSubmit}>Create</button>
             </div>
