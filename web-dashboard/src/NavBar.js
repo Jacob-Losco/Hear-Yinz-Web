@@ -143,7 +143,7 @@ import { fnLogout } from './LoginFunctions';
           )}
           {iUserRole > 1 ? (
               <div className='Requests navContainer'>
-                <NavLink to="Requests" >Requests</NavLink>
+                <NavLink to="Requests/Events" >Requests</NavLink>
                 {bCountRequestsLoaded ? (
                   <div className='RequestNotification'>{iCountRequests}</div>
                 ) : (
