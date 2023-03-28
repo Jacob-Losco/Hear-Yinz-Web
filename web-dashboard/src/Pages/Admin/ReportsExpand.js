@@ -9,11 +9,14 @@ Exported Functions: ReportExpand
 
 Contributors:
 	Philip Pavlick - 3/18/23 SP-305,306,307
+    Philip Pavlick - 3/24/23 SP-308
 
 ===================================================================+*/
 
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { fnHandleEventReport } from '../../DBFunctions';
+import { useState } from "react";
 import moment from 'moment';
 import "../../Styles/ReportsExpand.css"
 
@@ -21,6 +24,43 @@ import "../../Styles/ReportsExpand.css"
 export default function ReportsExpand ()  {
         const aoReportData = useLocation();
         console.log(aoReportData)
+        
+
+        const [sReportMessage, setReportMessage] = useState( );
+
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnHandleEventReportIgnore
+  
+    Summary: front end passes false variable to backend in order to change value of event_reports to reflect ignore
+  
+    Args: host_id & event_id
+  
+    Returns: None
+    -------------------------------------------------------------------F*/
+    async function fnHandleEventReportIgnore(sOrganizationId, sEventId) {
+        await fnHandleEventReport(sOrganizationId, sEventId, false);
+        setReportMessage("The reported event has been ignored");
+    }
+
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnHandleEventReportIgnore
+  
+    Summary: front end passes true variable to backend in order to change value of event_status to reflect removal
+  
+    Args: host_id & event_id
+  
+    Returns: None
+    -------------------------------------------------------------------F*/
+    async function fnHandleEventReportRemove(sOrganizationId, sEventId) {
+        await fnHandleEventReport(sOrganizationId, sEventId, true);
+        setReportMessage("The reported event has been removed");
+
+        
+    }
+
+
+
+
     return (
         
         <div className="ReportPageContainer">
@@ -58,11 +98,11 @@ export default function ReportsExpand ()  {
                 </div>
 
                 <div className="BottomElementContainer">
-                    <button className="IgnoreButton">Ignore</button>
+                    <button className="IgnoreButton" onClick={() => fnHandleEventReportIgnore(aoReportData.state.data.host_id, aoReportData.state.data.event_id)}>Ignore</button>
                     <div className="ReportButtonSpacing"> </div>
-                    <button className="RemoveButton">Remove</button>
+                    <button className="RemoveButton" onClick={() => fnHandleEventReportRemove(aoReportData.state.data.host_id, aoReportData.state.data.event_id)}>Remove</button>
                 </div>
-
+                <div className="ReportMessage"> <br></br>{sReportMessage} </div>
 
             </div>
 
