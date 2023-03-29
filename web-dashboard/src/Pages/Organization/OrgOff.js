@@ -81,8 +81,8 @@ const OrgOff = ({triggerRequestsAddUpdate}) => {
                     <label className='emailInput'>Officer Email</label>
                         <input placeholder='Add an account here!'className='emInput'onChange={(event) => {
                         fnSetOfficerEmail(event.target.value);}}></input>
-                     <Button sx={{ ml:2,width:16,color: 'white', backgroundColor: '#38741D', border: 1, borderRadius: 15,  borderColor:'black' }}
-                     onClick={fnHandleAddOfficer}> Add </Button>
+                     <Button sx={{ ml:2,width:16, backgroundColor: '#38741D', border: 1, borderRadius: 15, textTransform: 'none', borderColor:'black' }}
+                     onClick={fnHandleAddOfficer}><p className='whitetext'> Add</p> </Button>
                 </Box>
                 <div className='InnerHTML'>
                 <p className="AnnouncementMessage"></p>
@@ -103,14 +103,14 @@ const OrgOff = ({triggerRequestsAddUpdate}) => {
               </Grid>
               <Grid item xs={1} sx={{mt: .5}}>
                 <div>
-                    <Button sx={{alignItems: "flex-end" ,color: 'black', backgroundColor: '#CC0000', border: 1}}onClick={() => {
+                    <Button sx={{borderRadius:2, textTransform: 'none',border:1,alignItems: "flex-end" , backgroundColor: '#CC0000'}}onClick={() => {
                         const confirmBox = window.confirm(
                         "Do you really want to remove this Officer?")
                         if (confirmBox === true) {
                         fnRemoveOfficer(OrgInfo.id,sOfficer.account_email);
                         reload();
                         }} }>
-                    Remove</Button>
+                    <p className = 'whitetext'>Remove</p></Button>
                 </div>
               </Grid>
             </Grid>
