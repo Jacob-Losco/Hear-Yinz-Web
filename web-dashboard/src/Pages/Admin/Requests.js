@@ -31,7 +31,6 @@ const Requests = ({triggerRequestsRemoveUpdate}) => {
             </div>
 
             <Routes>
-                
                 <Route path='/Events' element={<AdminEvents triggerRequestsRemoveUpdate={triggerRequestsRemoveUpdate}/>} />
                 <Route path='/Announcements' element={<AdminAnnouncement triggerRequestsRemoveUpdate={triggerRequestsRemoveUpdate}/>} />
                 <Route path='/Officers' element={<AdminOfficer triggerRequestsRemoveUpdate={triggerRequestsRemoveUpdate}/>}/>
