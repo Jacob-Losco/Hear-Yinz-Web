@@ -75,12 +75,12 @@ const AdminOfficer = ({triggerRequestsRemoveUpdate}) => {
                 <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={oOfficer.account_id}>
                   <Grid className='OuterGrid'  container spacing={2} textAlign="center">
                     <Grid item xs={4} sx={{mt: 1.3}}>
-                      <div className='LeftRequest'>
+                      <div className='OfficerLeftRequest'>
                           {oOfficer.organization_name}
                       </div>
                     </Grid>
                     <Grid item xs={6} sx={{mt: 1.3}}>
-                      <div className='MiddleRequest'> 
+                      <div className='OfficerMiddleRequest'> 
                       {oOfficer.account_name}
                       </div>
                     </Grid>

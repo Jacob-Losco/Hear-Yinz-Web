@@ -73,10 +73,10 @@ const AdminEvents = ({triggerRequestsRemoveUpdate}) => {
     return(
       <Box >
         {aoEvents.map(oEvent => ( 
-          <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={oEvent.event_id}>
+          <Box sx={{ m: 9, border: 1, borderRadius: '0px' }} key={oEvent.event_id}>
             <Grid className='OuterGrid'  container spacing={2} textAlign="center">
               <Grid item xs={4} >
-                <div className='LeftRequest'>
+                <div className='AdminEventLeftRequest'>
                     {oEvent.event_name}
                     <br></br>
                     {oEvent.host.organization_name}
