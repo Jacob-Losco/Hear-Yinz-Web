@@ -87,7 +87,6 @@ const OrgOff = ({triggerRequestsAddUpdate}) => {
                 <div className='InnerHTML'>
                 <p className="AnnouncementMessage"></p>
             </div>
-            {/* Accounts */}
          </div>
     </div>
     <div className='smalldiv'>

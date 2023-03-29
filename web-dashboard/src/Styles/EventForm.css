@@ -60,56 +60,53 @@
     width:370px;
     height:130px;
     vertical-align: top;
-    margin-bottom:5%;
 }
 
 .RadioBtnPrivate{
     display:inline;
     margin-right:1%;
     margin-left:22%;
-    width:32px;
-    height:32px;
+    width:15px;
+    height:15px;
     font-size:22px;
     margin-bottom:5%;
 }
 
 .RadioBtnPublic{
-    display:inline;
     margin-right:1%;
     margin-left:22%;
-    width:32px;
-    height:32px;
+    width:15;
+    height:15px;
     font-size:22px;
     margin-bottom:5%;
 }
 
 .RadioLabel {
-    font-size: 22px;
-    vertical-align: top;
+    font-size: 16px;
+    vertical-align: center;
 }
 
 .cancelBtn{
     border: 1px solid black;
-    width:150px;
-    height:42px;
+    width:130px;
+    height:32px;
     margin-right:35%;
     margin-left:5%;
     color:white;
     background-color:rgb(102, 102, 102);
     border-radius: 30px;
-    font-size: 22px;
+    font-size: 13px;
 }
 
 .submitBtn{
     border: 1px solid black;
-    width:150px;
-    height:42px;
+    width:130px;
+    height:32px;
     color:white;
     background-color:rgb(56, 116, 29);
     margin-left:15%;
-    margin-bottom:2%;
     border-radius: 30px;
-    font-size: 22px;
+    font-size: 13px;
 }
 .AnnouncementMessage{
     display: flex;
