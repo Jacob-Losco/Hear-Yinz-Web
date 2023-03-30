@@ -74,27 +74,27 @@ const AdminOfficer = ({triggerRequestsRemoveUpdate}) => {
               {aoOfficers.map(oOfficer => ( 
                 <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={oOfficer.account_id}>
                   <Grid className='OuterGrid'  container spacing={2} textAlign="center">
-                    <Grid item xs={4} sx={{mt: 1.3}}>
+                    <Grid item xs={4}  sx={{mt: .9, mb:.3}}>
                       <div className='OfficerLeftRequest'>
                           {oOfficer.organization_name}
                       </div>
                     </Grid>
-                    <Grid item xs={6} sx={{mt: 1.3}}>
+                    <Grid item xs={6}  sx={{mt: .9, mb:.3}}>
                       <div className='OfficerMiddleRequest'> 
                       {oOfficer.account_name}
                       </div>
                     </Grid>
-                    <Grid item xs={1} sx={{mt: .5}}>
+                    <Grid item xs={1} sx={{mt: .3, mb: .3}}>
                       <div>
                         <button className='EventApproveButton' onClick={() => fnHandleOfficerRequestApprove(oOfficer.account_id, oOfficer.officer_relationship_id)}>
-      
+                          Approve
                         </button>
                       </div>
                     </Grid>
-                    <Grid item xs={1} sx={{mt: .5}}>
+                    <Grid item xs={1} sx={{mt: .3, mb: .3}}>
                       <div>
                         <button className='EventDenyButton' onClick={() => fnHandleOfficerRequestDeny(oOfficer.account_id, oOfficer.officer_relationship_id)}>
-      
+                          Deny
                         </button>
                       </div>
                     </Grid>

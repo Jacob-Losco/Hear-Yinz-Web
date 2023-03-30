@@ -89,17 +89,17 @@ const AdminEvents = ({triggerRequestsRemoveUpdate}) => {
                   { moment( oEvent.event_timestamp.seconds * 1000 + oEvent.event_timestamp.nanoseconds / 1000000 ).format("dddd, MMMM Do YYYY, h:mm a")  }
                 </div>
               </Grid>
-              <Grid item xs={1} sx={{mt: .5}}>
+              <Grid item xs={1} sx={{mt: .7, mb: .3}}>
                 <div>
                   <button className='EventApproveButton' onClick={() => fnHandleEventRequestApprove(oEvent.host_id, oEvent.event_id)}>
-
+                    Approve
                   </button>
                 </div>
               </Grid>
-              <Grid item xs={1} sx={{mt: .5}}>
+              <Grid item xs={1} sx={{mt: .7, mb: .3}} >
                 <div>
                   <button className='EventDenyButton'onClick={() => fnHandleEventRequestDeny(oEvent.host_id, oEvent.event_id)}>
-
+                    Deny
                   </button>
                 </div>
               </Grid>

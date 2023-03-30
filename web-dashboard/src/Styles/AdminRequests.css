@@ -2,17 +2,27 @@
 
 
 .EventApproveButton {
+    transition-duration: 0.4;
     background-color: rgb(56, 116, 29);
-    width: 43px;
-    height: 37px;
-    border-radius: 8px;
-    border: white;
+    color: white;
+    padding: 5px 16px;
+
+}
+
+.EventApproveButton:hover {
+    background-color: #ffffff; 
+    color: black;
 }
 
 .EventDenyButton {
+    transition-duration: 0.4;
     background-color: rgb(209, 0, 0);
-    width: 43px;
-    height: 37px;
-    border-radius: 8px;
-    border: white;
+    color: white;
+    padding: 5px 16px;
+
+}
+
+.EventDenyButton:hover {
+    background-color: #ffffff; 
+    color: black;
 }
