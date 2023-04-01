@@ -11,12 +11,11 @@ Contributors:
     Sam Merlin 2/21/2023 - SP 269
 
 ===================================================================+*/
-import React, {useState, useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Link} from 'react-router-dom'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import { useEffect } from 'react';  
+import Button from '@mui/material/Button'; 
 import { fnDeleteEvent, fnGetOrganizationEvents} from '../../DBFunctions';
 import { onAuthStateChanged } from 'firebase/auth';
 import { oAuthentication } from '../../firebase-config';
@@ -45,7 +44,6 @@ function StatusChecking(status){
 }
 
 export default function Events() {
-
   const location = useLocation()
     const OrgInfo = location.state.data;
     const [iEvents, setiEvents] = useState([]);
@@ -79,7 +77,8 @@ export default function Events() {
                           <div className='box'>{iEvent.location.location_name}</div><br></br>       
                               <div> { moment( iEvent.event_timestamp.seconds * 1000 + iEvent.event_timestamp.nanoseconds / 1000000 ).format("MMM Do YY, h:mm a")  }</div>
                                   <div>
-                                    <Button component={Link} to ="AddEventForm" state={{data:OrgInfo, EventInfo:iEvent}} sx={{ m: 1, color: 'black', backgroundColor: '#E69138', border: 1 }} >Edit</Button >
+                                    <Button component={Link} to ="AddEventForm" state={{data:OrgInfo, EventInfo:iEvent}} sx={{ m: 1, backgroundColor: '#E69138', border: 1, textTransform: 'none' }} >
+                                    <p className = 'whitetext'>Edit</p></Button >
                                     <Button onClick={() => {const confirmBox = window.confirm(
                                                           "Do you really want to delete this Event?"
                                                         )
@@ -87,7 +86,8 @@ export default function Events() {
                                                           fnDeleteEvent(OrgInfo.id,iEvent.event_id);
                                                           reload();
                                                         }} }
-                                    sx={{  color: 'black', backgroundColor: '#CC0000', border: 1 }}>Delete</Button>
+                                    sx={{ backgroundColor: '#CC0000', border: 1, textTransform: 'none' }}>
+                                      <p className = 'whitetext'>Delete</p></Button>
                                  </div>
                              <div className='box'>{StatusChecking(iEvent.event_status)}</div>
                           </Box>
@@ -98,7 +98,7 @@ export default function Events() {
                     <Box sx={{height:170, width:200, m:2, border: 1, borderRadius: '8px'}}>
                       <div>
                         <Button data-testid="linkertonTwo" component={Link} to ="AddEventForm" state={{data:OrgInfo, 
-                          EventInfo:null}} sx={{ fontSize:22, color: 'black', fontWeight:'bold', height:170, width:200 }} >Add Event</Button >
+                          EventInfo:null}} sx={{ fontSize:22, color: 'black', fontWeight:'bold', height:170, width:200 ,textTransform: 'none'}} >Add Event</Button >
                      </div>
                    </Box>
                 </div>
