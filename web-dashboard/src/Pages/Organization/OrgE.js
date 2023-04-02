@@ -47,12 +47,14 @@ export default function Events() {
   const location = useLocation()
     const OrgInfo = location.state.data;
     const [iEvents, setiEvents] = useState([]);
+    const [bEventsAreLoaded, setEventsAreLoaded] = useState(false);
     const EventInfo = null;
 
     useEffect(() => {
       const fnRenderEvents = async () => {
         let oEvents = await fnGetOrganizationEvents(OrgInfo.id);
         setiEvents(oEvents);
+        setEventsAreLoaded(true);
       }
       
       onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -69,8 +71,14 @@ export default function Events() {
     }
 
     return(
-        <Box sx={{ m: 5}} >
-            <Grid container spacing={{  xs: 9, md: 2 }} columnSpacing = {1}>
+      <div>
+        {bEventsAreLoaded == false ? (
+          <div class="eventGridContainer">
+            <p>Loading...</p>
+          </div>
+        ) : (
+          <Box sx={{ m: 5 }} >
+            <Grid container spacing={{ xs: 9, md: 2 }} columnSpacing = {1}>
                 {iEvents.map(iEvent => ( 
                     <Grid textAlign='center' key={iEvent.event_id}>
                         <Box sx={{height:170, width:200, m:2, border: 1, borderRadius: '8px'}}>   
@@ -104,7 +112,8 @@ export default function Events() {
                 </div>
 
           </Grid>
-      </Box>
-      
+        </Box>
+      )}
+      </div>
     );
 }

@@ -24,11 +24,13 @@ import '../../Styles/AdminRequests.css';
 
 const AdminAnnouncement = ({triggerRequestsRemoveUpdate}) => {
         const [aoAnnouncement, setAnnouncement] = useState([]);
+        const [bAnnouncementRequestsAreLoaded, setAnnouncementRequestsAreLoaded] = useState(false);
     
         useEffect(() => {
           const fnRenderEvents = async () => {
             let aoAnnouncement = await fnGetAnnouncementRequests();
             setAnnouncement(aoAnnouncement);
+            setAnnouncementRequestsAreLoaded(true);
           }
           
           onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -71,7 +73,13 @@ const AdminAnnouncement = ({triggerRequestsRemoveUpdate}) => {
     }
     
     return(
-      <Box >
+      <div>
+        {bAnnouncementRequestsAreLoaded == false ? (
+          <div class="loadingContainer">
+            <p>loading...</p>
+          </div>
+        ) : (
+<Box >
         { aoAnnouncement.map( oAnnouncement => ( 
           <Box sx={{ m: 9, border: 1, borderRadius: '10px' }} key={oAnnouncement.announcement_id}>
             <Grid className='OuterGrid'  container spacing={2} textAlign="center">
@@ -103,6 +111,8 @@ const AdminAnnouncement = ({triggerRequestsRemoveUpdate}) => {
           </Box>
         ))}
       </Box>
+        )}
+      </div>
     );
   } 
     

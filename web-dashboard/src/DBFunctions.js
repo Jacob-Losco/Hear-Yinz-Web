@@ -138,8 +138,15 @@ export async function fnGetOfficerOrganizations() {
             const oOrganizationDocs = await getDocs(oOrganizationRefs);
             for(var i = 0; i < oOrganizationDocs.docs.length; i++) {
                 const oOrganizationData = oOrganizationDocs.docs[i].data();
-                const oInstitutionReference = ref(oStorage, "images/" + sInstitutionId + "/" + sInstitutionId + ".png");
-                var oOrganizationImage = await fnGetImage(oInstitutionReference);
+                var oOrganizationImage;
+                try{
+                    const oOrganizationStorageReference = ref(oStorage, "images/" + sInstitutionId + "/" + oOrganizationDocs.docs[i].id + "/" + oOrganizationDocs.docs[i].id + ".png");
+                    oOrganizationImage = await fnGetImage(oOrganizationStorageReference);
+                }
+                catch {
+                    const oInstitutionStorageReference = ref(oStorage, "images/" + sInstitutionId + "/" + sInstitutionId + ".png");
+                    oOrganizationImage = await fnGetImage(oInstitutionStorageReference);
+                }
                 aoOrganizationData.push ({
                     id: oOrganizationDocs.docs[i].id,
                     name: oOrganizationData["organization_name"],
@@ -587,6 +594,8 @@ export async function fnUpdateEvent(sOrganizationId, sEventId, oNewEvent) {
                     event_status: oNewEvent.event_status,
                     event_timestamp: Timestamp.fromDate(oNewEvent.event_timestamp),
                     event_location: oNewEvent.event_location,
+                    event_likes: 0,
+                    event_reports: 0  
                 });
             } catch (error) {
                 console.error("Error adding document: ", error);

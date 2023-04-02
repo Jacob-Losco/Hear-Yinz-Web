@@ -25,11 +25,13 @@ import { oAuthentication } from '../../firebase-config';
 export default function Organizations() {
 
   const [iOrganizations, setiOrganizations] = useState([]);
+  const [bOrganizationsAreLoaded, setOrganizationAreLoaded] = useState(false);
 
   useEffect(() => {
     const fnUpdateOrganizations = async () => {
       let oOrgs = await fnGetOfficerOrganizations();
       setiOrganizations(oOrgs)
+      setOrganizationAreLoaded(true);
     }
     
     onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -40,7 +42,13 @@ export default function Organizations() {
   }, []);
 
   return(
-    <Box sx={{ m: 9 }} >
+    <div>
+    {bOrganizationsAreLoaded == false ? (
+      <div class="organizationGridContainer">
+        <p>Loading...</p>
+      </div>
+    ) : (
+      <Box sx={{ m: 9 }} >
       <Grid container spacing={{ xs: 9, md: 5 }} columnSpacing = {4}>
         {iOrganizations.map(iOrganization => (
           <Grid  textAlign='center' item xs={5} sm={4} md={3} key={iOrganization.id}>
@@ -54,6 +62,7 @@ export default function Organizations() {
         ))}
       </Grid>
     </Box>
-
+    )}
+    </div>
   )
 };

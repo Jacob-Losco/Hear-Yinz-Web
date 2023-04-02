@@ -1,3 +1,9 @@
+.eventGridContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .box{
     overflow-wrap: break-word;
 }
