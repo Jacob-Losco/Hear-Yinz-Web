@@ -14,7 +14,7 @@ Contributors:
 ===================================================================+*/
 
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fnHandleEventReport } from '../../DBFunctions';
 import { useState } from "react";
 import moment from 'moment';
@@ -23,6 +23,7 @@ import "../../Styles/ReportsExpand.css"
 
 export default function ReportsExpand ()  {
         const aoReportData = useLocation();
+        const navigate = useNavigate()
         console.log(aoReportData)
         
 
@@ -39,6 +40,7 @@ export default function ReportsExpand ()  {
     -------------------------------------------------------------------F*/
     async function fnHandleEventReportIgnore(sOrganizationId, sEventId) {
         await fnHandleEventReport(sOrganizationId, sEventId, false);
+        navigate('/Reports');
         setReportMessage("The reported event has been ignored");
     }
 
@@ -53,6 +55,7 @@ export default function ReportsExpand ()  {
     -------------------------------------------------------------------F*/
     async function fnHandleEventReportRemove(sOrganizationId, sEventId) {
         await fnHandleEventReport(sOrganizationId, sEventId, true);
+        navigate('/Reports');
         setReportMessage("The reported event has been removed");
 
         

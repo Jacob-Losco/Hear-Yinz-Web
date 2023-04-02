@@ -75,27 +75,27 @@ const AdminAnnouncement = ({triggerRequestsRemoveUpdate}) => {
         { aoAnnouncement.map( oAnnouncement => ( 
           <Box sx={{ m: 9, border: 1, borderRadius: '10px' }} key={oAnnouncement.announcement_id}>
             <Grid className='OuterGrid'  container spacing={2} textAlign="center">
-              <Grid item xs={3} sx={{mt: 1.3}} >
+              <Grid item xs={3} sx={{mt: .9, mb: .3}} >
                 <div className='AnnoucementLeftRequest'>
                   {oAnnouncement.host.organization_name}
                 </div>
               </Grid>
-                <Grid item xs={7} sx={{mt: 1.3}} >
+                <Grid item xs={7} sx={{mt: .9, mb:.3}} >
                   <div className='AnnoucementMiddleRequest'> 
                     {oAnnouncement.announcement_message}
                   </div>
                 </Grid>
-                <Grid item xs={1} sx={{mt: .5}}>
+                <Grid item xs={1} sx={{mt: .3, mb: .3}}>
                   <div>
                     <button className='EventApproveButton' onClick={() => fnHandleAnnouncementRequestApprove(oAnnouncement.host_id, oAnnouncement.announcement_id)}>
-    
+                      Approve
                     </button>
                   </div>
                 </Grid>
-                <Grid item xs={1} sx={{mt: .5}}>
+                <Grid item xs={1} sx={{mt: .3, mb: .3}} >
                   <div>
                     <button className='EventDenyButton'onClick={() => fnHandleAnnouncementRequestDeny(oAnnouncement.host_id, oAnnouncement.announcement_id)}>
-    
+                      Deny
                     </button>
                   </div>
                 </Grid>

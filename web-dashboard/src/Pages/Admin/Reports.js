@@ -64,7 +64,7 @@ const Reports = () => {
                         </Grid>
                         <Grid item xs={3} sx={{mt:1.3}} >
                             <div>
-                                <Button sx={{ m: -1, color: 'black', backgroundColor: '#38741d', border: 0, padding: 0 }} component={Link} to ="ReportsExpand" state={{data:oReports}}> View</Button>
+                                <Button sx={{ m: -1, color: 'white', backgroundColor: '#38741d', border: 0, padding: 0, textTransform: "none" }} component={Link} to ="ReportsExpand" state={{data:oReports}}> View</Button>
                             </div>
                         </Grid>
                     </Grid>
