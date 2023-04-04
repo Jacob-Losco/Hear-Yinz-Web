@@ -55,14 +55,41 @@ import { fnLogout } from './LoginFunctions';
       setCountRequestsLoaded(false);
     }
 
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnRemoveReport
+  
+    Summary: decrements the value of reports by one in navbar notification
+  
+    Args: None
+  
+    Returns: None
+  -------------------------------------------------------------------F*/
     const fnRemoveReport = async () => {
       setiCountReports(iCountReports - 1);
     }
 
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnAddRequest
+  
+    Summary: adds the value of requests by one in navbar notification
+  
+    Args: None
+  
+    Returns: None
+  -------------------------------------------------------------------F*/
     const fnAddRequest = async () => {
       setiCountRequests(iCountRequests + 1);
     }
 
+    /*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnRemoveRequest
+  
+    Summary: decrements the value of requests by one in navbar notification
+  
+    Args: None
+  
+    Returns: None
+  -------------------------------------------------------------------F*/
     const fnRemoveRequest = async () => {
       console.log("Hello");
       setiCountRequests(iCountRequests - 1);
@@ -144,7 +171,7 @@ import { fnLogout } from './LoginFunctions';
           {iUserRole > 1 ? (
               <div className='Requests navContainer'>
                 <NavLink to="Requests/Events" >Requests</NavLink>
-                {bCountRequestsLoaded ? (
+                {bCountRequestsLoaded && iCountRequests > 0 ? (
                   <div className='RequestNotification'>{iCountRequests}</div>
                 ) : (
                   <div />
@@ -156,7 +183,7 @@ import { fnLogout } from './LoginFunctions';
           {iUserRole > 1 ? (
             <div className='Reports navContainer'>
               <NavLink to="Reports" >Reports</NavLink>
-              {bCountReportsLoaded ? (
+              {bCountReportsLoaded && iCountReports > 0 ? (
                   <div className='notification'>{iCountReports}</div>
                 ) : (
                   <div />

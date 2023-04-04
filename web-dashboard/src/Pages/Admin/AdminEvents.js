@@ -23,11 +23,13 @@ import moment from 'moment';
 
 const AdminEvents = ({triggerRequestsRemoveUpdate}) => {
     const [aoEvents, setEvents] = useState([]);
+    const [bEventRequestsAreLoaded, setEventRequestsAreLoaded] = useState(false);
 
     useEffect(() => {
       const fnRenderEvents = async () => {
         let aoEvents = await fnGetEventRequests();
         setEvents(aoEvents);
+        setEventRequestsAreLoaded(true);
       }
       
       onAuthStateChanged(oAuthentication, (oCurrentUser) => {
@@ -71,7 +73,13 @@ const AdminEvents = ({triggerRequestsRemoveUpdate}) => {
     }
 
     return(
-      <Box >
+      <div>
+        {bEventRequestsAreLoaded == false ? (
+          <div class="loadingContainer">
+            <p>loading...</p>
+          </div>
+        ) : (
+        <Box >
         {aoEvents.map(oEvent => ( 
           <Box sx={{ m: 9, border: 1, borderRadius: '0px' }} key={oEvent.event_id}>
             <Grid className='OuterGrid'  container spacing={2} textAlign="center">
@@ -107,8 +115,10 @@ const AdminEvents = ({triggerRequestsRemoveUpdate}) => {
           </Box>
 
         ))}
-
       </Box>
+        )}
+      </div>
+      
 
     );
   } 

@@ -27,12 +27,13 @@ import '../../Styles/AdminRequests.css';
 const Reports = () => {
 
     const [aoReports, setReports] = useState([]);
+    const [bReportsAreLoaded, setReportsAreLoaded] = useState(false);
 
     useEffect(() => {
         const fnRenderReports = async () => {
         let oReports = await fnGetEventReports();
         setReports(oReports);
-        console.log(oReports)
+        setReportsAreLoaded(true);
         }
         
         onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -43,7 +44,12 @@ const Reports = () => {
     }, []);
 
     return(
-        <Box data-testid="Reports333">
+        <div>
+            {bReportsAreLoaded == false ? (
+                <div className="loadingContainer">
+                    <p>loading...</p>
+                </div>
+            ) : (<Box data-testid="Reports333">
             {aoReports.map (oReports => ( 
                 <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={oReports.event_id}>
                     <Grid className='OuterGrid' container spacing={2} textAlign="center">
@@ -70,7 +76,9 @@ const Reports = () => {
                     </Grid>
                 </Box>
                 ))}
-        </Box>
+        </Box>)}
+        </div>
+        
     );
 }
 

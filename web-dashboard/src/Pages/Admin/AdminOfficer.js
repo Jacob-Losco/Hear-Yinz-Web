@@ -22,11 +22,13 @@ import '../../Styles/AdminRequests.css';
 
 const AdminOfficer = ({triggerRequestsRemoveUpdate}) => {
         const [aoOfficers, setOfficers] = useState([]);
+        const [bOfficerRequestsAreLoaded, setOfficerRequestsAreLoaded] = useState(false);
     
         useEffect(() => {
           const fnRenderOfficers = async () => {
             let oOfficers = await fnGetOfficerRequests();
             setOfficers(oOfficers);
+            setOfficerRequestsAreLoaded(true);
           }
           
           onAuthStateChanged(oAuthentication, (oCurrentUser) => {          
@@ -70,7 +72,13 @@ const AdminOfficer = ({triggerRequestsRemoveUpdate}) => {
       }
     
         return(
-            <Box >
+          <div>
+            {bOfficerRequestsAreLoaded == false ? (
+              <div class="loadingContainer">
+                <p>loading...</p>
+              </div>
+            ) : (
+<Box >
               {aoOfficers.map(oOfficer => ( 
                 <Box sx={{ m: 9, border: 1, borderRadius: '4px' }} key={oOfficer.account_id}>
                   <Grid className='OuterGrid'  container spacing={2} textAlign="center">
@@ -104,6 +112,9 @@ const AdminOfficer = ({triggerRequestsRemoveUpdate}) => {
               ))}
       
             </Box>
+            )}
+          </div>
+            
       
           );
 }
