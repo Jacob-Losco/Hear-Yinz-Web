@@ -44,7 +44,8 @@ const AdminOfficer = ({triggerRequestsRemoveUpdate}) => {
   
     Summary: front end passes true variable to backend in order to change value of relationship_status to reflect approval
   
-    Args: iOfficer.account_id & iOfficer.officer_relationship_id
+    Args: Args: The id of the account from which the request is made for
+          and the id of the relationship id (Officer.account_id & Officer.officer_relationship_id)
   
     Returns: None
     -------------------------------------------------------------------F*/
@@ -60,7 +61,8 @@ const AdminOfficer = ({triggerRequestsRemoveUpdate}) => {
     
       Summary: front end passes true variable to backend in order to change value of relationship_status_status to reflect refusal
     
-      Args: iOfficer.account_id & iOfficer.officer_relationship_id
+    Args: Args: The id of the account from which the request is made for
+          and the id of the relationship id (Officer.account_id & Officer.officer_relationship_id)
     
       Returns: None
       -------------------------------------------------------------------F*/

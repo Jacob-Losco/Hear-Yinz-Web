@@ -45,7 +45,8 @@ const AdminAnnouncement = ({triggerRequestsRemoveUpdate}) => {
   
     Summary: front end passes true variable to backend in order to change value of announcement_status to reflect approval
   
-    Args: event.host_id & event.event_id
+    Args: The id of the host organization from which the annoucement is posted
+          and the id of the annoucement (annoucement.host_id & announcement.announcement_id)
   
     Returns: None
     -------------------------------------------------------------------F*/
@@ -61,7 +62,8 @@ const AdminAnnouncement = ({triggerRequestsRemoveUpdate}) => {
   
     Summary: front end passes true variable to backend in order to change value of announcement_status to reflect refusal
   
-    Args: announcement.host_id & announcement.event_id
+    Args: The id of the host organization from which the annoucement is posted
+          and the id of the annoucement (annoucement.host_id & announcement.announcement_id)
   
     Returns: None
     -------------------------------------------------------------------F*/
