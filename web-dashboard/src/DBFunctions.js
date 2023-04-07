@@ -472,6 +472,7 @@ export async function fnHandleEventReport(sOrganizationId, sEventId, bToBeRemove
         if (bToBeRemoved) {
             updateDoc(oEventDoc, {
                 event_status: 4,
+                event_reports: 0,
             });
         } else {
             updateDoc(oEventDoc, {
@@ -506,8 +507,6 @@ export async function fnCreateEvent(sOrganizationId, oNewEvent) {
         oNewEvent.event_status !== null &&
         oNewEvent.event_timestamp !== null &&
         oNewEvent.event_location !== null) {
-            // const oLocationRef = doc(oFirestore, "Institutions", sInstitutionId, "Locations", oNewEvent.event_location);
-            // const oLocationDoc = await getDoc(oLocationRef);
             try {
                 const newDocRef = await addDoc(collection(oFirestore, "Institutions", sInstitutionId, "Organizations", sOrganizationId, "Events"), {
                   event_name: oNewEvent.event_name,
