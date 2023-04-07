@@ -34,7 +34,8 @@ export default function ReportsExpand ()  {
   
     Summary: front end passes false variable to backend in order to change value of event_reports to reflect ignore
   
-    Args: host_id & event_id
+    Args: Args: The id of the organization that has the event that is reported
+          and the id of the event (host_id & event_id)
   
     Returns: None
     -------------------------------------------------------------------F*/
@@ -49,7 +50,8 @@ export default function ReportsExpand ()  {
   
     Summary: front end passes true variable to backend in order to change value of event_status to reflect removal
   
-    Args: host_id & event_id
+    Args: Args: The id of the organization that has the event that is reported
+          and the id of the event (host_id & event_id)
   
     Returns: None
     -------------------------------------------------------------------F*/
