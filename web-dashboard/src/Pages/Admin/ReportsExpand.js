@@ -57,6 +57,8 @@ export default function ReportsExpand ()  {
     -------------------------------------------------------------------F*/
     async function fnHandleEventReportRemove(sOrganizationId, sEventId) {
         await fnHandleEventReport(sOrganizationId, sEventId, true);
+        await fnHandleEventReport(sOrganizationId, sEventId, false);
+
         navigate('/Reports');
         setReportMessage("The reported event has been removed");
 
