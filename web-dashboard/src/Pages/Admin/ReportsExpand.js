@@ -20,8 +20,7 @@ import { useState } from "react";
 import moment from 'moment';
 import "../../Styles/ReportsExpand.css"
 
-
-export default function ReportsExpand ()  {
+const ReportsExpand = ({triggerReportsRemoveUpdate}) => {
         const aoReportData = useLocation();
         const navigate = useNavigate()
         console.log(aoReportData)
@@ -41,6 +40,7 @@ export default function ReportsExpand ()  {
     -------------------------------------------------------------------F*/
     async function fnHandleEventReportIgnore(sOrganizationId, sEventId) {
         await fnHandleEventReport(sOrganizationId, sEventId, false);
+        triggerReportsRemoveUpdate();
         navigate('/Reports');
         setReportMessage("The reported event has been ignored");
     }
@@ -57,8 +57,10 @@ export default function ReportsExpand ()  {
     -------------------------------------------------------------------F*/
     async function fnHandleEventReportRemove(sOrganizationId, sEventId) {
         await fnHandleEventReport(sOrganizationId, sEventId, true);
+        triggerReportsRemoveUpdate();
         navigate('/Reports');
         setReportMessage("The reported event has been removed");
+
 
         
     }
@@ -116,3 +118,5 @@ export default function ReportsExpand ()  {
     );
 
 }
+
+export default  ReportsExpand;
