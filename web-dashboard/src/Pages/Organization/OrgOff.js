@@ -2,18 +2,15 @@
 File: OrgOff.js
 
 
-Summary: A holder page for the organization officers page
-
+Summary: This is the officer page, where the list of every officer associated with an organization is displayed. There is an add officer input
+that will send an officer request once succefully used, also has logic for incorrect input.
 
 Exported Data Structures: None
 
-
 Exported Functions: Officers
-
 
 Contributors:
     Sam Merlin 2/21/2023 - SP 269
-
 
 ===================================================================+*/
 import React,{ useState, useEffect} from 'react';
@@ -46,10 +43,15 @@ const OrgOff = ({triggerRequestsAddUpdate}) => {
           }
         });
       }, []);
-
-
-
-
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: fnHandleAddOfficer
+  
+    Summary: This function takes handles the logic of submitting an officer as an associated account, and creates an officer request
+  
+    Args: none
+  
+    Returns: none
+  -------------------------------------------------------------------F*/
     const fnHandleAddOfficer = async () => {
         const oMessage = document.querySelector(".AnnouncementMessage");
         if(sOfficerEmail == "") {
@@ -123,16 +125,3 @@ const OrgOff = ({triggerRequestsAddUpdate}) => {
 }
 
 export default OrgOff;
-
-{/* <div className='smalldiv'>
-        <Grid container spacing={{ xs: 9, md: 2 }} columnSpacing = {4}>
-                        {sOfficers.map(sOfficer => ( 
-                            <Grid key={sOfficer.event_id} sx={{height:38,width: 550}}>
-                                <Grid>{sOfficer.account_email}&nbsp;
-                                
-                                {/* {roleChecking(sOfficer.account_role)} */}
-                               // </Grid>
-                       // </Grid>
-               // ))}
-           // </Grid>
-          //  </div> */}

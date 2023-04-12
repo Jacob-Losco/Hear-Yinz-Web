@@ -1,7 +1,8 @@
 /*+===================================================================
 File: OrgE.js
 
-Summary: A holder page for the organization Events page
+Summary: This is the page holding the events tiles for each organization. A database function is called to populate the cells on the page,
+and MUI grid style is applied to the page to style the page
 
 Exported Data Structures: None
 
@@ -23,7 +24,16 @@ import moment from 'moment';
 import '../../Styles/OrgList.css'  
 import '../../Styles/OrgE.css'    
 import {useLocation} from 'react-router-dom'
-
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: StatusChecking(int)
+  
+    Summary: This function takes in a int, and checks the int. the int is a preditermined status of the event. The return for this function
+    is a MUI styled oval that displays the correct status on the page
+  
+    Args: status
+  
+    Returns: MUI status
+  -------------------------------------------------------------------F*/
 function StatusChecking(status){
   if (status == 0){
     return(
@@ -42,7 +52,15 @@ function StatusChecking(status){
         <Box sx={{ m: 1, color: 'white', backgroundColor: '#CC0000', border: 1, borderRadius: 50 }} >Removed</Box >);}    
     return(<p></p>)
 }
-
+/*F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Function: Events
+  
+    Summary: This function takes calls the daata base function fnGetOrganizationEvents, and returns that into an useState Object
+  
+    Args: none
+  
+    Returns: none
+  -------------------------------------------------------------------F*/
 export default function Events() {
   const location = useLocation()
     const OrgInfo = location.state.data;
